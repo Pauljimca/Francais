@@ -70,10 +70,37 @@ window.CURSO = {
         ] },
         { day: 'Fin de semana', focus: 'Opcional', tasks: [
           { text: 'Mientras cocinas, di en francés lo que puedas, aunque sean palabras sueltas.' },
-          { text: 'Conversa con tu compañero local en francés, o sigue buscándolo.' },
+          { text: 'Conversa con tu amigo en francés usando la guía, y anota los minutos y las palabras nuevas.', go: 'conversacion' },
           { text: 'Escucha música en francés.' }
         ] }
       ],
+      conversation: {
+        questions: [
+          { fr: "Comment tu t'appelles ?", es: '¿Cómo te llamas?' },
+          { fr: "Tu viens d'où ?", es: '¿De dónde vienes?' },
+          { fr: 'Tu habites où ?', es: '¿Dónde vives?' },
+          { fr: "Qu'est-ce que tu fais dans la vie ?", es: '¿A qué te dedicas?' },
+          { fr: 'Tu parles quelles langues ?', es: '¿Qué idiomas hablas?' },
+          { fr: "Tu aimes la musique ? Qu'est-ce que tu écoutes ?", es: '¿Te gusta la música? ¿Qué escuchas?' },
+          { fr: 'Tu aimes cuisiner ?', es: '¿Te gusta cocinar?' }
+        ],
+        aboutMe: [
+          { fr: "Je suis professeur d'anglais au SENA.", es: 'Soy profesor de inglés en el SENA.' },
+          { fr: 'Je suis musicien : je joue de la guitare et je chante.', es: 'Soy músico: toco la guitarra y canto.' },
+          { fr: "Mon groupe s'appelle Providence Beats.", es: 'Mi banda se llama Providence Beats.' },
+          { fr: "J'habite à Providencia.", es: 'Vivo en Providencia.' },
+          { fr: "J'aime cuisiner.", es: 'Me gusta cocinar.' },
+          { fr: "J'apprends le français.", es: 'Estoy aprendiendo francés.' }
+        ],
+        rescue: [
+          { fr: "Tu peux répéter plus lentement, s'il te plaît ?", es: '¿Puedes repetir más despacio, por favor?' },
+          { fr: 'Je ne comprends pas.', es: 'No entiendo.' },
+          { fr: 'Comment dit-on « playa » en français ?', es: '¿Cómo se dice "playa" en francés?' },
+          { fr: "Qu'est-ce que ça veut dire ?", es: '¿Qué significa eso?' },
+          { fr: "Tu peux l'écrire ?", es: '¿Puedes escribirlo?' },
+          { fr: 'Attends, je cherche le mot.', es: 'Espera, busco la palabra.' }
+        ]
+      },
       prompts: {
         roleplay:
           'Juego de roles del Módulo 1 de mi curso de francés (nivel A1). Tú eres una turista francesa que llega al restaurante ' +

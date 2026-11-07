@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.1.2';
+  const VERSION = '1.2.0';
   const MOD = window.CURSO.modules[0];
   const PHRASES = MOD.blocks.flatMap(b => b.phrases);
   const DAY = 864e5;
@@ -591,6 +591,8 @@
       `- Repaso: ${seen} de ${PHRASES.length} frases repasadas, ${strong} afianzadas`,
       `- Frases difíciles: ${hard.length ? '\n' + hard.join('\n') : 'ninguna marcada'}`,
       `- Grabación ancla esta semana: ${anchorThisWeek ? 'sí' : 'no'}`,
+      `- Conversación en francés: ${convWeek().minutes || 0} minutos`,
+      `- Palabras nuevas de la conversación: ${(convWeek().notes || '').trim() || 'ninguna anotada'}`,
       '',
       'Por favor: hazme un mini examen oral corto del módulo, revisa mis puntos débiles y ajusta el plan de la próxima semana.'
     ].join('\n');
@@ -662,10 +664,54 @@
     ].filter(Boolean));
   };
 
+  // ---------- Vista: Conversación ----------
+  let conv = load('conv', {});
+  const convWeek = () => conv[isoDate(mondayOf(new Date()))] || {};
+  const setConv = (k, v) => {
+    const key = isoDate(mondayOf(new Date()));
+    conv[key] = Object.assign({}, conv[key], { [k]: v });
+    save('conv', conv);
+  };
+
+  const renderConversation = () => {
+    const box = document.getElementById('conversation');
+    const C = MOD.conversation;
+    const list = (title, hint, items) => el('section', {},
+      el('h2', { text: title }),
+      hint ? el('p', { class: 'hint', text: hint }) : null,
+      el('div', { class: 'card' }, items.map(it =>
+        el('div', { class: 'line', style: 'grid-template-columns:1fr auto' },
+          el('div', {}, el('p', { class: 'fr', lang: 'fr', text: it.fr }), el('p', { class: 'es', text: it.es })),
+          el('button', { type: 'button', class: 'btn', text: '▶', 'aria-label': 'Escuchar', onclick: () => speak(it.fr, 1) })
+        )))
+    );
+    const w = convWeek();
+    const minutes = el('input', { type: 'number', min: '0', step: '5', inputmode: 'numeric', style: 'width:6rem;font-size:1rem;padding:6px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink)' });
+    minutes.value = w.minutes || '';
+    minutes.addEventListener('input', () => setConv('minutes', Number(minutes.value) || 0));
+    const notes = el('textarea', { rows: '4', placeholder: 'Ej.: « plongée » (¿buceo?), « la mer » …', style: 'width:100%;font:inherit;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink)' });
+    notes.value = w.notes || '';
+    notes.addEventListener('input', () => setConv('notes', notes.value));
+
+    box.replaceChildren(...[
+      el('h2', { text: `Conversación: Módulo ${MOD.num}` }),
+      el('p', { class: 'hint', text: 'Con tu amigo usas tu. Lleva la conversación con estas preguntas, cuenta algo de ti, y si te atascas, usa una frase de rescate en vez de pasar al español.' }),
+      list('Preguntas para tu amigo', null, C.questions),
+      list('Para contar de ti', null, C.aboutMe),
+      list('Frases de rescate', null, C.rescue),
+      el('h2', { text: 'Esta semana' }),
+      el('div', { class: 'card' },
+        el('label', { class: 'field' }, 'Minutos hablando en francés', minutes),
+        el('label', { class: 'field' }, 'Palabras o frases que oíste y no conocías', notes),
+        el('p', { class: 'muted small', text: 'Se guardan solas y van en el resumen del check-in del viernes.' })
+      )
+    ].filter(Boolean));
+  };
+
   // ---------- Navegación ----------
   const showTab = name => {
     document.querySelectorAll('.view').forEach(v => { v.hidden = v.dataset.view !== name; });
-    const navName = ['voz', 'gramatica', 'ajustes'].includes(name) ? 'mas' : name;
+    const navName = ['voz', 'gramatica', 'ajustes', 'conversacion'].includes(name) ? 'mas' : name;
     document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === navName));
     dialogueToken++;
     loopToken++;
@@ -674,6 +720,7 @@
     if (name === 'ajustes') { loadVoices(); renderProgress(); }
     if (name === 'hoy') renderToday();
     if (name === 'dialogo') renderDialogue();
+    if (name === 'conversacion') renderConversation();
     window.scrollTo(0, 0);
   };
 
@@ -690,7 +737,7 @@
   document.querySelectorAll('.seg').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
   setMode(state.mode);
   document.querySelectorAll('.menu-item').forEach(b => b.addEventListener('click', () => showTab(b.dataset.go)));
-  ['voz', 'gramatica', 'ajustes'].forEach(v => {
+  ['voz', 'gramatica', 'ajustes', 'conversacion'].forEach(v => {
     document.getElementById('view-' + v).prepend(el('button', { type: 'button', class: 'back', text: '‹ Más', onclick: () => showTab('mas') }));
   });
   setupAnchor();
