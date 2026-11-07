@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.1.0';
+  const VERSION = '1.1.1';
   const MOD = window.CURSO.modules[0];
   const PHRASES = MOD.blocks.flatMap(b => b.phrases);
   const DAY = 864e5;
@@ -17,6 +17,8 @@
   const state = {
     mode: load('mode', 'vous'),
     voiceURI: load('voice', null),
+    voicePaul: load('voicePaul', null),
+    voiceClaire: load('voiceClaire', null),
     slowRate: load('slowRate', 0.7),
     stars: load('stars', {}),
     srs: load('srs', {})
@@ -68,6 +70,17 @@
     voices = synth.getVoices().filter(v => (v.lang || '').toLowerCase().startsWith('fr'));
     voices.sort((a, b) => (/fr[-_]fr/i.test(b.lang) - /fr[-_]fr/i.test(a.lang)) || a.name.localeCompare(b.name));
     renderVoiceSettings();
+  };
+  const MALE = /thomas|daniel|jacques|nicolas|henri|antoine|mathieu|guillaume|eddy|reed|rocko|grandpa|male|homme|masculin/i;
+  const FEMALE = /am[ée]lie|audrey|marie|aur[ée]lie|virginie|jo[ëe]lle|c[ée]line|chantal|flo\b|sandy|shelley|grandma|female|femme|f[ée]minin/i;
+  const genderOf = v => FEMALE.test(v.name) ? 'f' : (MALE.test(v.name) ? 'm' : '?');
+  const speakerVoice = who => {
+    const key = who === 'Paul' ? 'voicePaul' : 'voiceClaire';
+    const want = who === 'Paul' ? 'm' : 'f';
+    const saved = state[key];
+    if (saved) { const v = voices.find(x => x.voiceURI === saved); if (v) return v; }
+    return voices.find(v => /fr[-_]fr/i.test(v.lang) && genderOf(v) === want) ||
+           voices.find(v => genderOf(v) === want) || null;
   };
   const pickVoice = () =>
     voices.find(v => v.voiceURI === state.voiceURI) || voices.find(v => /fr[-_]fr/i.test(v.lang)) || voices[0] || null;
@@ -386,6 +399,15 @@
       el('option', { value: v.voiceURI, text: `${v.name} (${v.lang})${v.localService ? '' : ' · en línea'}` })
     ));
     if (chosen) sel.value = chosen.voiceURI;
+    [['voice-paul', 'Paul'], ['voice-claire', 'Claire']].forEach(([id, who]) => {
+      const s2 = document.getElementById(id);
+      const auto = speakerVoice(who);
+      s2.replaceChildren(
+        el('option', { value: '', text: 'Automática' + (auto ? ` (${auto.name})` : ' (cambio de tono)') }),
+        ...voices.map(v => el('option', { value: v.voiceURI, text: `${v.name} (${v.lang})` }))
+      );
+      s2.value = state[who === 'Paul' ? 'voicePaul' : 'voiceClaire'] || '';
+    });
     document.getElementById('voice-warning').hidden = voices.length > 0;
     renderDiag();
   };
@@ -411,6 +433,15 @@
     document.getElementById('app-version').textContent = VERSION;
     const sel = document.getElementById('voice-select');
     sel.addEventListener('change', () => { state.voiceURI = sel.value; save('voice', sel.value); });
+    [['voice-paul', 'voicePaul', 'Paul', "Bonsoir ! Je m'appelle Paul."], ['voice-claire', 'voiceClaire', 'Claire', "Bonsoir ! Je m'appelle Claire."]]
+      .forEach(([id, key, who, sample]) => {
+        const s2 = document.getElementById(id);
+        s2.addEventListener('change', () => {
+          state[key] = s2.value || null; save(key, state[key]);
+          renderVoiceSettings();
+          speak(sample, 1, lineOpts({ who }));
+        });
+      });
     const slow = document.getElementById('slow-rate');
     const slowVal = document.getElementById('slow-val');
     slow.value = state.slowRate; slowVal.textContent = state.slowRate.toFixed(2);
@@ -436,14 +467,12 @@
   const dlgView = { text: false, trans: false, answers: {}, checked: false };
   let dlgResults = load('dlgResults', []);
 
-  const altVoice = () => {
-    const main = pickVoice();
-    return voices.find(v => /fr[-_]fr/i.test(v.lang) && main && v.voiceURI !== main.voiceURI) || null;
-  };
+  // Voces del diálogo: Paul con voz de hombre, Claire con voz de mujer.
+  // Se eligen en Ajustes o se adivinan por el nombre de la voz; si no hay, se cambia el tono.
   const lineOpts = line => {
-    if (line.who === 'Paul') return { pitch: 0.9 };
-    const alt = altVoice();
-    return alt ? { voice: alt } : { pitch: 1.25 };
+    const v = speakerVoice(line.who);
+    if (v) return { voice: v };
+    return line.who === 'Paul' ? { pitch: 0.75 } : { pitch: 1.25 };
   };
 
   const playDialogue = async rate => {
