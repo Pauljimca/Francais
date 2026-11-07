@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.1.1';
+  const VERSION = '1.1.2';
   const MOD = window.CURSO.modules[0];
   const PHRASES = MOD.blocks.flatMap(b => b.phrases);
   const DAY = 864e5;
@@ -700,8 +700,13 @@
 
   // ---------- Modo sin conexión ----------
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').then(reg => {
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => {
       renderOffline('Listo para usarse sin conexión en este dispositivo.');
+      // En iPhone, la app de la pantalla de inicio no siempre busca versiones nuevas sola:
+      // se lo pedimos al abrir y cada vez que vuelve a la pantalla.
+      const check = () => { if (navigator.onLine) reg.update().catch(() => {}); };
+      check();
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) check(); });
       const banner = document.getElementById('update-banner');
       const offer = w => {
         banner.hidden = false;
