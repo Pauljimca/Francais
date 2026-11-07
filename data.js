@@ -10,6 +10,80 @@ window.CURSO = {
         "Bonjour ! Je m'appelle Paul. Je suis colombien et j'habite à Providencia, sur une île des Caraïbes. " +
         "Je suis professeur d'anglais et je suis musicien. Je joue de la guitare et je chante. " +
         "J'aime cuisiner. J'apprends le français.",
+      dialogue: {
+        title: 'Après le concert',
+        scene: 'Después de tocar en un restaurante de Providencia, Claire, una turista francesa, habla con Paul.',
+        lines: [
+          { who: 'Claire', fr: 'Bonsoir !', es: '¡Buenas noches!' },
+          { who: 'Paul', fr: 'Bonsoir ! Bienvenue ! Vous aimez la musique ?', es: '¡Buenas noches! ¡Bienvenida! ¿Le gusta la música?' },
+          { who: 'Claire', fr: "Oui, j'adore ! C'est très joli. Vous êtes le chanteur ?", es: '¡Sí, me encanta! Es muy bonita. ¿Usted es el cantante?' },
+          { who: 'Paul', fr: "Oui. Je m'appelle Paul. Et vous, comment vous appelez-vous ?", es: 'Sí. Me llamo Paul. ¿Y usted, cómo se llama?' },
+          { who: 'Claire', fr: "Je m'appelle Claire. Enchantée.", es: 'Me llamo Claire. Mucho gusto.' },
+          { who: 'Paul', fr: "Enchanté. Vous venez d'où ?", es: 'Mucho gusto. ¿De dónde viene?' },
+          { who: 'Claire', fr: "Je viens de France, de Lyon. Et vous, vous êtes d'ici ?", es: 'Vengo de Francia, de Lyon. ¿Y usted es de aquí?' },
+          { who: 'Paul', fr: "Je suis colombien. J'habite ici, à Providencia.", es: 'Soy colombiano. Vivo aquí, en Providencia.' },
+          { who: 'Claire', fr: 'Vous êtes musicien professionnel ?', es: '¿Es músico profesional?' },
+          { who: 'Paul', fr: "Non, je suis professeur d'anglais. Je joue de la guitare et je chante le week-end.", es: 'No, soy profesor de inglés. Toco la guitarra y canto los fines de semana.' },
+          { who: 'Claire', fr: 'Vous parlez très bien français !', es: '¡Habla muy bien francés!' },
+          { who: 'Paul', fr: "Merci ! J'apprends le français.", es: '¡Gracias! Estoy aprendiendo francés.' },
+          { who: 'Claire', fr: "Votre groupe s'appelle comment ?", es: '¿Cómo se llama su banda?' },
+          { who: 'Paul', fr: "Mon groupe s'appelle Providence Beats.", es: 'Mi banda se llama Providence Beats.' },
+          { who: 'Claire', fr: 'Super ! Je veux écouter vos chansons.', es: '¡Genial! Quiero escuchar sus canciones.' },
+          { who: 'Paul', fr: 'Merci beaucoup ! Bonne soirée, Claire.', es: '¡Muchas gracias! Buena noche, Claire.' },
+          { who: 'Claire', fr: 'Bonne soirée ! À bientôt !', es: '¡Buena noche! ¡Hasta pronto!' }
+        ],
+        questions: [
+          { q: '¿De dónde es Claire?', options: ['De París', 'De Lyon', 'De Montreal'], answer: 1 },
+          { q: '¿Qué le gusta a Claire?', options: ['La comida', 'La playa', 'La música'], answer: 2 },
+          { q: '¿Cuál es el trabajo principal de Paul?', options: ['Músico profesional', 'Profesor de inglés', 'Cocinero'], answer: 1 },
+          { q: '¿Cuándo canta Paul?', options: ['Todos los días', 'Los lunes', 'Los fines de semana'], answer: 2 },
+          { q: '¿Qué quiere hacer Claire?', options: ['Escuchar las canciones de la banda', 'Aprender a tocar guitarra', 'Visitar Colombia'], answer: 0 },
+          { q: '¿Qué se desean al final?', options: ['Buen viaje', 'Una buena noche', 'Un buen día'], answer: 1 }
+        ]
+      },
+      week: [
+        { day: 'Lunes', focus: 'Escuchar el diálogo', tasks: [
+          { text: 'Escucha el diálogo 3 veces, sin texto.', go: 'dialogo' },
+          { text: 'Responde las preguntas, todavía sin texto.', go: 'dialogo' },
+          { text: 'Escúchalo con texto y traducción, y repite cada línea en voz alta.', go: 'dialogo' },
+          { text: '5 minutos de Repaso.', go: 'repaso' }
+        ] },
+        { day: 'Martes', focus: 'Frases y gramática', tasks: [
+          { text: 'Frases de los bloques A, B y C: escucha, repite, grábate y compara.', go: 'frases' },
+          { text: 'Lee la gramática: tu o vous, être y avoir.', go: 'gramatica' },
+          { text: 'Repaso del día.', go: 'repaso' }
+        ] },
+        { day: 'Miércoles', focus: 'Hablar', tasks: [
+          { text: 'Frases de los bloques D, E y F: escucha, repite, grábate.', go: 'frases' },
+          { text: 'Juego de roles con Claude en modo voz, 10 minutos. Copia la indicación y pégala en un chat nuevo.', copy: 'roleplay' },
+          { text: 'Repaso del día.', go: 'repaso' }
+        ] },
+        { day: 'Jueves', focus: 'Comprender y escribir', tasks: [
+          { text: 'Escucha el diálogo en lento y habla al mismo tiempo (sombra).', go: 'dialogo' },
+          { text: 'Escribe 5 frases sobre ti y pide corrección a Claude.', copy: 'writing' },
+          { text: 'Repaso del día.', go: 'repaso' }
+        ] },
+        { day: 'Viernes', focus: 'Medir', tasks: [
+          { text: 'Graba el texto ancla en Mi voz.', go: 'voz' },
+          { text: 'Responde otra vez las preguntas del diálogo.', go: 'dialogo' },
+          { text: 'Check-in con Claude: copia el resumen de tu semana y pégalo en el chat del curso.', copy: 'checkin' }
+        ] },
+        { day: 'Fin de semana', focus: 'Opcional', tasks: [
+          { text: 'Mientras cocinas, di en francés lo que puedas, aunque sean palabras sueltas.' },
+          { text: 'Conversa con tu compañero local en francés, o sigue buscándolo.' },
+          { text: 'Escucha música en francés.' }
+        ] }
+      ],
+      prompts: {
+        roleplay:
+          'Juego de roles del Módulo 1 de mi curso de francés (nivel A1). Tú eres una turista francesa que llega al restaurante ' +
+          'en Providencia donde toco con mi banda. Habla solo en francés, con frases cortas y despacio, y trátame de vous. ' +
+          'Hazme preguntas sobre mí, mi trabajo y mi música, una a la vez. Si cometo un error, corrígelo brevemente en español ' +
+          'al final de tu respuesta. Duración: unos 10 minutos.',
+        writing:
+          'Corrige estas 5 frases en francés (nivel A1, Módulo 1 de mi curso). Explícame cada error en español, en una línea, ' +
+          'y dame la versión correcta:\n1. \n2. \n3. \n4. \n5. '
+      },
       blocks: [
         {
           title: 'A. Saludar y despedirse',

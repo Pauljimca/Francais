@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.0.2';
+  const VERSION = '1.1.0';
   const MOD = window.CURSO.modules[0];
   const PHRASES = MOD.blocks.flatMap(b => b.phrases);
   const DAY = 864e5;
@@ -76,17 +76,18 @@
   // y a veces la lista de voces llega tarde. Por eso: cancelar solo si hace falta,
   // recargar voces al tocar, y si la voz elegida falla, reintentar con la voz francesa por defecto.
   let lastSpeech = 'Todavía no se ha reproducido audio.';
-  const speak = (text, rate = 1) => new Promise(res => {
+  const speak = (text, rate = 1, opts = {}) => new Promise(res => {
     if (!synth) { lastSpeech = 'Este navegador no tiene síntesis de voz.'; return res(); }
     if (!voices.length) loadVoices();
     if (synth.speaking || synth.pending) synth.cancel();
     synth.resume();
     const make = useVoice => {
       const u = new SpeechSynthesisUtterance(text);
-      const v = useVoice ? pickVoice() : null;
+      const v = useVoice ? (opts.voice || pickVoice()) : null;
       if (v) u.voice = v;
       u.lang = v ? v.lang : 'fr-FR';
       u.rate = rate;
+      if (opts.pitch) u.pitch = opts.pitch;
       return u;
     };
     const first = make(true);
@@ -299,7 +300,7 @@
     const show = el('button', { type: 'button', class: 'btn primary', text: 'Mostrar en francés' });
     show.addEventListener('click', () => { answer.hidden = false; show.hidden = true; speak(v.fr, 1); });
 
-    box.replaceChildren(
+    box.replaceChildren(...[
       el('p', { class: 'hint', text: 'Lee la frase en español y dila en voz alta en francés. Luego revisa.' }),
       el('div', { class: 'card review-card' },
         el('p', { class: 'review-meta', text: `Quedan ${queue.length}` + (state.stars[p.id] ? ' · ★ difícil' : '') }),
@@ -307,7 +308,7 @@
         show,
         answer
       )
-    );
+    ].filter(Boolean));
   };
 
   // ---------- Vista: Mi voz (texto ancla) ----------
@@ -428,14 +429,222 @@
 
   const renderOffline = (text) => { document.getElementById('offline-status').textContent = text; };
 
+
+  // ---------- Vista: Diálogo ----------
+  const DLG = MOD.dialogue;
+  let dialogueToken = 0;
+  const dlgView = { text: false, trans: false, answers: {}, checked: false };
+  let dlgResults = load('dlgResults', []);
+
+  const altVoice = () => {
+    const main = pickVoice();
+    return voices.find(v => /fr[-_]fr/i.test(v.lang) && main && v.voiceURI !== main.voiceURI) || null;
+  };
+  const lineOpts = line => {
+    if (line.who === 'Paul') return { pitch: 0.9 };
+    const alt = altVoice();
+    return alt ? { voice: alt } : { pitch: 1.25 };
+  };
+
+  const playDialogue = async rate => {
+    const token = ++dialogueToken;
+    const rows = document.querySelectorAll('#dialogue .line');
+    for (let i = 0; i < DLG.lines.length; i++) {
+      if (token !== dialogueToken) break;
+      rows.forEach((r, j) => r.classList.toggle('playing', j === i));
+      await speak(DLG.lines[i].fr, rate, lineOpts(DLG.lines[i]));
+      if (token !== dialogueToken) break;
+      await sleep(350);
+    }
+    rows.forEach(r => r.classList.remove('playing'));
+  };
+
+  const renderDialogue = () => {
+    const box = document.getElementById('dialogue');
+    const toggle = (label, key) => el('button', {
+      type: 'button', class: 'btn' + (dlgView[key] ? ' on' : ''), text: label,
+      onclick: () => { dlgView[key] = !dlgView[key]; renderDialogue(); }
+    });
+
+    const lines = el('div', { class: 'card' }, DLG.lines.map(l =>
+      el('div', { class: 'line' },
+        el('span', { class: 'who' + (l.who === 'Claire' ? ' claire' : ''), text: l.who }),
+        el('div', {},
+          el('p', { class: 'fr', lang: 'fr', text: l.fr }),
+          dlgView.trans ? el('p', { class: 'es', text: l.es }) : null
+        ),
+        el('button', { type: 'button', class: 'btn', text: '▶', 'aria-label': 'Escuchar línea',
+          onclick: () => { dialogueToken++; speak(l.fr, 1, lineOpts(l)); } })
+      )
+    ));
+    if (!dlgView.text) lines.hidden = true;
+
+    const qs = DLG.questions.map((q, qi) =>
+      el('div', { class: 'q' },
+        el('p', { text: `${qi + 1}. ${q.q}` }),
+        q.options.map((o, oi) => {
+          const chosen = dlgView.answers[qi] === oi;
+          let cls = 'opt';
+          if (dlgView.checked && oi === q.answer) cls += ' ok';
+          else if (dlgView.checked && chosen) cls += ' bad';
+          const input = el('input', { type: 'radio', name: 'q' + qi });
+          input.checked = chosen;
+          input.disabled = dlgView.checked;
+          input.addEventListener('change', () => { dlgView.answers[qi] = oi; });
+          return el('label', { class: cls }, input, el('span', { text: o }));
+        })
+      )
+    );
+
+    const score = DLG.questions.filter((q, i) => dlgView.answers[i] === q.answer).length;
+    const checkBtn = el('button', {
+      type: 'button', class: 'btn primary', text: dlgView.checked ? 'Intentar de nuevo' : 'Revisar respuestas',
+      onclick: () => {
+        if (dlgView.checked) { dlgView.checked = false; dlgView.answers = {}; renderDialogue(); return; }
+        if (Object.keys(dlgView.answers).length < DLG.questions.length) { alert('Responde todas las preguntas primero.'); return; }
+        dlgView.checked = true;
+        const s = DLG.questions.filter((q, i) => dlgView.answers[i] === q.answer).length;
+        dlgResults.push({ date: Date.now(), score: s, total: DLG.questions.length, withText: dlgView.text });
+        save('dlgResults', dlgResults);
+        renderDialogue();
+      }
+    });
+
+    const history = dlgResults.slice(-5).reverse().map(r =>
+      el('li', { text: `${fmtDate(r.date)}: ${r.score} de ${r.total}${r.withText ? ' (con texto)' : ''}` }));
+
+    box.replaceChildren(...[
+      el('h2', { text: DLG.title }),
+      el('p', { class: 'scene muted', text: DLG.scene }),
+      el('div', { class: 'row' },
+        el('button', { type: 'button', class: 'btn primary', text: '▶ Escuchar todo', onclick: () => playDialogue(1) }),
+        el('button', { type: 'button', class: 'btn', text: '▶ Lento', onclick: () => playDialogue(state.slowRate) }),
+        el('button', { type: 'button', class: 'btn', text: '■ Parar', onclick: () => { dialogueToken++; synth && synth.cancel(); } })
+      ),
+      el('div', { class: 'row' }, toggle('Mostrar texto', 'text'), dlgView.text ? toggle('Traducción', 'trans') : null),
+      dlgView.text ? null : el('p', { class: 'hint', text: 'Primero escucha sin texto. Cuando hayas respondido las preguntas, ábrelo y repite cada línea.' }),
+      lines,
+      el('h2', { text: 'Preguntas' }),
+      el('div', { class: 'card' }, qs,
+        dlgView.checked ? el('p', { class: 'score', text: `Resultado: ${score} de ${DLG.questions.length}` }) : null,
+        checkBtn
+      ),
+      history.length ? el('h3', { text: 'Tus resultados' }) : null,
+      history.length ? el('ul', { class: 'muted small' }, history) : null
+    ].filter(Boolean));
+  };
+
+  // ---------- Vista: Hoy ----------
+  const DAYS = MOD.week;
+  const mondayOf = d => { const x = new Date(d); x.setHours(0, 0, 0, 0); const wd = (x.getDay() + 6) % 7; x.setDate(x.getDate() - wd); return x; };
+  const isoDate = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const todayIndex = () => Math.min((new Date().getDay() + 6) % 7, 5); // lunes=0 … sábado y domingo=5
+  let shownDay = todayIndex();
+  let checks = load('checks', {});
+  let anchorThisWeek = false;
+
+  const taskKey = (di, ti) => `${isoDate(mondayOf(new Date()))}:${di}:${ti}`;
+
+  const checkinText = () => {
+    const monday = mondayOf(new Date());
+    let total = 0, doneN = 0;
+    DAYS.slice(0, 5).forEach((d, di) => d.tasks.forEach((t, ti) => { total++; if (checks[taskKey(di, ti)]) doneN++; }));
+    const weekResults = dlgResults.filter(r => r.date >= monday.getTime());
+    const best = weekResults.reduce((m, r) => Math.max(m, r.score), -1);
+    const seen = PHRASES.filter(p => state.srs[p.id]).length;
+    const strong = PHRASES.filter(p => (state.srs[p.id] || {}).box >= 3).length;
+    const hard = PHRASES.filter(p => state.stars[p.id]).map(p => '  · ' + p.fr);
+    return [
+      `Check-in semanal de francés, semana del ${monday.toLocaleDateString('es-CO', { day: 'numeric', month: 'long' })}`,
+      `Módulo ${MOD.num}: ${MOD.title}`,
+      `- Tareas completadas: ${doneN} de ${total}`,
+      `- Diálogo: ${best >= 0 ? `mejor resultado ${best} de ${DLG.questions.length} (${weekResults.length} intentos)` : 'sin intentos esta semana'}`,
+      `- Repaso: ${seen} de ${PHRASES.length} frases repasadas, ${strong} afianzadas`,
+      `- Frases difíciles: ${hard.length ? '\n' + hard.join('\n') : 'ninguna marcada'}`,
+      `- Grabación ancla esta semana: ${anchorThisWeek ? 'sí' : 'no'}`,
+      '',
+      'Por favor: hazme un mini examen oral corto del módulo, revisa mis puntos débiles y ajusta el plan de la próxima semana.'
+    ].join('\n');
+  };
+
+  const copyText = async (text, holder) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      const ta = el('textarea', { readonly: '' });
+      ta.value = text;
+      holder.replaceChildren(el('p', { class: 'muted small', text: 'No pude copiar automáticamente. Selecciona el texto y cópialo:' }), ta);
+      ta.focus(); ta.select();
+      return false;
+    }
+  };
+
+  const renderToday = () => {
+    const box = document.getElementById('today');
+    const d = DAYS[shownDay];
+    const monday = mondayOf(new Date());
+    idb('anchor', 'readonly', s => s.getAll())
+      .then(items => { anchorThisWeek = (items || []).some(it => it.date >= monday.getTime()); })
+      .catch(() => {});
+
+    const chips = el('div', { class: 'day-chips' }, DAYS.map((x, i) =>
+      el('button', {
+        type: 'button', class: 'chip' + (i === shownDay ? ' active' : '') + (i === todayIndex() ? ' today' : ''),
+        text: x.day, onclick: () => { shownDay = i; renderToday(); }
+      })));
+
+    const tasks = d.tasks.map((t, ti) => {
+      const key = taskKey(shownDay, ti);
+      const cb = el('input', { type: 'checkbox', 'aria-label': 'Hecho' });
+      cb.checked = !!checks[key];
+      const row = el('div', { class: 'task' + (cb.checked ? ' checked' : '') });
+      cb.addEventListener('change', () => {
+        if (cb.checked) checks[key] = true; else delete checks[key];
+        save('checks', checks);
+        renderToday();
+      });
+      const holder = el('div');
+      const actions = el('div', { class: 'row', style: 'margin:0' });
+      if (t.go) actions.append(el('button', { type: 'button', class: 'btn', text: 'Ir', onclick: () => showTab(t.go) }));
+      if (t.copy) {
+        const btn = el('button', { type: 'button', class: 'btn primary', text: 'Copiar indicación' });
+        btn.addEventListener('click', async () => {
+          const text = t.copy === 'checkin' ? checkinText() : MOD.prompts[t.copy];
+          if (await copyText(text, holder)) { btn.textContent = 'Copiado ✓'; setTimeout(() => { btn.textContent = 'Copiar indicación'; }, 2000); }
+        });
+        actions.append(btn);
+      }
+      row.append(cb, el('div', { class: 'body' }, el('p', { class: 'txt', text: t.text }), actions.childNodes.length ? actions : null, holder));
+      return row;
+    });
+
+    const doneHere = d.tasks.filter((t, ti) => checks[taskKey(shownDay, ti)]).length;
+    box.replaceChildren(...[
+      el('p', { class: 'muted small', text: `Semana del ${monday.toLocaleDateString('es-CO', { day: 'numeric', month: 'long' })} · Módulo ${MOD.num}` }),
+      chips,
+      el('div', { class: 'day-head' },
+        el('h2', { text: `${d.day}: ${d.focus}` }),
+        el('p', { class: 'muted small', text: `${doneHere} de ${d.tasks.length} tareas hechas` }),
+        el('div', { class: 'meter' }, el('span', { style: `width:${Math.round(100 * doneHere / d.tasks.length)}%` }))
+      ),
+      el('div', { class: 'card', style: 'margin-top:12px' }, tasks),
+      shownDay < 5 ? el('p', { class: 'hint', text: 'Unos 30 minutos. Si un día tienes poco tiempo, con 5 minutos de Repaso basta: lo importante es no fallar dos días seguidos.' }) : null
+    ].filter(Boolean));
+  };
+
   // ---------- Navegación ----------
   const showTab = name => {
     document.querySelectorAll('.view').forEach(v => { v.hidden = v.dataset.view !== name; });
-    document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+    const navName = ['voz', 'gramatica', 'ajustes'].includes(name) ? 'mas' : name;
+    document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === navName));
+    dialogueToken++;
     loopToken++;
     synth && synth.cancel();
     if (name === 'repaso') { buildQueue(); renderReview(); }
     if (name === 'ajustes') { loadVoices(); renderProgress(); }
+    if (name === 'hoy') renderToday();
+    if (name === 'dialogo') renderDialogue();
     window.scrollTo(0, 0);
   };
 
@@ -451,8 +660,13 @@
   document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
   document.querySelectorAll('.seg').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
   setMode(state.mode);
+  document.querySelectorAll('.menu-item').forEach(b => b.addEventListener('click', () => showTab(b.dataset.go)));
+  ['voz', 'gramatica', 'ajustes'].forEach(v => {
+    document.getElementById('view-' + v).prepend(el('button', { type: 'button', class: 'back', text: '‹ Más', onclick: () => showTab('mas') }));
+  });
   setupAnchor();
   setupSettings();
+  showTab('hoy');
   if (synth) { loadVoices(); synth.onvoiceschanged = loadVoices; }
 
   // ---------- Modo sin conexión ----------

@@ -34,8 +34,18 @@
   </div>
 
   <main>
+    <!-- HOY -->
+    <section id="view-hoy" class="view" data-view="hoy">
+      <div id="today"></div>
+    </section>
+
+    <!-- DIÁLOGO -->
+    <section id="view-dialogo" class="view" data-view="dialogo" hidden>
+      <div id="dialogue"></div>
+    </section>
+
     <!-- FRASES -->
-    <section id="view-frases" class="view" data-view="frases">
+    <section id="view-frases" class="view" data-view="frases" hidden>
       <p class="hint">Escucha, repite en voz alta, grábate y compara. Marca con ★ las frases difíciles: vuelven más seguido en el repaso.</p>
       <div id="phrase-list"></div>
     </section>
@@ -109,6 +119,16 @@
       </ul>
     </section>
 
+    <!-- MÁS -->
+    <section id="view-mas" class="view" data-view="mas" hidden>
+      <h2>Más</h2>
+      <div class="menu">
+        <button type="button" class="menu-item" data-go="voz"><b>Mi voz</b><span>Texto ancla y grabaciones mensuales</span></button>
+        <button type="button" class="menu-item" data-go="gramatica"><b>Gramática</b><span>La explicación corta del módulo</span></button>
+        <button type="button" class="menu-item" data-go="ajustes"><b>Ajustes</b><span>Voz, velocidad, progreso y diagnóstico</span></button>
+      </div>
+    </section>
+
     <!-- AJUSTES -->
     <section id="view-ajustes" class="view" data-view="ajustes" hidden>
       <h2>Voz francesa</h2>
@@ -141,11 +161,11 @@
   </main>
 
   <nav class="tabs" aria-label="Secciones">
-    <button type="button" data-tab="frases" class="active">Frases</button>
+    <button type="button" data-tab="hoy" class="active">Hoy</button>
+    <button type="button" data-tab="dialogo">Diálogo</button>
+    <button type="button" data-tab="frases">Frases</button>
     <button type="button" data-tab="repaso">Repaso</button>
-    <button type="button" data-tab="voz">Mi voz</button>
-    <button type="button" data-tab="gramatica">Gramática</button>
-    <button type="button" data-tab="ajustes">Ajustes</button>
+    <button type="button" data-tab="mas">Más</button>
   </nav>
 
   <script src="data.js"></script>
