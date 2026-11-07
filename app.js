@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.0.1';
+  const VERSION = '1.0.2';
   const MOD = window.CURSO.modules[0];
   const PHRASES = MOD.blocks.flatMap(b => b.phrases);
   const DAY = 864e5;
@@ -109,17 +109,33 @@
   const mime = () => ['audio/mp4', 'audio/webm;codecs=opus', 'audio/webm']
     .find(t => window.MediaRecorder && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t));
 
+  // En iPhone, una conexión de micrófono reutilizada queda en silencio después de reproducir audio.
+  // Por eso cada grabación abre una conexión nueva y la cierra al terminar.
+  let lastRec = 'Todavía no se ha grabado.';
   const startRecording = async () => {
     if (!navigator.mediaDevices || !window.MediaRecorder) throw new Error('Este navegador no permite grabar.');
-    if (!stream || !stream.active) stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stopRecording();
+    releaseMic();
+    if (currentAudio) currentAudio.pause();
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const own = stream;
     const type = mime();
-    recorder = new MediaRecorder(stream, type ? { mimeType: type } : undefined);
+    const rec = new MediaRecorder(own, type ? { mimeType: type } : undefined);
+    recorder = rec;
     const chunks = [];
-    recorder.ondataavailable = e => e.data && e.data.size && chunks.push(e.data);
-    const done = new Promise(res => {
-      recorder.onstop = () => res(new Blob(chunks, { type: recorder.mimeType || type || 'audio/mp4' }));
+    rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+    const done = new Promise((res, rej) => {
+      rec.onstop = () => {
+        own.getTracks().forEach(t => t.stop());
+        if (stream === own) stream = null;
+        const blob = new Blob(chunks, { type: rec.mimeType || type || 'audio/mp4' });
+        if (!blob.size) { lastRec = 'Última grabación: vacía'; rej(new Error('empty')); return; }
+        lastRec = `Última grabación: OK (${Math.round(blob.size / 1024)} KB)`;
+        res(blob);
+      };
+      rec.onerror = e => { lastRec = 'Última grabación: error ' + (e && e.error && e.error.name || ''); };
     });
-    recorder.start();
+    rec.start(250);
     return done;
   };
   const stopRecording = () => { if (recorder && recorder.state !== 'inactive') recorder.stop(); };
@@ -181,7 +197,9 @@
         await idb('clips', 'readwrite', s => s.put(blob, clipKey(p)));
         refreshMine();
       } catch (e) {
-        alert('No pude usar el micrófono. Revisa el permiso de micrófono para Safari o para la app.');
+        alert(e && e.message === 'empty'
+          ? 'La grabación quedó vacía. Toca Grabar otra vez y habla después de que el botón se ponga rojo.'
+          : 'No pude usar el micrófono. Revisa el permiso de micrófono para Safari o para la app.');
       } finally {
         recording = null;
         btnRec.classList.remove('recording'); btnRec.textContent = '● Grabar';
@@ -340,7 +358,9 @@
         status.textContent = 'Grabación guardada.';
         renderAnchorList();
       } catch (e) {
-        status.textContent = 'No pude usar el micrófono. Revisa el permiso de micrófono.';
+        status.textContent = e && e.message === 'empty'
+          ? 'La grabación quedó vacía. Intenta de nuevo.'
+          : 'No pude usar el micrófono. Revisa el permiso de micrófono.';
       } finally {
         rec = null;
         btn.classList.remove('recording'); btn.textContent = 'Grabar';
@@ -375,7 +395,7 @@
     const all = synth ? synth.getVoices().length : 0;
     const standalone = window.navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
     d.textContent = `Diagnóstico: ${voices.length} voces francesas de ${all} en total · ` +
-      `${standalone ? 'abierta como app' : 'abierta en el navegador'} · ${lastSpeech}`;
+      `${standalone ? 'abierta como app' : 'abierta en el navegador'} · ${lastSpeech} · ${lastRec}`;
   };
 
   const renderProgress = () => {
