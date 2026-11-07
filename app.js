@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.0.0';
+  const VERSION = '1.0.1';
   const MOD = window.CURSO.modules[0];
   const PHRASES = MOD.blocks.flatMap(b => b.phrases);
   const DAY = 864e5;
@@ -72,15 +72,36 @@
   const pickVoice = () =>
     voices.find(v => v.voiceURI === state.voiceURI) || voices.find(v => /fr[-_]fr/i.test(v.lang)) || voices[0] || null;
 
+  // En iPhone, Safari a veces ignora un speak() justo después de cancel(),
+  // y a veces la lista de voces llega tarde. Por eso: cancelar solo si hace falta,
+  // recargar voces al tocar, y si la voz elegida falla, reintentar con la voz francesa por defecto.
+  let lastSpeech = 'Todavía no se ha reproducido audio.';
   const speak = (text, rate = 1) => new Promise(res => {
-    if (!synth) return res();
-    synth.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    const v = pickVoice();
-    if (v) { u.voice = v; u.lang = v.lang; } else { u.lang = 'fr-FR'; }
-    u.rate = rate;
-    u.onend = res; u.onerror = res;
-    synth.speak(u);
+    if (!synth) { lastSpeech = 'Este navegador no tiene síntesis de voz.'; return res(); }
+    if (!voices.length) loadVoices();
+    if (synth.speaking || synth.pending) synth.cancel();
+    synth.resume();
+    const make = useVoice => {
+      const u = new SpeechSynthesisUtterance(text);
+      const v = useVoice ? pickVoice() : null;
+      if (v) u.voice = v;
+      u.lang = v ? v.lang : 'fr-FR';
+      u.rate = rate;
+      return u;
+    };
+    const first = make(true);
+    let started = false;
+    first.onstart = () => { started = true; lastSpeech = 'Último audio: OK' + (first.voice ? ` (${first.voice.name})` : ' (voz por defecto)'); };
+    first.onend = res;
+    first.onerror = e => {
+      lastSpeech = 'Último audio: error "' + (e && e.error || 'desconocido') + '"';
+      if (started || !first.voice) return res();
+      const retry = make(false);
+      retry.onstart = () => { lastSpeech = 'Último audio: OK con la voz por defecto (la elegida falló)'; };
+      retry.onend = retry.onerror = res;
+      synth.speak(retry);
+    };
+    synth.speak(first);
   });
 
   // ---------- Micrófono ----------
@@ -345,6 +366,16 @@
     ));
     if (chosen) sel.value = chosen.voiceURI;
     document.getElementById('voice-warning').hidden = voices.length > 0;
+    renderDiag();
+  };
+
+  const renderDiag = () => {
+    const d = document.getElementById('voice-diag');
+    if (!d) return;
+    const all = synth ? synth.getVoices().length : 0;
+    const standalone = window.navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+    d.textContent = `Diagnóstico: ${voices.length} voces francesas de ${all} en total · ` +
+      `${standalone ? 'abierta como app' : 'abierta en el navegador'} · ${lastSpeech}`;
   };
 
   const renderProgress = () => {
@@ -365,7 +396,10 @@
     slow.addEventListener('input', () => {
       state.slowRate = Number(slow.value); slowVal.textContent = state.slowRate.toFixed(2); save('slowRate', state.slowRate);
     });
-    document.getElementById('voice-test').addEventListener('click', () => speak("Bonjour ! Je m'appelle Paul. Bienvenue à Providencia !", 1));
+    document.getElementById('voice-test').addEventListener('click', () => {
+      speak("Bonjour ! Je m'appelle Paul. Bienvenue à Providencia !", 1).then(renderDiag);
+      setTimeout(renderDiag, 1500);
+    });
     document.getElementById('reset-review').addEventListener('click', () => {
       if (!confirm('¿Reiniciar todo el progreso del repaso? Tus grabaciones no se borran.')) return;
       state.srs = {}; save('srs', state.srs); buildQueue(); renderProgress();
