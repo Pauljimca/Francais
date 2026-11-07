@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Français</title>
+  <meta name="theme-color" content="#1d3f8f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Français">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="brand-mark">Fr</span>
+      <div>
+        <h1>Français</h1>
+        <p id="module-subtitle" class="muted"></p>
+      </div>
+    </div>
+    <div class="register" role="group" aria-label="Registro">
+      <button type="button" data-mode="vous" class="seg">vous</button>
+      <button type="button" data-mode="tu" class="seg">tu</button>
+    </div>
+  </header>
+
+  <div id="update-banner" class="banner" hidden>
+    Hay una versión nueva del curso. <button type="button" id="update-btn">Actualizar</button>
+  </div>
+
+  <main>
+    <!-- FRASES -->
+    <section id="view-frases" class="view" data-view="frases">
+      <p class="hint">Escucha, repite en voz alta, grábate y compara. Marca con ★ las frases difíciles: vuelven más seguido en el repaso.</p>
+      <div id="phrase-list"></div>
+    </section>
+
+    <!-- REPASO -->
+    <section id="view-repaso" class="view" data-view="repaso" hidden>
+      <div id="review"></div>
+    </section>
+
+    <!-- MI VOZ -->
+    <section id="view-voz" class="view" data-view="voz" hidden>
+      <h2>Texto ancla</h2>
+      <p class="hint">Grábalo una vez al mes, siempre el mismo texto. Así comparas tu voz en el tiempo.</p>
+      <blockquote id="anchor-text" class="anchor"></blockquote>
+      <div class="row">
+        <button type="button" class="btn" id="anchor-listen">Escuchar modelo</button>
+        <button type="button" class="btn primary" id="anchor-rec">Grabar</button>
+      </div>
+      <p id="anchor-status" class="muted small"></p>
+      <h2>Mis grabaciones</h2>
+      <div class="row">
+        <button type="button" class="btn" id="anchor-compare">Primera y última, una tras otra</button>
+      </div>
+      <ul id="anchor-list" class="rec-list"></ul>
+      <p class="muted small">Las grabaciones se guardan solo en este dispositivo. Usa "Guardar archivo" para conservarlas fuera de la app.</p>
+    </section>
+
+    <!-- GRAMÁTICA -->
+    <section id="view-gramatica" class="view" data-view="gramatica" hidden>
+      <h2>Módulo 1: lo esencial</h2>
+
+      <h3>Tu o vous</h3>
+      <p><b>Vous</b> = usted (y también ustedes). Úsalo con turistas, clientes y desconocidos.
+        <b>Tu</b> = tú: con amigos, gente joven o quien te tutee primero.
+        Si alguien te dice <i>« On peut se tutoyer ? »</i>, te propone pasar a <b>tu</b>.</p>
+
+      <h3>Être (ser / estar)</h3>
+      <table class="conj">
+        <tr><td>je suis</td><td>nous sommes</td></tr>
+        <tr><td>tu es</td><td>vous êtes</td></tr>
+        <tr><td>il / elle est</td><td>ils / elles sont</td></tr>
+      </table>
+
+      <h3>Avoir (tener)</h3>
+      <table class="conj">
+        <tr><td>j'ai</td><td>nous avons</td></tr>
+        <tr><td>tu as</td><td>vous avez</td></tr>
+        <tr><td>il / elle a</td><td>ils / elles ont</td></tr>
+      </table>
+
+      <h3>Verbos en -er: parler (hablar)</h3>
+      <table class="conj">
+        <tr><td>je parl<b>e</b></td><td>nous parl<b>ons</b></td></tr>
+        <tr><td>tu parl<b>es</b></td><td>vous parl<b>ez</b></td></tr>
+        <tr><td>il / elle parl<b>e</b></td><td>ils / elles parl<b>ent</b></td></tr>
+      </table>
+      <p><b>Ojo:</b> <i>parle, parles</i> y <i>parlent</i> suenan igual. Solo <i>nous</i> y <i>vous</i> cambian el sonido.
+        Lo mismo con <i>aimer, habiter, travailler, jouer, chanter</i>.</p>
+
+      <h3>Tres reglas que ya viste</h3>
+      <ul>
+        <li>Profesiones sin artículo: <i>Je suis professeur</i>, no <i>un professeur</i>.</li>
+        <li><i>jouer de</i> + instrumento (<i>de la guitare</i>); <i>jouer à</i> + juego o deporte.</li>
+        <li>Delante de vocal, <i>je</i> se vuelve <i>j'</i>: <i>j'aime, j'habite, j'apprends</i>.</li>
+      </ul>
+
+      <h3>Falsos amigos</h3>
+      <ul>
+        <li><i>entendre</i> = oír · <i>comprendre</i> = entender</li>
+        <li><i>les légumes</i> = las verduras · las legumbres = <i>les légumineuses</i></li>
+      </ul>
+    </section>
+
+    <!-- AJUSTES -->
+    <section id="view-ajustes" class="view" data-view="ajustes" hidden>
+      <h2>Voz francesa</h2>
+      <label class="field">Voz
+        <select id="voice-select"></select>
+      </label>
+      <p id="voice-warning" class="warn" hidden>
+        No encuentro una voz francesa en este dispositivo. En iPhone y iPad: Ajustes › Accesibilidad ›
+        Contenido leído › Voces › Francés (Francia), y descarga una voz (mejor la versión "mejorada").
+        Luego cierra y vuelve a abrir la app.
+      </p>
+      <label class="field">Velocidad lenta: <span id="slow-val"></span>
+        <input type="range" id="slow-rate" min="0.4" max="0.9" step="0.05">
+      </label>
+      <div class="row">
+        <button type="button" class="btn" id="voice-test">Probar voz</button>
+      </div>
+
+      <h2>Sin conexión</h2>
+      <p id="offline-status" class="muted"></p>
+
+      <h2>Progreso</h2>
+      <p id="progress-summary" class="muted"></p>
+      <div class="row">
+        <button type="button" class="btn danger" id="reset-review">Reiniciar repaso</button>
+      </div>
+      <p class="muted small">Versión <span id="app-version"></span></p>
+    </section>
+  </main>
+
+  <nav class="tabs" aria-label="Secciones">
+    <button type="button" data-tab="frases" class="active">Frases</button>
+    <button type="button" data-tab="repaso">Repaso</button>
+    <button type="button" data-tab="voz">Mi voz</button>
+    <button type="button" data-tab="gramatica">Gramática</button>
+    <button type="button" data-tab="ajustes">Ajustes</button>
+  </nav>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
