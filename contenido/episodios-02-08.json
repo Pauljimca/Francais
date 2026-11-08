@@ -1,0 +1,659 @@
+{
+ "2": {
+  "slug": "bienvenue",
+  "title": "Bienvenue sur l'île",
+  "dialogue": [
+   {
+    "who": "Claire",
+    "fr": "Bonjour Paul ! Vous avez une minute ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Bien sûr ! Comment ça va ?"
+   },
+   {
+    "who": "Claire",
+    "fr": "Très bien, merci. Je voudrais visiter l'île. Qu'est-ce qu'il y a à voir ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Il y a beaucoup de choses ! Il y a des plages magnifiques et le pont des Amoureux."
+   },
+   {
+    "who": "Claire",
+    "fr": "Le pont des Amoureux ? Où est-ce ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Il est entre Providencia et Santa Catalina. Ce n'est pas loin d'ici."
+   },
+   {
+    "who": "Claire",
+    "fr": "Et pour aller à la plage, c'est loin ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Non. Prenez la route principale, puis tournez à gauche."
+   },
+   {
+    "who": "Claire",
+    "fr": "Il y a un bus ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Oui, mais c'est plus facile en moto-taxi."
+   },
+   {
+    "who": "Claire",
+    "fr": "Et pour faire de la plongée ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Il y a un centre de plongée à côté de la plage. La mer est magnifique."
+   },
+   {
+    "who": "Claire",
+    "fr": "Quelle plage vous recommandez ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Je vous recommande Manzanillo. Il y a un petit bar avec de la musique reggae."
+   },
+   {
+    "who": "Claire",
+    "fr": "Merci beaucoup pour les conseils !"
+   },
+   {
+    "who": "Paul",
+    "fr": "Avec plaisir. Bonne journée !"
+   }
+  ],
+  "drills": [
+   "Qu'est-ce qu'il y a à voir ?",
+   "Il y a des plages magnifiques.",
+   "Ce n'est pas loin d'ici.",
+   "Prenez la route principale, puis tournez à gauche.",
+   "C'est plus facile en moto-taxi.",
+   "Je vous recommande Manzanillo."
+  ],
+  "qa": [
+   {
+    "q": "Qu'est-ce qu'il y a à voir sur l'île ?",
+    "a": "Il y a des plages magnifiques et le pont des Amoureux."
+   },
+   {
+    "q": "La plage, c'est loin ?",
+    "a": "Non, ce n'est pas loin. Prenez la route principale."
+   },
+   {
+    "q": "Il y a un bus ?",
+    "a": "Oui, mais c'est plus facile en moto-taxi."
+   },
+   {
+    "q": "Quelle plage vous recommandez ?",
+    "a": "Je vous recommande Manzanillo."
+   }
+  ],
+  "file": "ep02-bienvenue.mp3",
+  "seconds": 260.4,
+  "size": 3125787
+ },
+ "3": {
+  "slug": "en-cuisine",
+  "title": "En cuisine",
+  "dialogue": [
+   {
+    "who": "Claire",
+    "fr": "Paul, j'ai faim ! Qu'est-ce que je peux manger ici ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Il faut goûter le rondón. C'est le plat typique de l'île."
+   },
+   {
+    "who": "Claire",
+    "fr": "Le rondón ? Qu'est-ce que c'est ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "C'est une soupe avec du poisson, du lait de coco, du manioc et des bananes plantains."
+   },
+   {
+    "who": "Claire",
+    "fr": "Ça a l'air délicieux ! Vous savez le préparer ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Oui, j'adore cuisiner. Ce n'est pas difficile."
+   },
+   {
+    "who": "Claire",
+    "fr": "Alors, expliquez-moi !"
+   },
+   {
+    "who": "Paul",
+    "fr": "D'abord, coupez le poisson. Ensuite, ajoutez le lait de coco et les légumes."
+   },
+   {
+    "who": "Claire",
+    "fr": "Il faut combien de poisson ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Un kilo de poisson et un litre de lait de coco."
+   },
+   {
+    "who": "Claire",
+    "fr": "Et pour boire, qu'est-ce que vous recommandez ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Un jus de corossol. C'est très frais."
+   },
+   {
+    "who": "Claire",
+    "fr": "Parfait. Alors, un rondón et un jus de corossol, s'il vous plaît !"
+   },
+   {
+    "who": "Paul",
+    "fr": "Très bon choix. Bon appétit !"
+   }
+  ],
+  "drills": [
+   "J'ai faim !",
+   "C'est le plat typique de l'île.",
+   "Il y a du poisson et du lait de coco.",
+   "Coupez le poisson, puis ajoutez le lait de coco.",
+   "Un kilo de poisson, s'il vous plaît.",
+   "Bon appétit !"
+  ],
+  "qa": [
+   {
+    "q": "Qu'est-ce que c'est, le rondón ?",
+    "a": "C'est une soupe avec du poisson et du lait de coco."
+   },
+   {
+    "q": "Vous aimez cuisiner ?",
+    "a": "Oui, j'adore cuisiner."
+   },
+   {
+    "q": "Il faut combien de poisson ?",
+    "a": "Il faut un kilo de poisson."
+   },
+   {
+    "q": "Qu'est-ce que vous recommandez pour boire ?",
+    "a": "Je recommande un jus de corossol."
+   }
+  ],
+  "file": "ep03-en-cuisine.mp3",
+  "seconds": 246.4,
+  "size": 2956817
+ },
+ "4": {
+  "slug": "chanson",
+  "title": "J'adore cette chanson",
+  "dialogue": [
+   {
+    "who": "Claire",
+    "fr": "Paul, quelle est cette chanson ? J'adore ce rythme !"
+   },
+   {
+    "who": "Paul",
+    "fr": "C'est une chanson de mon groupe. C'est du reggae."
+   },
+   {
+    "who": "Claire",
+    "fr": "Vous préférez le reggae ou le zouk ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "J'aime les deux, mais je préfère le reggae. C'est la musique de l'île."
+   },
+   {
+    "who": "Claire",
+    "fr": "Moi, j'adore le zouk. C'est romantique et joyeux."
+   },
+   {
+    "who": "Paul",
+    "fr": "Le kompa aussi, c'est une très belle musique."
+   },
+   {
+    "who": "Claire",
+    "fr": "Vous écrivez vos chansons en anglais ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Oui, surtout en anglais. Mais je voudrais écrire une chanson en français."
+   },
+   {
+    "who": "Claire",
+    "fr": "Quelle bonne idée ! Vous jouez de quel instrument ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Je joue de la guitare et je chante."
+   },
+   {
+    "who": "Claire",
+    "fr": "Vous jouez ce soir ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Oui, nous jouons au restaurant à huit heures. Vous venez ?"
+   },
+   {
+    "who": "Claire",
+    "fr": "Avec plaisir ! J'adore la musique live."
+   }
+  ],
+  "drills": [
+   "J'adore ce rythme !",
+   "J'aime les deux, mais je préfère le reggae.",
+   "C'est romantique et joyeux.",
+   "Je voudrais écrire une chanson en français.",
+   "Je joue de la guitare et je chante.",
+   "Nous jouons à huit heures. Vous venez ?"
+  ],
+  "qa": [
+   {
+    "q": "Vous préférez le reggae ou le zouk ?",
+    "a": "J'aime les deux, mais je préfère le reggae."
+   },
+   {
+    "q": "Vous jouez de quel instrument ?",
+    "a": "Je joue de la guitare."
+   },
+   {
+    "q": "Vous écrivez vos chansons en quelle langue ?",
+    "a": "Surtout en anglais."
+   },
+   {
+    "q": "Vous jouez ce soir ?",
+    "a": "Oui, nous jouons à huit heures."
+   }
+  ],
+  "file": "ep04-chanson.mp3",
+  "seconds": 246.9,
+  "size": 2962784
+ },
+ "5": {
+  "slug": "en-voyage",
+  "title": "En voyage",
+  "dialogue": [
+   {
+    "who": "Paul",
+    "fr": "Allô, Claire ? C'est Paul !"
+   },
+   {
+    "who": "Claire",
+    "fr": "Paul ! Vous êtes à Lyon ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Oui, je suis à l'aéroport. Mais il y a un problème : ma valise n'est pas arrivée."
+   },
+   {
+    "who": "Claire",
+    "fr": "Oh non ! Allez au comptoir des bagages. Ils vont vous aider."
+   },
+   {
+    "who": "Paul",
+    "fr": "D'accord. Et pour aller au centre-ville, je prends un taxi ?"
+   },
+   {
+    "who": "Claire",
+    "fr": "Non, prenez le tram. C'est rapide et pratique."
+   },
+   {
+    "who": "Paul",
+    "fr": "Le tram part d'où ?"
+   },
+   {
+    "who": "Claire",
+    "fr": "Il part devant l'aéroport, toutes les quinze minutes."
+   },
+   {
+    "who": "Paul",
+    "fr": "Mon hôtel est près de la gare Part-Dieu."
+   },
+   {
+    "who": "Claire",
+    "fr": "Parfait, le tram va à la Part-Dieu."
+   },
+   {
+    "who": "Paul",
+    "fr": "Super. Je vais déposer mes affaires à l'hôtel."
+   },
+   {
+    "who": "Claire",
+    "fr": "Et ce soir, nous allons dîner ensemble ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Avec plaisir ! À quelle heure ?"
+   },
+   {
+    "who": "Claire",
+    "fr": "À sept heures. Je vais vous envoyer l'adresse."
+   },
+   {
+    "who": "Paul",
+    "fr": "Merci, Claire. À ce soir !"
+   }
+  ],
+  "drills": [
+   "Ma valise n'est pas arrivée.",
+   "Je prends un taxi ou le tram ?",
+   "Le tram part d'où ?",
+   "Mon hôtel est près de la gare.",
+   "Je vais déposer mes affaires à l'hôtel.",
+   "À ce soir !"
+  ],
+  "qa": [
+   {
+    "q": "Vous êtes où ?",
+    "a": "Je suis à l'aéroport de Lyon."
+   },
+   {
+    "q": "Il y a un problème ?",
+    "a": "Oui, ma valise n'est pas arrivée."
+   },
+   {
+    "q": "Vous allez prendre un taxi ?",
+    "a": "Non, je vais prendre le tram."
+   },
+   {
+    "q": "Nous dînons à quelle heure ?",
+    "a": "Nous dînons à sept heures."
+   }
+  ],
+  "file": "ep05-en-voyage.mp3",
+  "seconds": 237.7,
+  "size": 2852431
+ },
+ "6": {
+  "slug": "ma-vie",
+  "title": "Ma vie sur l'île",
+  "dialogue": [
+   {
+    "who": "Claire",
+    "fr": "Bonjour Paul ! Comment ça va depuis votre retour ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Très bien ! Je suis content d'être sur l'île."
+   },
+   {
+    "who": "Claire",
+    "fr": "Comment est une journée normale pour vous ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Je me lève tôt, je prends un café et je donne mes cours d'anglais en ligne."
+   },
+   {
+    "who": "Claire",
+    "fr": "Et l'après-midi ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "L'après-midi, je travaille pour une entreprise américaine. Le soir, je joue de la guitare."
+   },
+   {
+    "who": "Claire",
+    "fr": "Et le week-end ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Le week-end, nous jouons au restaurant avec mon groupe."
+   },
+   {
+    "who": "Claire",
+    "fr": "Il fait beau en ce moment ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Oui, il fait chaud et il y a beaucoup de soleil."
+   },
+   {
+    "who": "Claire",
+    "fr": "Qu'est-ce que vous avez fait hier ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Hier, je suis allé à la plage et j'ai cuisiné un rondón."
+   },
+   {
+    "who": "Claire",
+    "fr": "Quelle belle vie ! Moi, hier, j'ai travaillé toute la journée."
+   },
+   {
+    "who": "Paul",
+    "fr": "Venez à Providencia ! Il y a toujours du soleil."
+   },
+   {
+    "who": "Claire",
+    "fr": "Bonne idée ! Bonne soirée, Paul."
+   }
+  ],
+  "drills": [
+   "Je me lève tôt.",
+   "Je donne mes cours d'anglais en ligne.",
+   "Le soir, je joue de la guitare.",
+   "Il fait chaud et il y a du soleil.",
+   "Hier, je suis allé à la plage.",
+   "Hier, j'ai cuisiné un rondón."
+  ],
+  "qa": [
+   {
+    "q": "Vous vous levez tôt ?",
+    "a": "Oui, je me lève tôt."
+   },
+   {
+    "q": "Qu'est-ce que vous faites le soir ?",
+    "a": "Le soir, je joue de la guitare."
+   },
+   {
+    "q": "Quel temps fait-il aujourd'hui ?",
+    "a": "Il fait chaud et il y a du soleil."
+   },
+   {
+    "q": "Qu'est-ce que vous avez fait hier ?",
+    "a": "Hier, je suis allé à la plage."
+   }
+  ],
+  "file": "ep06-ma-vie.mp3",
+  "seconds": 252.9,
+  "size": 3035505
+ },
+ "7": {
+  "slug": "les-nouvelles",
+  "title": "Les nouvelles",
+  "dialogue": [
+   {
+    "who": "Claire",
+    "fr": "Paul, j'ai lu un article sur Providencia dans un magazine de voyage !"
+   },
+   {
+    "who": "Paul",
+    "fr": "Ah oui ? Qu'est-ce qu'il dit ?"
+   },
+   {
+    "who": "Claire",
+    "fr": "Il dit que l'île est très calme et que la mer a sept couleurs."
+   },
+   {
+    "who": "Paul",
+    "fr": "C'est vrai ! On l'appelle la mer des sept couleurs."
+   },
+   {
+    "who": "Claire",
+    "fr": "L'article parle aussi de la barrière de corail."
+   },
+   {
+    "who": "Paul",
+    "fr": "Oui, elle est magnifique. Les plongeurs y vont tous les jours."
+   },
+   {
+    "who": "Claire",
+    "fr": "Et il y avait une photo du pont des Amoureux."
+   },
+   {
+    "who": "Paul",
+    "fr": "Vous en avez parlé à vos amis ?"
+   },
+   {
+    "who": "Claire",
+    "fr": "Oui, j'en ai parlé à tout le monde ! Quand j'étais petite, je rêvais des Caraïbes."
+   },
+   {
+    "who": "Paul",
+    "fr": "Et maintenant, vous connaissez une île des Caraïbes !"
+   },
+   {
+    "who": "Claire",
+    "fr": "Oui ! Et mes amis veulent y aller l'année prochaine."
+   },
+   {
+    "who": "Paul",
+    "fr": "Super ! Ils sont les bienvenus."
+   },
+   {
+    "who": "Claire",
+    "fr": "Je vais leur donner votre numéro."
+   },
+   {
+    "who": "Paul",
+    "fr": "Avec plaisir. Je peux être leur guide !"
+   }
+  ],
+  "drills": [
+   "J'ai lu un article dans un magazine.",
+   "La mer a sept couleurs.",
+   "Les plongeurs y vont tous les jours.",
+   "J'en ai parlé à mes amis.",
+   "Quand j'étais petit, j'habitais dans une autre ville.",
+   "Ils sont les bienvenus !"
+  ],
+  "qa": [
+   {
+    "q": "Qu'est-ce que dit l'article ?",
+    "a": "Il dit que l'île est calme et que la mer a sept couleurs."
+   },
+   {
+    "q": "Les plongeurs vont à la barrière de corail ?",
+    "a": "Oui, ils y vont tous les jours."
+   },
+   {
+    "q": "Vous avez parlé de l'île à vos amis ?",
+    "a": "Oui, j'en ai parlé à mes amis."
+   },
+   {
+    "q": "Où est-ce que vous habitiez quand vous étiez petit ?",
+    "a": "Quand j'étais petit, j'habitais dans une autre ville."
+   }
+  ],
+  "file": "ep07-les-nouvelles.mp3",
+  "seconds": 249.5,
+  "size": 2994123
+ },
+ "8": {
+  "slug": "mes-projets",
+  "title": "Mes projets",
+  "dialogue": [
+   {
+    "who": "Claire",
+    "fr": "Paul, quels sont vos projets pour l'année prochaine ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "J'ai beaucoup de projets ! D'abord, je parlerai mieux français."
+   },
+   {
+    "who": "Claire",
+    "fr": "Vous parlez déjà très bien !"
+   },
+   {
+    "who": "Paul",
+    "fr": "Merci ! Je voudrais aussi enregistrer de nouvelles chansons."
+   },
+   {
+    "who": "Claire",
+    "fr": "En français ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Peut-être une chanson en français. Ce sera une surprise !"
+   },
+   {
+    "who": "Claire",
+    "fr": "Et vous voyagerez ?"
+   },
+   {
+    "who": "Paul",
+    "fr": "Oui, je voudrais retourner en France. Je visiterai Paris."
+   },
+   {
+    "who": "Claire",
+    "fr": "Alors, venez aussi à Lyon ! Vous pourriez jouer dans un bar avec mon ami."
+   },
+   {
+    "who": "Paul",
+    "fr": "Ce serait génial ! Merci pour l'invitation."
+   },
+   {
+    "who": "Claire",
+    "fr": "Et moi, je reviendrai à Providencia en décembre."
+   },
+   {
+    "who": "Paul",
+    "fr": "Super ! Vous viendrez à notre concert ?"
+   },
+   {
+    "who": "Claire",
+    "fr": "Bien sûr ! Et je voudrais goûter votre rondón."
+   },
+   {
+    "who": "Paul",
+    "fr": "Promis ! Je cuisinerai pour vous."
+   },
+   {
+    "who": "Claire",
+    "fr": "Alors, à bientôt, Paul !"
+   },
+   {
+    "who": "Paul",
+    "fr": "À bientôt, Claire ! Et merci pour tout."
+   }
+  ],
+  "drills": [
+   "Je parlerai mieux français.",
+   "Je voudrais enregistrer de nouvelles chansons.",
+   "Je visiterai Paris.",
+   "Ce serait génial !",
+   "Vous viendrez à notre concert ?",
+   "Merci pour l'invitation."
+  ],
+  "qa": [
+   {
+    "q": "Quels sont vos projets ?",
+    "a": "Je voudrais enregistrer de nouvelles chansons."
+   },
+   {
+    "q": "Vous voyagerez l'année prochaine ?",
+    "a": "Oui, je voudrais retourner en France."
+   },
+   {
+    "q": "Vous pourriez jouer à Lyon ?",
+    "a": "Oui, ce serait génial !"
+   },
+   {
+    "q": "Qu'est-ce que vous cuisinerez pour moi ?",
+    "a": "Je cuisinerai un rondón."
+   }
+  ],
+  "file": "ep08-mes-projets.mp3",
+  "seconds": 253.5,
+  "size": 3043022
+ }
+}
