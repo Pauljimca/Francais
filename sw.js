@@ -1,6 +1,6 @@
 // Guarda la app en el dispositivo para que funcione sin conexión.
 // Cambia CACHE cada vez que se publique una versión nueva.
-const CACHE = 'francais-v1.2.0';
+const CACHE = 'francais-v1.3.0';
 const FILES = [
   './',
   'index.html',
@@ -10,7 +10,25 @@ const FILES = [
   'manifest.webmanifest',
   'icons/icon-180.png',
   'icons/icon-192.png',
-  'icons/icon-512.png'
+  'icons/icon-512.png',
+  'audio/m1-dialogo/01.mp3',
+  'audio/m1-dialogo/02.mp3',
+  'audio/m1-dialogo/03.mp3',
+  'audio/m1-dialogo/04.mp3',
+  'audio/m1-dialogo/05.mp3',
+  'audio/m1-dialogo/06.mp3',
+  'audio/m1-dialogo/07.mp3',
+  'audio/m1-dialogo/08.mp3',
+  'audio/m1-dialogo/09.mp3',
+  'audio/m1-dialogo/10.mp3',
+  'audio/m1-dialogo/11.mp3',
+  'audio/m1-dialogo/12.mp3',
+  'audio/m1-dialogo/13.mp3',
+  'audio/m1-dialogo/14.mp3',
+  'audio/m1-dialogo/15.mp3',
+  'audio/m1-dialogo/16.mp3',
+  'audio/m1-dialogo/17.mp3',
+  'podcast/ep01-bonjour.mp3'
 ];
 
 self.addEventListener('install', event => {
@@ -29,8 +47,35 @@ self.addEventListener('message', event => {
   if (event.data === 'skipWaiting') self.skipWaiting();
 });
 
+// Safari pide el audio por partes (Range). Desde el caché respondemos con la parte pedida (206).
+const rangeResponse = async (request, response) => {
+  const range = request.headers.get('range');
+  if (!range) return response;
+  const buf = await response.arrayBuffer();
+  const m = /bytes=(\d*)-(\d*)/.exec(range) || [];
+  const start = m[1] ? Number(m[1]) : 0;
+  const end = m[2] ? Math.min(Number(m[2]), buf.byteLength - 1) : buf.byteLength - 1;
+  return new Response(buf.slice(start, end + 1), {
+    status: 206,
+    headers: {
+      'Content-Type': response.headers.get('Content-Type') || 'audio/mpeg',
+      'Content-Range': `bytes ${start}-${end}/${buf.byteLength}`,
+      'Content-Length': String(end - start + 1),
+      'Accept-Ranges': 'bytes'
+    }
+  });
+};
+
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
+  const url = new URL(event.request.url);
+  if (url.pathname.endsWith('.mp3')) {
+    event.respondWith(
+      caches.match(event.request.url, { ignoreSearch: true }).then(hit =>
+        hit ? rangeResponse(event.request, hit) : fetch(event.request))
+    );
+    return;
+  }
   event.respondWith(
     caches.match(event.request, { ignoreSearch: true }).then(hit => {
       if (hit) return hit;

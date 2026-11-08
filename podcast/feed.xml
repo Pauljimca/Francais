@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Le petit café de Providencia</title>
+    <link>https://pauljimca.github.io/Francais/</link>
+    <atom:link href="https://pauljimca.github.io/Francais/podcast/feed.xml" rel="self" type="application/rss+xml"/>
+    <language>es</language>
+    <description>Podcast personal para aprender francés conversacional: un episodio por módulo del curso de Paul, con diálogo lento y normal, frases para repetir y preguntas para responder en voz alta.</description>
+    <itunes:author>Paul Jiménez</itunes:author>
+    <itunes:image href="https://pauljimca.github.io/Francais/podcast/cover.jpg"/>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:category text="Education"><itunes:category text="Language Learning"/></itunes:category>
+    <itunes:block>Yes</itunes:block>
+    <item>
+      <title>Episodio 1: Bonjour !</title>
+      <itunes:episode>1</itunes:episode>
+      <description>Paul conoce a Claire, una turista francesa, después de un concierto en Providencia. Saludar, presentarte y hablar de tu trabajo y tu música. Voces generadas con ElevenLabs.</description>
+      <enclosure url="https://pauljimca.github.io/Francais/podcast/ep01-bonjour.mp3" length="3228280" type="audio/mpeg"/>
+      <guid isPermaLink="false">francais-ep01</guid>
+      <pubDate>Sun, 08 Nov 2026 12:00:00 -0500</pubDate>
+      <itunes:duration>269</itunes:duration>
+    </item>
+  </channel>
+</rss>

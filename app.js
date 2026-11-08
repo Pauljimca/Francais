@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.2.0';
+  const VERSION = '1.3.0';
   const MOD = window.CURSO.modules[0];
   const PHRASES = MOD.blocks.flatMap(b => b.phrases);
   const DAY = 864e5;
@@ -157,6 +157,18 @@
   document.addEventListener('visibilitychange', () => { if (document.hidden) { stopRecording(); releaseMic(); synth && synth.cancel(); } });
 
   let currentAudio = null;
+  // Audio grabado (ElevenLabs): velocidad lenta sin cambiar el tono.
+  const playClip = (url, rate = 1) => new Promise(res => {
+    if (currentAudio) currentAudio.pause();
+    synth && synth.cancel();
+    const a = new Audio(url);
+    a.preservesPitch = true; a.webkitPreservesPitch = true;
+    a.playbackRate = rate;
+    currentAudio = a;
+    a.onended = a.onerror = () => res();
+    a.play().catch(() => res());
+  });
+
   const playBlob = blob => new Promise(res => {
     if (currentAudio) currentAudio.pause();
     const url = URL.createObjectURL(blob);
@@ -475,13 +487,19 @@
     return line.who === 'Paul' ? { pitch: 0.75 } : { pitch: 1.25 };
   };
 
+  const clipUrl = i => DLG.audioDir ? `${DLG.audioDir}${String(i + 1).padStart(2, '0')}.mp3` : null;
+  const sayLine = (i, rate) => {
+    const url = clipUrl(i);
+    return url ? playClip(url, rate) : speak(DLG.lines[i].fr, rate, lineOpts(DLG.lines[i]));
+  };
+
   const playDialogue = async rate => {
     const token = ++dialogueToken;
     const rows = document.querySelectorAll('#dialogue .line');
     for (let i = 0; i < DLG.lines.length; i++) {
       if (token !== dialogueToken) break;
       rows.forEach((r, j) => r.classList.toggle('playing', j === i));
-      await speak(DLG.lines[i].fr, rate, lineOpts(DLG.lines[i]));
+      await sayLine(i, rate);
       if (token !== dialogueToken) break;
       await sleep(350);
     }
@@ -503,7 +521,7 @@
           dlgView.trans ? el('p', { class: 'es', text: l.es }) : null
         ),
         el('button', { type: 'button', class: 'btn', text: '▶', 'aria-label': 'Escuchar línea',
-          onclick: () => { dialogueToken++; speak(l.fr, 1, lineOpts(l)); } })
+          onclick: () => { dialogueToken++; sayLine(DLG.lines.indexOf(l), 1); } })
       )
     ));
     if (!dlgView.text) lines.hidden = true;
@@ -548,7 +566,7 @@
       el('div', { class: 'row' },
         el('button', { type: 'button', class: 'btn primary', text: '▶ Escuchar todo', onclick: () => playDialogue(1) }),
         el('button', { type: 'button', class: 'btn', text: '▶ Lento', onclick: () => playDialogue(state.slowRate) }),
-        el('button', { type: 'button', class: 'btn', text: '■ Parar', onclick: () => { dialogueToken++; synth && synth.cancel(); } })
+        el('button', { type: 'button', class: 'btn', text: '■ Parar', onclick: () => { dialogueToken++; synth && synth.cancel(); if (currentAudio) currentAudio.pause(); } })
       ),
       el('div', { class: 'row' }, toggle('Mostrar texto', 'text'), dlgView.text ? toggle('Traducción', 'trans') : null),
       dlgView.text ? null : el('p', { class: 'hint', text: 'Primero escucha sin texto. Cuando hayas respondido las preguntas, ábrelo y repite cada línea.' }),
@@ -708,10 +726,28 @@
     ].filter(Boolean));
   };
 
+  // ---------- Vista: Podcast ----------
+  const renderPodcast = () => {
+    const box = document.getElementById('podcast');
+    const eps = (window.CURSO.podcast || []).slice().sort((a, b) => b.num - a.num);
+    box.replaceChildren(...[
+      el('h2', { text: 'Le petit café de Providencia' }),
+      el('p', { class: 'hint', text: 'Un episodio por módulo: el diálogo despacio y a velocidad normal, frases para repetir en la pausa y preguntas para responder en voz alta. Funciona sin conexión.' }),
+      ...eps.map(ep => {
+        const audio = el('audio', { controls: '', preload: 'none', src: ep.file, style: 'width:100%;margin-top:10px' });
+        return el('article', { class: 'card' },
+          el('p', { class: 'fr', text: ep.title }),
+          el('p', { class: 'es', text: `${ep.desc} · ${Math.round(ep.minutes)} min` }),
+          audio);
+      }),
+      el('p', { class: 'muted small', text: 'También puedes seguirlo en Apple Podcasts: Biblioteca › ⋯ › Seguir un programa por URL, con la dirección https://pauljimca.github.io/Francais/podcast/feed.xml' })
+    ].filter(Boolean));
+  };
+
   // ---------- Navegación ----------
   const showTab = name => {
     document.querySelectorAll('.view').forEach(v => { v.hidden = v.dataset.view !== name; });
-    const navName = ['voz', 'gramatica', 'ajustes', 'conversacion'].includes(name) ? 'mas' : name;
+    const navName = ['voz', 'gramatica', 'ajustes', 'conversacion', 'podcast'].includes(name) ? 'mas' : name;
     document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === navName));
     dialogueToken++;
     loopToken++;
@@ -721,6 +757,7 @@
     if (name === 'hoy') renderToday();
     if (name === 'dialogo') renderDialogue();
     if (name === 'conversacion') renderConversation();
+    if (name === 'podcast') renderPodcast();
     window.scrollTo(0, 0);
   };
 
@@ -737,7 +774,7 @@
   document.querySelectorAll('.seg').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
   setMode(state.mode);
   document.querySelectorAll('.menu-item').forEach(b => b.addEventListener('click', () => showTab(b.dataset.go)));
-  ['voz', 'gramatica', 'ajustes', 'conversacion'].forEach(v => {
+  ['voz', 'gramatica', 'ajustes', 'conversacion', 'podcast'].forEach(v => {
     document.getElementById('view-' + v).prepend(el('button', { type: 'button', class: 'back', text: '‹ Más', onclick: () => showTab('mas') }));
   });
   setupAnchor();

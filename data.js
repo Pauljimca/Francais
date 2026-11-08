@@ -1,5 +1,9 @@
 // Contenido del curso. Cada módulo nuevo se agrega a la lista "modules".
 window.CURSO = {
+  podcast: [
+    { num: 1, title: 'Episodio 1: Bonjour !', file: 'podcast/ep01-bonjour.mp3', minutes: 4.5,
+      desc: 'Paul conoce a Claire después de un concierto: saludar, presentarte, tu trabajo y tu música.' }
+  ],
   modules: [
     {
       id: 'm1',
@@ -12,6 +16,7 @@ window.CURSO = {
         "J'aime cuisiner. J'apprends le français.",
       dialogue: {
         title: 'Après le concert',
+        audioDir: 'audio/m1-dialogo/',
         scene: 'Después de tocar en un restaurante de Providencia, Claire, una turista francesa, habla con Paul.',
         lines: [
           { who: 'Claire', fr: 'Bonsoir !', es: '¡Buenas noches!' },
