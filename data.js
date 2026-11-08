@@ -7,6 +7,7 @@ window.CURSO = {
   modules: [
     {
       id: 'm1',
+      phraseAudio: 'audio/m1-frases/',
       num: 1,
       title: 'Bonjour !',
       subtitle: 'Saludar, presentarte, tu trabajo y tu música',

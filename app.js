@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.3.0';
+  const VERSION = '1.4.0';
   const MOD = window.CURSO.modules[0];
   const PHRASES = MOD.blocks.flatMap(b => b.phrases);
   const DAY = 864e5;
@@ -17,6 +17,7 @@
   const state = {
     mode: load('mode', 'vous'),
     voiceURI: load('voice', null),
+    phraseVoice: load('phraseVoice', 'amelie'),
     voicePaul: load('voicePaul', null),
     voiceClaire: load('voiceClaire', null),
     slowRate: load('slowRate', 0.7),
@@ -178,6 +179,11 @@
     a.play().catch(() => res());
   });
 
+  // Frases grabadas (ElevenLabs) o voz del dispositivo, según Ajustes.
+  const sayPhrase = (p, rate = 1) => (MOD.phraseAudio && state.phraseVoice !== 'device')
+    ? playClip(`${MOD.phraseAudio}${state.phraseVoice}/${clipKey(p)}.mp3`, rate)
+    : speak(variant(p).fr, rate);
+
   // ---------- Vista: Frases ----------
   let loopToken = 0;
 
@@ -203,8 +209,8 @@
     const btnCompare = el('button', { type: 'button', class: 'btn', text: 'Comparar' });
     const btnLoop = el('button', { type: 'button', class: 'btn', text: '↻ Bucle' });
 
-    btnPlay.addEventListener('click', () => speak(v.fr, 1));
-    btnSlow.addEventListener('click', () => speak(v.fr, state.slowRate));
+    btnPlay.addEventListener('click', () => sayPhrase(p, 1));
+    btnSlow.addEventListener('click', () => sayPhrase(p, state.slowRate));
 
     let myClip = null;
     const refreshMine = () => { btnMine.disabled = btnCompare.disabled = !myClip; };
@@ -234,7 +240,7 @@
     btnMine.addEventListener('click', () => myClip && playBlob(myClip));
     btnCompare.addEventListener('click', async () => {
       if (!myClip) return;
-      await speak(v.fr, 1);
+      await sayPhrase(p, 1);
       await sleep(400);
       await playBlob(myClip);
     });
@@ -246,7 +252,7 @@
       btnLoop.classList.add('on'); btnLoop.setAttribute('data-loop', '1');
       const pause = Math.max(1800, v.fr.length * 90); // tiempo para repetir en voz alta
       while (token === loopToken) {
-        await speak(v.fr, state.slowRate);
+        await sayPhrase(p, state.slowRate);
         if (token !== loopToken) break;
         await sleep(pause);
       }
@@ -313,8 +319,8 @@
       el('p', { class: 'fr', lang: 'fr', text: v.fr }),
       p.note ? el('span', { class: 'note', text: p.note }) : null,
       el('div', { class: 'row', style: 'justify-content:center' },
-        el('button', { type: 'button', class: 'btn', text: '▶ Normal', onclick: () => speak(v.fr, 1) }),
-        el('button', { type: 'button', class: 'btn', text: '▶ Lento', onclick: () => speak(v.fr, state.slowRate) })
+        el('button', { type: 'button', class: 'btn', text: '▶ Normal', onclick: () => sayPhrase(p, 1) }),
+        el('button', { type: 'button', class: 'btn', text: '▶ Lento', onclick: () => sayPhrase(p, state.slowRate) })
       ),
       el('div', { class: 'rate' },
         el('button', { type: 'button', class: 'btn', text: 'Otra vez', onclick: () => { rate(p, 'again'); renderReview(); } }),
@@ -323,7 +329,7 @@
       )
     );
     const show = el('button', { type: 'button', class: 'btn primary', text: 'Mostrar en francés' });
-    show.addEventListener('click', () => { answer.hidden = false; show.hidden = true; speak(v.fr, 1); });
+    show.addEventListener('click', () => { answer.hidden = false; show.hidden = true; sayPhrase(p, 1); });
 
     box.replaceChildren(...[
       el('p', { class: 'hint', text: 'Lee la frase en español y dila en voz alta en francés. Luego revisa.' }),
@@ -368,7 +374,8 @@
 
   const setupAnchor = () => {
     document.getElementById('anchor-text').textContent = MOD.anchor;
-    document.getElementById('anchor-listen').addEventListener('click', () => speak(MOD.anchor, 1));
+    document.getElementById('anchor-listen').addEventListener('click', () => (MOD.phraseAudio && state.phraseVoice !== 'device')
+      ? playClip(`${MOD.phraseAudio}${state.phraseVoice}/anchor.mp3`, 1) : speak(MOD.anchor, 1));
     const btn = document.getElementById('anchor-rec');
     const status = document.getElementById('anchor-status');
     let rec = null;
@@ -443,6 +450,9 @@
 
   const setupSettings = () => {
     document.getElementById('app-version').textContent = VERSION;
+    const pv = document.getElementById('phrase-voice');
+    pv.value = state.phraseVoice;
+    pv.addEventListener('change', () => { state.phraseVoice = pv.value; save('phraseVoice', pv.value); sayPhrase(PHRASES[7], 1); });
     const sel = document.getElementById('voice-select');
     sel.addEventListener('change', () => { state.voiceURI = sel.value; save('voice', sel.value); });
     [['voice-paul', 'voicePaul', 'Paul', "Bonsoir ! Je m'appelle Paul."], ['voice-claire', 'voiceClaire', 'Claire', "Bonsoir ! Je m'appelle Claire."]]
