@@ -24,7 +24,9 @@ Este archivo explica cómo está hecha la app y cómo publicar cambios. Léelo a
 | `manifest.webmanifest`, `icons/` | Instalación como app. |
 | `audio/mN-dialogo/NN.mp3` | El diálogo del módulo N, una línea por archivo, en el orden de `dialogue.lines`. Ya están los módulos 1 a 8. |
 | `audio/m1-frases/{amelie,paul}/<id>.mp3` | Las frases del Módulo 1 en dos voces. `<id>` es el id de la frase (`m1-04`, o `m1-04-tu` para la versión con *tu*), más `anchor.mp3` para el texto ancla. |
+| `audio/mN-frases/amelie/<id>.mp3` (N = 2 a 8) | Las frases de los módulos 2 a 8, grabadas solo por Amélie (sin voz de Paul), con la misma regla de nombres. |
 | `podcast/epNN-*.mp3`, `podcast/feed.xml`, `podcast/cover.jpg` | Episodios y feed del podcast. |
+| `contenido/frases-02-08.json` | Las frases de los módulos 2 a 8, ya escritas y grabadas: por módulo `title`, `subtitle`, `anchor`, `blocks` (mismo formato que en `data.js`) y `noAudio` (frases cuya grabación no sirve). |
 | `contenido/episodios-02-08.json` | Guiones de los episodios 2 a 8: diálogo (quién habla, en orden), frases para repetir, preguntas con respuesta modelo. |
 | `contenido/LEEME.md` | Qué está grabado pero sin publicar. |
 
@@ -58,7 +60,7 @@ Antes de publicar el Módulo 2 hay que:
 
 ## Cómo publicar un módulo nuevo
 
-1. **Contenido** en `data.js`: el diálogo sale de `contenido/episodios-02-08.json` (mismo texto y mismo orden que el audio, porque `audio/mN-dialogo/NN.mp3` sigue ese orden). Faltan por escribir, para cada módulo: traducción al español de cada línea, preguntas de comprensión, unas 30 a 40 frases con su versión *tu* cuando aplique, gramática corta en español, plan semanal, guía de conversación y texto ancla. Seguir el estilo del Módulo 1.
+1. **Contenido** en `data.js`: el diálogo sale de `contenido/episodios-02-08.json` (mismo texto y mismo orden que el audio, porque `audio/mN-dialogo/NN.mp3` sigue ese orden). Las frases y el texto ancla salen de `contenido/frases-02-08.json` **sin cambiar ni el texto ni los `id`**, porque cada grabación tiene el nombre del `id` (y `phraseAudio: 'audio/mN-frases/'`; en Ajustes la voz "Tu voz (Paul)" no existe para estos módulos: usar Amélie). Las frases de `noAudio` deben sonar con la voz del dispositivo (hay que agregar esa excepción en `sayPhrase`). Faltan por escribir, para cada módulo: traducción al español de cada línea del diálogo, preguntas de comprensión, gramática corta en español, plan semanal y guía de conversación. Seguir el estilo del Módulo 1.
 2. **Podcast**: agregar el episodio a `CURSO.podcast` y un `<item>` a `podcast/feed.xml` (con `length` = tamaño exacto del mp3 en bytes y `itunes:duration` en segundos).
 3. **Sin conexión**: listar en `FILES` de `sw.js` todos los mp3 nuevos (diálogo y episodio).
 4. **Versión**: subir `VERSION` en `app.js` y `CACHE` en `sw.js` al mismo número. Si no se cambia `CACHE`, el iPhone no se actualiza.
@@ -69,7 +71,8 @@ Antes de publicar el Módulo 2 hay que:
 ## Audio
 
 - Voces: **Claire** = Amélie (voz francesa de ElevenLabs), **Paul** = clon de la voz de Paul, **narradora** = Lina (acento colombiano).
-- Paul planeaba cancelar ElevenLabs antes del 15 de noviembre de 2026. Sin esa suscripción **no se puede grabar audio nuevo**: confirmar con él antes de contar con ElevenLabs. Las frases de los módulos 2 a 8 se escuchan con la voz francesa del dispositivo (la app lo hace sola cuando el módulo no tiene `phraseAudio`). No proponer servicios pagos.
+- El 13 de noviembre de 2026 se usaron casi todos los créditos de ElevenLabs (quedaron 217) y Paul planeaba cancelar la suscripción antes del 15. **No contar con audio nuevo**: confirmar con él primero. Todo el audio del curso ya está grabado: podcast, diálogos y frases de los 8 módulos. Si algún texto nuevo no tiene grabación, la app usa la voz francesa del dispositivo. No proponer servicios pagos.
+- Grabación dudosa: `m5-24-tu` ("Excuse-moi, je suis perdu.") dura medio segundo; parece que la voz se saltó "Excuse-moi". Está en `noAudio`. Al publicar cada módulo, pedirle a Paul que escuche sus frases y avise si alguna suena cortada.
 - Velocidad lenta: el audio grabado se reproduce a menor velocidad sin cambiar el tono (`playbackRate` con `preservesPitch`).
 
 ## Probar antes de subir

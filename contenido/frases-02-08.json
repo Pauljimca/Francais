@@ -1,0 +1,1474 @@
+{
+ "2": {
+  "title": "Bienvenue sur l'île",
+  "subtitle": "Recibir turistas, recomendar lugares y dar direcciones",
+  "anchor": "Bienvenue à Providencia ! L'île est petite et très calme. Il y a des plages magnifiques et la mer a sept couleurs. Je vous recommande Manzanillo. Pour y aller, prenez la route principale, puis tournez à gauche. Ce n'est pas loin.",
+  "blocks": [
+   {
+    "title": "A. Recibir",
+    "phrases": [
+     {
+      "id": "m2-01",
+      "fr": "Bienvenue à Providencia !",
+      "es": "¡Bienvenido a Providencia!"
+     },
+     {
+      "id": "m2-02",
+      "fr": "C'est votre première fois sur l'île ?",
+      "es": "¿Es su primera vez en la isla?",
+      "tu": {
+       "fr": "C'est ta première fois sur l'île ?",
+       "es": "¿Es tu primera vez en la isla?"
+      }
+     },
+     {
+      "id": "m2-03",
+      "fr": "Vous restez combien de jours ?",
+      "es": "¿Cuántos días se queda?",
+      "tu": {
+       "fr": "Tu restes combien de jours ?",
+       "es": "¿Cuántos días te quedas?"
+      }
+     },
+     {
+      "id": "m2-04",
+      "fr": "Vous avez besoin d'aide ?",
+      "es": "¿Necesita ayuda?",
+      "tu": {
+       "fr": "Tu as besoin d'aide ?",
+       "es": "¿Necesitas ayuda?"
+      }
+     }
+    ]
+   },
+   {
+    "title": "B. Qué hay en la isla",
+    "phrases": [
+     {
+      "id": "m2-05",
+      "fr": "Qu'est-ce qu'il y a à voir ?",
+      "es": "¿Qué hay para ver?"
+     },
+     {
+      "id": "m2-06",
+      "fr": "Il y a des plages magnifiques.",
+      "es": "Hay playas magníficas.",
+      "note": "il y a = hay"
+     },
+     {
+      "id": "m2-07",
+      "fr": "Il y a un pont entre Providencia et Santa Catalina.",
+      "es": "Hay un puente entre Providencia y Santa Catalina."
+     },
+     {
+      "id": "m2-08",
+      "fr": "Il n'y a pas de grands hôtels ici.",
+      "es": "Aquí no hay grandes hoteles.",
+      "note": "Negación: il n'y a pas de"
+     },
+     {
+      "id": "m2-09",
+      "fr": "L'île est petite et très calme.",
+      "es": "La isla es pequeña y muy tranquila."
+     },
+     {
+      "id": "m2-10",
+      "fr": "La mer a sept couleurs.",
+      "es": "El mar tiene siete colores."
+     }
+    ]
+   },
+   {
+    "title": "C. Recomendar",
+    "phrases": [
+     {
+      "id": "m2-11",
+      "fr": "Je vous recommande Manzanillo.",
+      "es": "Le recomiendo Manzanillo.",
+      "tu": {
+       "fr": "Je te recommande Manzanillo.",
+       "es": "Te recomiendo Manzanillo."
+      }
+     },
+     {
+      "id": "m2-12",
+      "fr": "Vous devez goûter le crabe.",
+      "es": "Tiene que probar el cangrejo.",
+      "tu": {
+       "fr": "Tu dois goûter le crabe.",
+       "es": "Tienes que probar el cangrejo."
+      }
+     },
+     {
+      "id": "m2-13",
+      "fr": "C'est le meilleur endroit pour plonger.",
+      "es": "Es el mejor lugar para bucear."
+     },
+     {
+      "id": "m2-14",
+      "fr": "Le coucher de soleil est magnifique ici.",
+      "es": "El atardecer es magnífico aquí."
+     },
+     {
+      "id": "m2-15",
+      "fr": "Allez-y le matin, il y a moins de monde.",
+      "es": "Vaya en la mañana, hay menos gente.",
+      "note": "y = allá",
+      "tu": {
+       "fr": "Vas-y le matin, il y a moins de monde.",
+       "es": "Ve en la mañana, hay menos gente."
+      }
+     }
+    ]
+   },
+   {
+    "title": "D. ¿Dónde está?",
+    "phrases": [
+     {
+      "id": "m2-16",
+      "fr": "Où est la plage ?",
+      "es": "¿Dónde está la playa?"
+     },
+     {
+      "id": "m2-17",
+      "fr": "Où sont les toilettes ?",
+      "es": "¿Dónde están los baños?"
+     },
+     {
+      "id": "m2-18",
+      "fr": "C'est près d'ici.",
+      "es": "Es cerca de aquí."
+     },
+     {
+      "id": "m2-19",
+      "fr": "C'est loin d'ici.",
+      "es": "Es lejos de aquí."
+     },
+     {
+      "id": "m2-20",
+      "fr": "C'est à côté du restaurant.",
+      "es": "Está al lado del restaurante.",
+      "note": "de + le = du"
+     },
+     {
+      "id": "m2-21",
+      "fr": "C'est en face de la banque.",
+      "es": "Está frente al banco."
+     },
+     {
+      "id": "m2-22",
+      "fr": "C'est entre l'église et l'école.",
+      "es": "Está entre la iglesia y la escuela."
+     }
+    ]
+   },
+   {
+    "title": "E. Dar direcciones",
+    "phrases": [
+     {
+      "id": "m2-23",
+      "fr": "Allez tout droit.",
+      "es": "Siga derecho.",
+      "tu": {
+       "fr": "Va tout droit.",
+       "es": "Sigue derecho."
+      }
+     },
+     {
+      "id": "m2-24",
+      "fr": "Tournez à gauche.",
+      "es": "Gire a la izquierda.",
+      "tu": {
+       "fr": "Tourne à gauche.",
+       "es": "Gira a la izquierda."
+      }
+     },
+     {
+      "id": "m2-25",
+      "fr": "Tournez à droite.",
+      "es": "Gire a la derecha.",
+      "note": "droite (derecha) ≠ tout droit (derecho)",
+      "tu": {
+       "fr": "Tourne à droite.",
+       "es": "Gira a la derecha."
+      }
+     },
+     {
+      "id": "m2-26",
+      "fr": "Prenez la route principale.",
+      "es": "Tome la carretera principal."
+     },
+     {
+      "id": "m2-27",
+      "fr": "C'est à dix minutes à pied.",
+      "es": "Está a diez minutos a pie."
+     },
+     {
+      "id": "m2-28",
+      "fr": "C'est plus facile en moto-taxi.",
+      "es": "Es más fácil en mototaxi."
+     }
+    ]
+   },
+   {
+    "title": "F. Preguntas útiles",
+    "phrases": [
+     {
+      "id": "m2-29",
+      "fr": "Le bus passe à quelle heure ?",
+      "es": "¿A qué hora pasa el bus?"
+     },
+     {
+      "id": "m2-30",
+      "fr": "Combien ça coûte ?",
+      "es": "¿Cuánto cuesta?"
+     },
+     {
+      "id": "m2-31",
+      "fr": "C'est ouvert le dimanche ?",
+      "es": "¿Está abierto el domingo?"
+     },
+     {
+      "id": "m2-32",
+      "fr": "Je peux vous montrer sur la carte.",
+      "es": "Le puedo mostrar en el mapa.",
+      "tu": {
+       "fr": "Je peux te montrer sur la carte.",
+       "es": "Te puedo mostrar en el mapa."
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "3": {
+  "title": "En cuisine",
+  "subtitle": "Ingredientes, cantidades, recetas y el restaurante",
+  "anchor": "J'adore cuisiner. Le plat typique de l'île, c'est le rondón. Il y a du poisson, du lait de coco, du manioc et des bananes plantains. D'abord, je coupe le poisson. Ensuite, j'ajoute le lait de coco. Je fais cuire vingt minutes. C'est délicieux !",
+  "blocks": [
+   {
+    "title": "A. En el restaurante",
+    "phrases": [
+     {
+      "id": "m3-01",
+      "fr": "Une table pour deux, s'il vous plaît.",
+      "es": "Una mesa para dos, por favor."
+     },
+     {
+      "id": "m3-02",
+      "fr": "La carte, s'il vous plaît.",
+      "es": "La carta, por favor."
+     },
+     {
+      "id": "m3-03",
+      "fr": "Qu'est-ce que vous recommandez ?",
+      "es": "¿Qué recomienda?",
+      "tu": {
+       "fr": "Qu'est-ce que tu recommandes ?",
+       "es": "¿Qué recomiendas?"
+      }
+     },
+     {
+      "id": "m3-04",
+      "fr": "Je voudrais le poisson du jour.",
+      "es": "Quisiera el pescado del día."
+     },
+     {
+      "id": "m3-05",
+      "fr": "Pour moi, un rondón.",
+      "es": "Para mí, un rondón."
+     },
+     {
+      "id": "m3-06",
+      "fr": "L'addition, s'il vous plaît.",
+      "es": "La cuenta, por favor."
+     },
+     {
+      "id": "m3-07",
+      "fr": "C'était délicieux !",
+      "es": "¡Estuvo delicioso!"
+     }
+    ]
+   },
+   {
+    "title": "B. Ingredientes",
+    "phrases": [
+     {
+      "id": "m3-08",
+      "fr": "Il y a du poisson et du riz.",
+      "es": "Hay pescado y arroz.",
+      "note": "du = de + le (masculino)"
+     },
+     {
+      "id": "m3-09",
+      "fr": "Je mets de la noix de coco.",
+      "es": "Pongo coco.",
+      "note": "de la (femenino)"
+     },
+     {
+      "id": "m3-10",
+      "fr": "J'ajoute de l'ail et de l'oignon.",
+      "es": "Agrego ajo y cebolla.",
+      "note": "de l' ante vocal"
+     },
+     {
+      "id": "m3-11",
+      "fr": "Je prends des bananes plantains.",
+      "es": "Llevo plátanos.",
+      "note": "des (plural)"
+     },
+     {
+      "id": "m3-12",
+      "fr": "Je ne mange pas de viande.",
+      "es": "No como carne.",
+      "note": "Negación: pas de"
+     },
+     {
+      "id": "m3-13",
+      "fr": "Il n'y a plus de sel.",
+      "es": "Ya no hay sal.",
+      "note": "ne… plus = ya no"
+     }
+    ]
+   },
+   {
+    "title": "C. Cantidades",
+    "phrases": [
+     {
+      "id": "m3-14",
+      "fr": "Un kilo de poisson, s'il vous plaît.",
+      "es": "Un kilo de pescado, por favor.",
+      "note": "Después de una cantidad: de"
+     },
+     {
+      "id": "m3-15",
+      "fr": "Un litre de lait de coco.",
+      "es": "Un litro de leche de coco."
+     },
+     {
+      "id": "m3-16",
+      "fr": "Deux cents grammes de riz.",
+      "es": "Doscientos gramos de arroz."
+     },
+     {
+      "id": "m3-17",
+      "fr": "Une cuillère de sucre.",
+      "es": "Una cucharada de azúcar."
+     },
+     {
+      "id": "m3-18",
+      "fr": "Un peu de sel.",
+      "es": "Un poco de sal."
+     },
+     {
+      "id": "m3-19",
+      "fr": "Beaucoup de citron.",
+      "es": "Mucho limón."
+     },
+     {
+      "id": "m3-20",
+      "fr": "Combien de bananes ?",
+      "es": "¿Cuántos plátanos?"
+     }
+    ]
+   },
+   {
+    "title": "D. La receta",
+    "phrases": [
+     {
+      "id": "m3-21",
+      "fr": "Coupez le poisson.",
+      "es": "Corte el pescado.",
+      "note": "Imperativo",
+      "tu": {
+       "fr": "Coupe le poisson.",
+       "es": "Corta el pescado."
+      }
+     },
+     {
+      "id": "m3-22",
+      "fr": "Ajoutez le lait de coco.",
+      "es": "Agregue la leche de coco.",
+      "tu": {
+       "fr": "Ajoute le lait de coco.",
+       "es": "Agrega la leche de coco."
+      }
+     },
+     {
+      "id": "m3-23",
+      "fr": "Faites cuire vingt minutes.",
+      "es": "Cocine veinte minutos.",
+      "tu": {
+       "fr": "Fais cuire vingt minutes.",
+       "es": "Cocina veinte minutos."
+      }
+     },
+     {
+      "id": "m3-24",
+      "fr": "Mélangez bien.",
+      "es": "Mezcle bien.",
+      "tu": {
+       "fr": "Mélange bien.",
+       "es": "Mezcla bien."
+      }
+     },
+     {
+      "id": "m3-25",
+      "fr": "Servez chaud.",
+      "es": "Sirva caliente.",
+      "tu": {
+       "fr": "Sers chaud.",
+       "es": "Sirve caliente."
+      }
+     }
+    ]
+   },
+   {
+    "title": "E. Sabores",
+    "phrases": [
+     {
+      "id": "m3-26",
+      "fr": "J'ai faim !",
+      "es": "¡Tengo hambre!",
+      "note": "Con avoir: j'ai faim, j'ai soif"
+     },
+     {
+      "id": "m3-27",
+      "fr": "J'ai soif.",
+      "es": "Tengo sed."
+     },
+     {
+      "id": "m3-28",
+      "fr": "C'est trop salé.",
+      "es": "Está muy salado."
+     },
+     {
+      "id": "m3-29",
+      "fr": "C'est un peu épicé.",
+      "es": "Es un poco picante."
+     },
+     {
+      "id": "m3-30",
+      "fr": "Ça sent bon !",
+      "es": "¡Huele bien!"
+     },
+     {
+      "id": "m3-31",
+      "fr": "Bon appétit !",
+      "es": "¡Buen provecho!"
+     }
+    ]
+   }
+  ]
+ },
+ "4": {
+  "title": "J'adore cette chanson",
+  "subtitle": "Gustos y opiniones sobre música",
+  "anchor": "J'adore la musique. Je joue de la guitare et je chante. J'aime le zouk et le kompa, mais je préfère le reggae. Le rythme est joyeux. J'écris mes chansons en anglais, mais je voudrais écrire une chanson en français.",
+  "blocks": [
+   {
+    "title": "A. Mis gustos",
+    "phrases": [
+     {
+      "id": "m4-01",
+      "fr": "J'aime la musique.",
+      "es": "Me gusta la música."
+     },
+     {
+      "id": "m4-02",
+      "fr": "J'adore le reggae.",
+      "es": "Me encanta el reggae."
+     },
+     {
+      "id": "m4-03",
+      "fr": "J'aime les deux, mais je préfère le reggae.",
+      "es": "Me gustan los dos, pero prefiero el reggae."
+     },
+     {
+      "id": "m4-04",
+      "fr": "J'aime chanter.",
+      "es": "Me gusta cantar.",
+      "note": "aimer + infinitivo"
+     },
+     {
+      "id": "m4-05",
+      "fr": "Je préfère jouer en live.",
+      "es": "Prefiero tocar en vivo."
+     },
+     {
+      "id": "m4-06",
+      "fr": "Vous aimez danser ?",
+      "es": "¿Le gusta bailar?",
+      "tu": {
+       "fr": "Tu aimes danser ?",
+       "es": "¿Te gusta bailar?"
+      }
+     },
+     {
+      "id": "m4-07",
+      "fr": "Quel genre de musique vous aimez ?",
+      "es": "¿Qué género de música le gusta?",
+      "tu": {
+       "fr": "Quel genre de musique tu aimes ?",
+       "es": "¿Qué género de música te gusta?"
+      }
+     },
+     {
+      "id": "m4-08",
+      "fr": "Qui est votre chanteur préféré ?",
+      "es": "¿Quién es su cantante favorito?",
+      "tu": {
+       "fr": "Qui est ton chanteur préféré ?",
+       "es": "¿Quién es tu cantante favorito?"
+      }
+     }
+    ]
+   },
+   {
+    "title": "B. Opiniones",
+    "phrases": [
+     {
+      "id": "m4-09",
+      "fr": "C'est une belle chanson.",
+      "es": "Es una canción bonita.",
+      "note": "beau → belle (femenino)"
+     },
+     {
+      "id": "m4-10",
+      "fr": "Le rythme est joyeux.",
+      "es": "El ritmo es alegre."
+     },
+     {
+      "id": "m4-11",
+      "fr": "Les paroles sont tristes.",
+      "es": "La letra es triste.",
+      "note": "les paroles = la letra"
+     },
+     {
+      "id": "m4-12",
+      "fr": "C'est romantique.",
+      "es": "Es romántico."
+     },
+     {
+      "id": "m4-13",
+      "fr": "Cette chanson est très populaire.",
+      "es": "Esta canción es muy popular."
+     },
+     {
+      "id": "m4-14",
+      "fr": "Je trouve ça génial !",
+      "es": "¡Me parece genial!"
+     },
+     {
+      "id": "m4-15",
+      "fr": "Ce n'est pas mon style.",
+      "es": "No es mi estilo."
+     }
+    ]
+   },
+   {
+    "title": "C. La banda",
+    "phrases": [
+     {
+      "id": "m4-16",
+      "fr": "Je joue de la guitare.",
+      "es": "Toco la guitarra.",
+      "note": "jouer de + instrumento"
+     },
+     {
+      "id": "m4-17",
+      "fr": "Mon ami joue de la batterie.",
+      "es": "Mi amigo toca la batería."
+     },
+     {
+      "id": "m4-18",
+      "fr": "Nous jouons au restaurant le week-end.",
+      "es": "Tocamos en el restaurante los fines de semana."
+     },
+     {
+      "id": "m4-19",
+      "fr": "J'écris mes chansons en anglais.",
+      "es": "Escribo mis canciones en inglés."
+     },
+     {
+      "id": "m4-20",
+      "fr": "Je voudrais écrire une chanson en français.",
+      "es": "Quisiera escribir una canción en francés."
+     },
+     {
+      "id": "m4-21",
+      "fr": "Nous avons un concert ce soir.",
+      "es": "Tenemos un concierto esta noche."
+     },
+     {
+      "id": "m4-22",
+      "fr": "Le concert commence à huit heures.",
+      "es": "El concierto empieza a las ocho."
+     }
+    ]
+   },
+   {
+    "title": "D. Invitar",
+    "phrases": [
+     {
+      "id": "m4-23",
+      "fr": "Vous voulez venir ?",
+      "es": "¿Quiere venir?",
+      "tu": {
+       "fr": "Tu veux venir ?",
+       "es": "¿Quieres venir?"
+      }
+     },
+     {
+      "id": "m4-24",
+      "fr": "C'est gratuit.",
+      "es": "Es gratis."
+     },
+     {
+      "id": "m4-25",
+      "fr": "On se voit au concert !",
+      "es": "¡Nos vemos en el concierto!",
+      "note": "on = nosotros (informal)"
+     },
+     {
+      "id": "m4-26",
+      "fr": "Merci d'être venu !",
+      "es": "¡Gracias por venir!",
+      "note": "A una mujer: venue"
+     }
+    ]
+   },
+   {
+    "title": "E. Música de las islas",
+    "phrases": [
+     {
+      "id": "m4-27",
+      "fr": "Le zouk vient des Antilles.",
+      "es": "El zouk viene de las Antillas."
+     },
+     {
+      "id": "m4-28",
+      "fr": "Le kompa vient d'Haïti.",
+      "es": "El kompa viene de Haití."
+     },
+     {
+      "id": "m4-29",
+      "fr": "Le reggae vient de la Jamaïque.",
+      "es": "El reggae viene de Jamaica."
+     },
+     {
+      "id": "m4-30",
+      "fr": "Ici, on écoute beaucoup de reggae.",
+      "es": "Aquí se escucha mucho reggae."
+     }
+    ]
+   }
+  ]
+ },
+ "5": {
+  "title": "En voyage",
+  "subtitle": "Aeropuerto, transporte, hotel e imprevistos",
+  "anchor": "Demain, je vais partir en voyage. Je vais prendre l'avion pour Lyon. À l'aéroport, je vais prendre le tram pour aller à mon hôtel. J'ai une réservation pour trois nuits. Je vais visiter le centre-ville et dîner avec une amie.",
+  "blocks": [
+   {
+    "title": "A. En el aeropuerto",
+    "phrases": [
+     {
+      "id": "m5-01",
+      "fr": "Où est l'enregistrement ?",
+      "es": "¿Dónde está el check-in?"
+     },
+     {
+      "id": "m5-02",
+      "fr": "Voici mon passeport.",
+      "es": "Aquí está mi pasaporte."
+     },
+     {
+      "id": "m5-03",
+      "fr": "Mon vol part à dix heures.",
+      "es": "Mi vuelo sale a las diez.",
+      "note": "partir = salir"
+     },
+     {
+      "id": "m5-04",
+      "fr": "Le vol est en retard.",
+      "es": "El vuelo está retrasado."
+     },
+     {
+      "id": "m5-05",
+      "fr": "Ma valise n'est pas arrivée.",
+      "es": "Mi maleta no llegó."
+     },
+     {
+      "id": "m5-06",
+      "fr": "Où sont les bagages ?",
+      "es": "¿Dónde está el equipaje?"
+     }
+    ]
+   },
+   {
+    "title": "B. El transporte",
+    "phrases": [
+     {
+      "id": "m5-07",
+      "fr": "Je prends le tram.",
+      "es": "Tomo el tranvía."
+     },
+     {
+      "id": "m5-08",
+      "fr": "Je vais prendre un taxi.",
+      "es": "Voy a tomar un taxi.",
+      "note": "Futuro próximo: aller + infinitivo"
+     },
+     {
+      "id": "m5-09",
+      "fr": "Un billet pour Lyon, s'il vous plaît.",
+      "es": "Un tiquete para Lyon, por favor."
+     },
+     {
+      "id": "m5-10",
+      "fr": "Le train part de quel quai ?",
+      "es": "¿De qué andén sale el tren?"
+     },
+     {
+      "id": "m5-11",
+      "fr": "C'est combien, le billet ?",
+      "es": "¿Cuánto cuesta el tiquete?"
+     },
+     {
+      "id": "m5-12",
+      "fr": "Ce bus va au centre-ville ?",
+      "es": "¿Este bus va al centro?"
+     }
+    ]
+   },
+   {
+    "title": "C. En el hotel",
+    "phrases": [
+     {
+      "id": "m5-13",
+      "fr": "J'ai une réservation au nom de Jiménez.",
+      "es": "Tengo una reserva a nombre de Jiménez."
+     },
+     {
+      "id": "m5-14",
+      "fr": "Pour trois nuits.",
+      "es": "Para tres noches."
+     },
+     {
+      "id": "m5-15",
+      "fr": "Le petit-déjeuner est compris ?",
+      "es": "¿El desayuno está incluido?"
+     },
+     {
+      "id": "m5-16",
+      "fr": "À quelle heure est le petit-déjeuner ?",
+      "es": "¿A qué hora es el desayuno?"
+     },
+     {
+      "id": "m5-17",
+      "fr": "La clé de la chambre, s'il vous plaît.",
+      "es": "La llave de la habitación, por favor."
+     },
+     {
+      "id": "m5-18",
+      "fr": "Il n'y a pas d'eau chaude.",
+      "es": "No hay agua caliente."
+     },
+     {
+      "id": "m5-19",
+      "fr": "Le wifi ne marche pas.",
+      "es": "El wifi no funciona."
+     }
+    ]
+   },
+   {
+    "title": "D. Mis planes",
+    "phrases": [
+     {
+      "id": "m5-20",
+      "fr": "Je vais visiter le centre-ville.",
+      "es": "Voy a visitar el centro."
+     },
+     {
+      "id": "m5-21",
+      "fr": "Nous allons dîner ensemble.",
+      "es": "Vamos a cenar juntos."
+     },
+     {
+      "id": "m5-22",
+      "fr": "Je vais partir demain matin.",
+      "es": "Me voy mañana por la mañana."
+     },
+     {
+      "id": "m5-23",
+      "fr": "Qu'est-ce que vous allez faire ce soir ?",
+      "es": "¿Qué va a hacer esta noche?",
+      "tu": {
+       "fr": "Qu'est-ce que tu vas faire ce soir ?",
+       "es": "¿Qué vas a hacer esta noche?"
+      }
+     }
+    ]
+   },
+   {
+    "title": "E. Imprevistos",
+    "phrases": [
+     {
+      "id": "m5-24",
+      "fr": "Excusez-moi, je suis perdu.",
+      "es": "Disculpe, estoy perdido.",
+      "tu": {
+       "fr": "Excuse-moi, je suis perdu.",
+       "es": "Disculpa, estoy perdido."
+      }
+     },
+     {
+      "id": "m5-25",
+      "fr": "Vous pouvez m'aider ?",
+      "es": "¿Me puede ayudar?",
+      "tu": {
+       "fr": "Tu peux m'aider ?",
+       "es": "¿Me puedes ayudar?"
+      }
+     },
+     {
+      "id": "m5-26",
+      "fr": "J'ai perdu mon téléphone.",
+      "es": "Perdí mi teléfono."
+     },
+     {
+      "id": "m5-27",
+      "fr": "Où est la pharmacie ?",
+      "es": "¿Dónde está la farmacia?"
+     },
+     {
+      "id": "m5-28",
+      "fr": "Appelez un taxi, s'il vous plaît.",
+      "es": "Llame un taxi, por favor.",
+      "tu": {
+       "fr": "Appelle un taxi, s'il te plaît.",
+       "es": "Llama un taxi, por favor."
+      }
+     },
+     {
+      "id": "m5-29",
+      "fr": "C'est urgent.",
+      "es": "Es urgente."
+     },
+     {
+      "id": "m5-30",
+      "fr": "Bon voyage !",
+      "es": "¡Buen viaje!"
+     }
+    ]
+   }
+  ],
+  "noAudio": [
+   "m5-24-tu"
+  ]
+ },
+ "6": {
+  "title": "Ma vie sur l'île",
+  "subtitle": "Rutina, clima y lo que hiciste ayer",
+  "anchor": "Je me lève tôt et je prends un café. Le matin, je donne mes cours d'anglais en ligne. Le soir, je joue de la guitare. Hier, il a fait très chaud. Je suis allé à la plage et j'ai cuisiné un rondón. J'adore ma vie sur l'île !",
+  "blocks": [
+   {
+    "title": "A. Mi rutina",
+    "phrases": [
+     {
+      "id": "m6-01",
+      "fr": "Je me réveille à six heures.",
+      "es": "Me despierto a las seis.",
+      "note": "Verbo pronominal: se réveiller"
+     },
+     {
+      "id": "m6-02",
+      "fr": "Je me lève tôt.",
+      "es": "Me levanto temprano."
+     },
+     {
+      "id": "m6-03",
+      "fr": "Je me douche et je m'habille.",
+      "es": "Me ducho y me visto."
+     },
+     {
+      "id": "m6-04",
+      "fr": "Je prends un café.",
+      "es": "Me tomo un café."
+     },
+     {
+      "id": "m6-05",
+      "fr": "Je donne mes cours d'anglais en ligne.",
+      "es": "Doy mis clases de inglés en línea."
+     },
+     {
+      "id": "m6-06",
+      "fr": "L'après-midi, je travaille pour une entreprise américaine.",
+      "es": "En la tarde, trabajo para una empresa estadounidense."
+     },
+     {
+      "id": "m6-07",
+      "fr": "Le soir, je joue de la guitare.",
+      "es": "En la noche, toco la guitarra."
+     },
+     {
+      "id": "m6-08",
+      "fr": "Je me couche vers dix heures.",
+      "es": "Me acuesto hacia las diez."
+     },
+     {
+      "id": "m6-09",
+      "fr": "Vous vous levez à quelle heure ?",
+      "es": "¿A qué hora se levanta?",
+      "tu": {
+       "fr": "Tu te lèves à quelle heure ?",
+       "es": "¿A qué hora te levantas?"
+      }
+     }
+    ]
+   },
+   {
+    "title": "B. El clima",
+    "phrases": [
+     {
+      "id": "m6-10",
+      "fr": "Il fait beau.",
+      "es": "Hace buen tiempo.",
+      "note": "El clima va con faire"
+     },
+     {
+      "id": "m6-11",
+      "fr": "Il fait chaud.",
+      "es": "Hace calor."
+     },
+     {
+      "id": "m6-12",
+      "fr": "Il pleut.",
+      "es": "Llueve."
+     },
+     {
+      "id": "m6-13",
+      "fr": "Il y a du vent.",
+      "es": "Hace viento."
+     },
+     {
+      "id": "m6-14",
+      "fr": "Il va pleuvoir cet après-midi.",
+      "es": "Va a llover esta tarde."
+     },
+     {
+      "id": "m6-15",
+      "fr": "Quel temps fait-il chez vous ?",
+      "es": "¿Qué tiempo hace donde usted vive?",
+      "tu": {
+       "fr": "Quel temps fait-il chez toi ?",
+       "es": "¿Qué tiempo hace donde vives?"
+      }
+     }
+    ]
+   },
+   {
+    "title": "C. Ayer (con avoir)",
+    "phrases": [
+     {
+      "id": "m6-16",
+      "fr": "Hier, j'ai travaillé toute la journée.",
+      "es": "Ayer trabajé todo el día.",
+      "note": "Passé composé: avoir + participio"
+     },
+     {
+      "id": "m6-17",
+      "fr": "J'ai cuisiné un rondón.",
+      "es": "Cociné un rondón."
+     },
+     {
+      "id": "m6-18",
+      "fr": "J'ai joué au restaurant avec mon groupe.",
+      "es": "Toqué en el restaurante con mi banda."
+     },
+     {
+      "id": "m6-19",
+      "fr": "J'ai regardé le coucher de soleil.",
+      "es": "Miré el atardecer."
+     },
+     {
+      "id": "m6-20",
+      "fr": "Qu'est-ce que vous avez fait hier ?",
+      "es": "¿Qué hizo ayer?",
+      "tu": {
+       "fr": "Qu'est-ce que tu as fait hier ?",
+       "es": "¿Qué hiciste ayer?"
+      }
+     }
+    ]
+   },
+   {
+    "title": "D. Ayer (con être)",
+    "phrases": [
+     {
+      "id": "m6-21",
+      "fr": "Je suis allé à la plage.",
+      "es": "Fui a la playa.",
+      "note": "aller, venir, rester, rentrer usan être"
+     },
+     {
+      "id": "m6-22",
+      "fr": "Je suis rentré tard.",
+      "es": "Volví tarde."
+     },
+     {
+      "id": "m6-23",
+      "fr": "Je suis resté à la maison.",
+      "es": "Me quedé en casa."
+     },
+     {
+      "id": "m6-24",
+      "fr": "Nous sommes allés au concert.",
+      "es": "Fuimos al concierto."
+     }
+    ]
+   },
+   {
+    "title": "E. El fin de semana",
+    "phrases": [
+     {
+      "id": "m6-25",
+      "fr": "Le week-end, je me repose.",
+      "es": "El fin de semana descanso."
+     },
+     {
+      "id": "m6-26",
+      "fr": "Je vais à la plage avec ma famille.",
+      "es": "Voy a la playa con mi familia."
+     },
+     {
+      "id": "m6-27",
+      "fr": "Je fais du sport.",
+      "es": "Hago deporte."
+     },
+     {
+      "id": "m6-28",
+      "fr": "Le dimanche, c'est calme sur l'île.",
+      "es": "Los domingos todo está tranquilo en la isla."
+     },
+     {
+      "id": "m6-29",
+      "fr": "J'adore ma vie sur l'île !",
+      "es": "¡Me encanta mi vida en la isla!"
+     }
+    ]
+   }
+  ]
+ },
+ "7": {
+  "title": "Les nouvelles",
+  "subtitle": "Contar una noticia y hablar del pasado",
+  "anchor": "Hier, j'ai lu un article sur Providencia. Il dit que l'île est très calme et que la mer a sept couleurs. Avant, il y avait peu de touristes. Maintenant, les plongeurs y vont tous les jours. J'en ai parlé à mes amis. À mon avis, c'est une bonne nouvelle.",
+  "blocks": [
+   {
+    "title": "A. Contar una noticia",
+    "phrases": [
+     {
+      "id": "m7-01",
+      "fr": "Vous avez vu les nouvelles ?",
+      "es": "¿Vio las noticias?",
+      "tu": {
+       "fr": "Tu as vu les nouvelles ?",
+       "es": "¿Viste las noticias?"
+      }
+     },
+     {
+      "id": "m7-02",
+      "fr": "J'ai lu un article intéressant.",
+      "es": "Leí un artículo interesante."
+     },
+     {
+      "id": "m7-03",
+      "fr": "Il dit que l'île est très calme.",
+      "es": "Dice que la isla es muy tranquila.",
+      "note": "dire que = decir que"
+     },
+     {
+      "id": "m7-04",
+      "fr": "Selon le journal, il va pleuvoir.",
+      "es": "Según el periódico, va a llover."
+     },
+     {
+      "id": "m7-05",
+      "fr": "C'est une bonne nouvelle !",
+      "es": "¡Es una buena noticia!"
+     },
+     {
+      "id": "m7-06",
+      "fr": "C'est une mauvaise nouvelle.",
+      "es": "Es una mala noticia."
+     },
+     {
+      "id": "m7-07",
+      "fr": "Je ne savais pas !",
+      "es": "¡No sabía!"
+     }
+    ]
+   },
+   {
+    "title": "B. El turismo",
+    "phrases": [
+     {
+      "id": "m7-08",
+      "fr": "Il y a de plus en plus de touristes.",
+      "es": "Hay cada vez más turistas."
+     },
+     {
+      "id": "m7-09",
+      "fr": "Les touristes viennent pour la plongée.",
+      "es": "Los turistas vienen por el buceo."
+     },
+     {
+      "id": "m7-10",
+      "fr": "L'hôtel a ouvert l'année dernière.",
+      "es": "El hotel abrió el año pasado."
+     },
+     {
+      "id": "m7-11",
+      "fr": "Le festival a eu beaucoup de succès.",
+      "es": "El festival tuvo mucho éxito."
+     },
+     {
+      "id": "m7-12",
+      "fr": "Les vols sont plus chers cette année.",
+      "es": "Los vuelos están más caros este año."
+     }
+    ]
+   },
+   {
+    "title": "C. Antes (imparfait)",
+    "phrases": [
+     {
+      "id": "m7-13",
+      "fr": "Avant, il y avait peu de touristes.",
+      "es": "Antes había pocos turistas.",
+      "note": "Imparfait: lo que pasaba antes"
+     },
+     {
+      "id": "m7-14",
+      "fr": "Quand j'étais petit, j'habitais dans une autre ville.",
+      "es": "Cuando era niño, vivía en otra ciudad."
+     },
+     {
+      "id": "m7-15",
+      "fr": "Avant, je ne parlais pas français.",
+      "es": "Antes no hablaba francés."
+     },
+     {
+      "id": "m7-16",
+      "fr": "Il faisait très chaud.",
+      "es": "Hacía mucho calor."
+     },
+     {
+      "id": "m7-17",
+      "fr": "Nous étions à la plage quand il a commencé à pleuvoir.",
+      "es": "Estábamos en la playa cuando empezó a llover.",
+      "note": "Imparfait (escena) + passé composé (lo que pasó)"
+     }
+    ]
+   },
+   {
+    "title": "D. Y y en",
+    "phrases": [
+     {
+      "id": "m7-18",
+      "fr": "J'y vais demain.",
+      "es": "Voy allá mañana.",
+      "note": "y = allá"
+     },
+     {
+      "id": "m7-19",
+      "fr": "Les plongeurs y vont tous les jours.",
+      "es": "Los buzos van allá todos los días."
+     },
+     {
+      "id": "m7-20",
+      "fr": "Vous y êtes déjà allé ?",
+      "es": "¿Ya ha ido allá?",
+      "tu": {
+       "fr": "Tu y es déjà allé ?",
+       "es": "¿Ya has ido allá?"
+      }
+     },
+     {
+      "id": "m7-21",
+      "fr": "J'en ai parlé à mes amis.",
+      "es": "Les hablé de eso a mis amigos.",
+      "note": "en = de eso"
+     },
+     {
+      "id": "m7-22",
+      "fr": "Il y en a beaucoup.",
+      "es": "Hay muchos."
+     },
+     {
+      "id": "m7-23",
+      "fr": "Je n'en sais rien.",
+      "es": "No sé nada de eso."
+     }
+    ]
+   },
+   {
+    "title": "E. Reaccionar",
+    "phrases": [
+     {
+      "id": "m7-24",
+      "fr": "C'est vrai ?",
+      "es": "¿De verdad?"
+     },
+     {
+      "id": "m7-25",
+      "fr": "Ce n'est pas possible !",
+      "es": "¡No puede ser!"
+     },
+     {
+      "id": "m7-26",
+      "fr": "Quelle surprise !",
+      "es": "¡Qué sorpresa!"
+     },
+     {
+      "id": "m7-27",
+      "fr": "Je suis d'accord.",
+      "es": "Estoy de acuerdo."
+     },
+     {
+      "id": "m7-28",
+      "fr": "Je ne suis pas d'accord.",
+      "es": "No estoy de acuerdo."
+     },
+     {
+      "id": "m7-29",
+      "fr": "À mon avis, c'est une bonne idée.",
+      "es": "En mi opinión, es una buena idea."
+     },
+     {
+      "id": "m7-30",
+      "fr": "Qu'est-ce que vous en pensez ?",
+      "es": "¿Qué opina de eso?",
+      "tu": {
+       "fr": "Qu'est-ce que tu en penses ?",
+       "es": "¿Qué opinas de eso?"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "8": {
+  "title": "Mes projets",
+  "subtitle": "Planes, deseos e invitaciones",
+  "anchor": "L'année prochaine, je parlerai mieux français. J'enregistrerai de nouvelles chansons, et peut-être une chanson en français. Je voudrais voyager en France et je visiterai Paris. Si j'avais plus de temps, j'apprendrais aussi l'italien. Ce serait génial !",
+  "blocks": [
+   {
+    "title": "A. Mis proyectos",
+    "phrases": [
+     {
+      "id": "m8-01",
+      "fr": "L'année prochaine, je parlerai mieux français.",
+      "es": "El próximo año hablaré mejor francés.",
+      "note": "Futur simple: infinitivo + -ai"
+     },
+     {
+      "id": "m8-02",
+      "fr": "Je voyagerai en France.",
+      "es": "Viajaré a Francia."
+     },
+     {
+      "id": "m8-03",
+      "fr": "Je visiterai Paris.",
+      "es": "Visitaré París."
+     },
+     {
+      "id": "m8-04",
+      "fr": "J'enregistrerai de nouvelles chansons.",
+      "es": "Grabaré nuevas canciones."
+     },
+     {
+      "id": "m8-05",
+      "fr": "Nous ferons un concert à Bogotá.",
+      "es": "Haremos un concierto en Bogotá.",
+      "note": "faire → je ferai, nous ferons"
+     },
+     {
+      "id": "m8-06",
+      "fr": "Ce sera une surprise !",
+      "es": "¡Será una sorpresa!",
+      "note": "être → ce sera"
+     },
+     {
+      "id": "m8-07",
+      "fr": "Qu'est-ce que vous ferez l'année prochaine ?",
+      "es": "¿Qué hará el próximo año?",
+      "tu": {
+       "fr": "Qu'est-ce que tu feras l'année prochaine ?",
+       "es": "¿Qué harás el próximo año?"
+      }
+     }
+    ]
+   },
+   {
+    "title": "B. Deseos (condicional)",
+    "phrases": [
+     {
+      "id": "m8-08",
+      "fr": "Je voudrais apprendre l'italien.",
+      "es": "Quisiera aprender italiano."
+     },
+     {
+      "id": "m8-09",
+      "fr": "J'aimerais voyager en Europe.",
+      "es": "Me gustaría viajar a Europa."
+     },
+     {
+      "id": "m8-10",
+      "fr": "Ce serait génial !",
+      "es": "¡Sería genial!"
+     },
+     {
+      "id": "m8-11",
+      "fr": "Si j'avais plus de temps, je voyagerais en France.",
+      "es": "Si tuviera más tiempo, viajaría a Francia.",
+      "note": "si + imparfait → condicional"
+     },
+     {
+      "id": "m8-12",
+      "fr": "Vous pourriez m'aider ?",
+      "es": "¿Podría ayudarme?",
+      "tu": {
+       "fr": "Tu pourrais m'aider ?",
+       "es": "¿Podrías ayudarme?"
+      }
+     },
+     {
+      "id": "m8-13",
+      "fr": "Ça vous dirait de venir ?",
+      "es": "¿Le gustaría venir?",
+      "tu": {
+       "fr": "Ça te dirait de venir ?",
+       "es": "¿Te gustaría venir?"
+      }
+     }
+    ]
+   },
+   {
+    "title": "C. Invitar",
+    "phrases": [
+     {
+      "id": "m8-14",
+      "fr": "Je vous invite à dîner.",
+      "es": "Lo invito a cenar.",
+      "tu": {
+       "fr": "Je t'invite à dîner.",
+       "es": "Te invito a cenar."
+      }
+     },
+     {
+      "id": "m8-15",
+      "fr": "Vous êtes libre samedi ?",
+      "es": "¿Está libre el sábado?",
+      "tu": {
+       "fr": "Tu es libre samedi ?",
+       "es": "¿Estás libre el sábado?"
+      }
+     },
+     {
+      "id": "m8-16",
+      "fr": "Avec plaisir !",
+      "es": "¡Con gusto!"
+     },
+     {
+      "id": "m8-17",
+      "fr": "Désolé, je ne peux pas.",
+      "es": "Lo siento, no puedo."
+     },
+     {
+      "id": "m8-18",
+      "fr": "Peut-être une autre fois.",
+      "es": "Quizás otro día."
+     },
+     {
+      "id": "m8-19",
+      "fr": "On se retrouve à quelle heure ?",
+      "es": "¿A qué hora nos encontramos?"
+     },
+     {
+      "id": "m8-20",
+      "fr": "Rendez-vous à huit heures.",
+      "es": "Nos vemos a las ocho."
+     }
+    ]
+   },
+   {
+    "title": "D. Más adelante",
+    "phrases": [
+     {
+      "id": "m8-21",
+      "fr": "Quand j'aurai le temps, j'écrirai une chanson en français.",
+      "es": "Cuando tenga tiempo, escribiré una canción en francés.",
+      "note": "Después de quand: futuro"
+     },
+     {
+      "id": "m8-22",
+      "fr": "Je reviendrai bientôt.",
+      "es": "Volveré pronto."
+     },
+     {
+      "id": "m8-23",
+      "fr": "Nous verrons.",
+      "es": "Ya veremos."
+     },
+     {
+      "id": "m8-24",
+      "fr": "Je vous tiendrai au courant.",
+      "es": "Lo mantendré al tanto.",
+      "tu": {
+       "fr": "Je te tiendrai au courant.",
+       "es": "Te mantendré al tanto."
+      }
+     }
+    ]
+   },
+   {
+    "title": "E. Despedirse",
+    "phrases": [
+     {
+      "id": "m8-25",
+      "fr": "Merci pour tout !",
+      "es": "¡Gracias por todo!"
+     },
+     {
+      "id": "m8-26",
+      "fr": "Merci pour l'invitation.",
+      "es": "Gracias por la invitación."
+     },
+     {
+      "id": "m8-27",
+      "fr": "C'était un plaisir.",
+      "es": "Fue un placer."
+     },
+     {
+      "id": "m8-28",
+      "fr": "Bon courage !",
+      "es": "¡Ánimo!"
+     },
+     {
+      "id": "m8-29",
+      "fr": "À bientôt !",
+      "es": "¡Hasta pronto!"
+     },
+     {
+      "id": "m8-30",
+      "fr": "À l'année prochaine !",
+      "es": "¡Hasta el próximo año!"
+     }
+    ]
+   }
+  ]
+ }
+}
