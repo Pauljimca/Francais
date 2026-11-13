@@ -71,7 +71,7 @@ Antes de publicar el Módulo 2 hay que:
 ## Audio
 
 - Voces: **Claire** = Amélie (voz francesa de ElevenLabs), **Paul** = clon de la voz de Paul, **narradora** = Lina (acento colombiano).
-- El 13 de noviembre de 2026 se usaron casi todos los créditos de ElevenLabs (quedaron 217) y Paul planeaba cancelar la suscripción antes del 15. **No contar con audio nuevo**: confirmar con él primero. Todo el audio del curso ya está grabado: podcast, diálogos y frases de los 8 módulos. Si algún texto nuevo no tiene grabación, la app usa la voz francesa del dispositivo. No proponer servicios pagos.
+- Paul canceló la suscripción de ElevenLabs el 13 de noviembre de 2026, después de grabar todo (quedaron 217 créditos). **No hay forma de grabar audio nuevo**: no contar con ElevenLabs. Todo el audio del curso ya está grabado: podcast, diálogos y frases de los 8 módulos. Si algún texto nuevo no tiene grabación, la app usa la voz francesa del dispositivo. No proponer servicios pagos.
 - Grabación dudosa: `m5-24-tu` ("Excuse-moi, je suis perdu.") dura medio segundo; parece que la voz se saltó "Excuse-moi". Está en `noAudio`. Al publicar cada módulo, pedirle a Paul que escuche sus frases y avise si alguna suena cortada.
 - Velocidad lenta: el audio grabado se reproduce a menor velocidad sin cambiar el tono (`playbackRate` con `preservesPitch`).
 
