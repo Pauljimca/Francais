@@ -1,6 +1,6 @@
 // Guarda la app en el dispositivo para que funcione sin conexión.
 // Cambia CACHE cada vez que se publique una versión nueva.
-const CACHE = 'francais-v1.5.0';
+const CACHE = 'francais-v1.6.0';
 const FILES = [
   './',
   'index.html',

@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.5.0';
+  const VERSION = '1.6.0';
   // Módulos: el actual se elige en Ajustes (por defecto, el más reciente).
   const MODULES = window.CURSO.modules;
   const savedModule = (() => { try { return JSON.parse(localStorage.getItem('fr.module')); } catch (e) { return null; } })();
@@ -189,7 +189,7 @@
   const voiceFor = m => (m.voices || ['amelie']).includes(state.phraseVoice) ? state.phraseVoice : 'amelie';
   const sayPhrase = (p, rate = 1) => {
     const m = p._mod || MOD;
-    if (!m.phraseAudio || state.phraseVoice === 'device' || (m.noAudio || []).includes(clipKey(p))) return speak(variant(p).fr, rate);
+    if (!m.phraseAudio || state.phraseVoice === 'device' || (m.noAudio || []).includes(clipKey(p))) { const v = variant(p); return speak(v.say || v.fr, rate, m === BASES_MOD ? basesVoice() : {}); }
     return playClip(`${m.phraseAudio}${voiceFor(m)}/${clipKey(p)}.mp3`, rate);
   };
 
@@ -292,12 +292,16 @@
   let queue = [];
   const buildQueue = () => {
     const t = today();
-    const due = ALL_PHRASES.filter(p => { const s = state.srs[p.id]; return !s || s.due <= t; });
+    const due = reviewPhrases().filter(p => { const s = state.srs[p.id]; return !s || s.due <= t; });
     const starred = due.filter(p => state.stars[p.id]);
     const rest = due.filter(p => !state.stars[p.id]);
     // Las difíciles primero; luego las vencidas, las nuevas al final. Máximo 20 por sesión.
     rest.sort((a, b) => ((state.srs[a.id] ? 0 : 1) - (state.srs[b.id] ? 0 : 1)));
-    queue = starred.concat(rest).slice(0, 20);
+    const ordered = starred.concat(rest);
+    // Las frases de Bases (si Paul las añadió) tienen hasta 5 lugares, para que no queden siempre detrás de las nuevas de los módulos.
+    const fromBases = ordered.filter(p => p._mod === BASES_MOD);
+    const main = ordered.filter(p => p._mod !== BASES_MOD).slice(0, 20 - Math.min(fromBases.length, 5));
+    queue = main.concat(fromBases.slice(0, 20 - main.length));
   };
 
   const rate = (p, grade) => {
@@ -343,7 +347,7 @@
     box.replaceChildren(...[
       el('p', { class: 'hint', text: 'Lee la frase en español y dila en voz alta en francés. Luego revisa.' }),
       el('div', { class: 'card review-card' },
-        el('p', { class: 'review-meta', text: `Quedan ${queue.length}` + (state.stars[p.id] ? ' · ★ difícil' : '') }),
+        el('p', { class: 'review-meta', text: `Quedan ${queue.length}` + (p._mod === BASES_MOD ? ' · Bases' : '') + (state.stars[p.id] ? ' · ★ difícil' : '') }),
         el('p', { class: 'es', text: v.es }),
         show,
         answer
@@ -770,10 +774,363 @@
     ].filter(Boolean));
   };
 
+  // ---------- Vista: Bases (aparte de los módulos, igual para cualquier idioma) ----------
+  // El contenido está en CURSO.bases (data.js). Todo suena con la voz del dispositivo.
+  const BASES = window.CURSO.bases || { parts: [], exercises: {} };
+  const BX = BASES.exercises || {};
+  const BASES_MOD = { id: 'bases' }; // sin phraseAudio: sayPhrase usa la voz del dispositivo
+  BASES.parts.forEach(pt => (pt.phrases || []).forEach(p => { p._mod = BASES_MOD; }));
+  let basesReview = load('basesReview', []); // partes cuyas frases están en el Repaso
+  // Bases suena con voz de mujer: la de "Claire" en Ajustes, o la primera voz francesa femenina del dispositivo.
+  // Si el dispositivo no tiene ninguna, usa la voz francesa normal (sin cambiar el tono).
+  const basesVoice = () => { const v = speakerVoice('Claire'); return v ? { voice: v } : {}; };
+  function reviewPhrases() {
+    return ALL_PHRASES.concat(BASES.parts.filter(pt => basesReview.includes(pt.id)).flatMap(pt => pt.phrases || []));
+  }
+
+  const EXERCISES = [
+    { id: 'escribir', title: 'Escribir el número', desc: 'Escucha un número y escríbelo en cifras' },
+    { id: 'decir', title: 'Decir el número', desc: 'Ve un número, dilo en voz alta, grábate y compara' },
+    { id: 'deletreo', title: 'Deletreo', desc: 'Escucha una palabra deletreada y escríbela' },
+    { id: 'pares', title: 'Pares parecidos', desc: 'Escucha y elige cuál de las dos palabras oíste' }
+  ];
+  const EX_FOR_PART = { alfabeto: ['deletreo'], numeros: ['escribir', 'decir'], pronunciacion: ['pares'], errores: ['pares', 'escribir'] };
+
+  let basesPage = 'index';
+  let ex = null; // estado del ejercicio abierto
+  let tilesToken = 0;
+  const cleanSpeech = t => t.replace(/[‿|✓✗]/g, ' ').replace(/\s+/g, ' ').trim();
+  const sayB = (text, slow) => {
+    tilesToken++;
+    if (currentAudio) currentAudio.pause();
+    return speak(cleanSpeech(text), slow ? state.slowRate : 1, basesVoice());
+  };
+  const basesNav = page => { basesPage = page; ex = null; tilesToken++; stopRecording(); renderBases(); window.scrollTo(0, 0); };
+  const backBtn = (label, fn) => el('button', { type: 'button', class: 'back', text: label, onclick: fn });
+  const playBtns = text => el('div', { class: 'btns' },
+    el('button', { type: 'button', class: 'btn', text: '▶', 'aria-label': 'Escuchar', onclick: () => sayB(text) }),
+    el('button', { type: 'button', class: 'btn', text: 'Lento', onclick: () => sayB(text, true) }));
+  const htmlBlock = html => { const d = el('div', { class: 'bases-intro' }); d.innerHTML = html; return d; };
+
+  const bItem = it => {
+    if (it.right) {
+      return el('div', { class: 'bitem nok' },
+        el('div', {},
+          el('p', { class: 'wrong', text: '✗ ' + it.wrong }),
+          el('p', { class: 'fr', lang: 'fr', text: '✓ ' + it.right }),
+          it.es ? el('p', { class: 'es', text: it.es }) : null),
+        playBtns(it.say || it.right));
+    }
+    return el('div', { class: 'bitem' + (it.k ? '' : ' nok') },
+      it.k ? el('span', { class: 'k', text: it.k }) : null,
+      el('div', {},
+        el('p', { class: 'fr', lang: 'fr', text: it.fr }),
+        it.es ? el('p', { class: 'es', text: it.es }) : null),
+      playBtns(it.say || it.fr));
+  };
+
+  const tilesBlock = items => {
+    const tiles = items.map(it => el('button', {
+      type: 'button', class: 'tile', 'aria-label': `${it.k}: ${it.fr}`, onclick: () => sayB(it.say || it.fr)
+    }, el('b', { text: it.k }), el('span', { lang: 'fr', text: it.fr })));
+    const all = el('button', { type: 'button', class: 'btn', text: '▶ Todas, lento' });
+    all.addEventListener('click', async () => {
+      const token = ++tilesToken;
+      for (let i = 0; i < items.length && token === tilesToken; i++) {
+        tiles.forEach((t, j) => t.classList.toggle('playing', j === i));
+        await speak(cleanSpeech(items[i].say || items[i].fr), state.slowRate, basesVoice());
+        if (token === tilesToken) await sleep(700); // tiempo para repetir
+      }
+      tiles.forEach(t => t.classList.remove('playing'));
+    });
+    return [el('div', { class: 'row', style: 'margin-top:0' }, all,
+      el('button', { type: 'button', class: 'btn', text: '■ Parar', onclick: () => { tilesToken++; synth && synth.cancel(); } })),
+    el('div', { class: 'tiles' }, tiles)];
+  };
+
+  const exMenu = ids => el('div', { class: 'menu' }, EXERCISES.filter(e => ids.includes(e.id)).map(e =>
+    el('button', { type: 'button', class: 'menu-item', onclick: () => basesNav('ex:' + e.id) },
+      el('b', { text: e.title }), el('span', { text: e.desc }))));
+
+  const renderBasesIndex = box => {
+    const inReview = reviewPhrases().length - ALL_PHRASES.length;
+    box.replaceChildren(
+      backBtn('‹ Más', () => showTab('mas')),
+      el('h2', { text: BASES.title || 'Bases' }),
+      el('p', { class: 'hint', text: BASES.intro || '' }),
+      el('div', { class: 'menu' }, BASES.parts.map(pt =>
+        el('button', { type: 'button', class: 'menu-item', onclick: () => basesNav('part:' + pt.id) },
+          el('b', {}, el('span', { class: 'num', text: pt.num + '. ' }), pt.title),
+          el('span', { text: pt.subtitle })))),
+      el('h2', { text: 'Ejercicios' }),
+      exMenu(EXERCISES.map(e => e.id)),
+      el('p', { class: 'muted small', style: 'margin-top:1rem', text: inReview
+        ? `Hay ${inReview} frases de Bases en tu Repaso.`
+        : 'Cada parte tiene unas frases útiles que puedes añadir a tu Repaso.' })
+    );
+  };
+
+  const renderBasesPart = (box, pt) => {
+    const phrases = pt.phrases || [];
+    const reviewBtn = el('button', { type: 'button', class: 'btn' + (basesReview.includes(pt.id) ? ' on' : ' primary') });
+    const refreshReviewBtn = () => {
+      const on = basesReview.includes(pt.id);
+      reviewBtn.textContent = on ? 'En tu Repaso ✓ (tocar para quitar)' : 'Añadir estas frases al Repaso';
+      reviewBtn.className = 'btn' + (on ? ' on' : ' primary');
+    };
+    reviewBtn.addEventListener('click', () => {
+      basesReview = basesReview.includes(pt.id) ? basesReview.filter(x => x !== pt.id) : basesReview.concat(pt.id);
+      save('basesReview', basesReview);
+      refreshReviewBtn();
+    });
+    refreshReviewBtn();
+    const exIds = EX_FOR_PART[pt.id] || [];
+    box.replaceChildren(...[
+      backBtn('‹ Bases', () => basesNav('index')),
+      el('h2', { text: `${pt.num}. ${pt.title}` }),
+      el('p', { class: 'hint', text: pt.subtitle }),
+      ...pt.sections.map(sec => el('section', {},
+        el('h3', { text: sec.title }),
+        sec.html ? htmlBlock(sec.html) : null,
+        el('div', { class: 'card' }, sec.grid ? tilesBlock(sec.items) : sec.items.map(bItem)))),
+      phrases.length ? el('h2', { text: 'Frases para el Repaso' }) : null,
+      phrases.length ? el('p', { class: 'hint', text: 'Si las añades, salen en el Repaso con las de los módulos: lees el español y las dices en francés.' }) : null,
+      phrases.length ? el('div', { class: 'card' }, phrases.map(p => bItem({ fr: p.fr, es: p.es, say: p.say }))) : null,
+      phrases.length ? el('div', { class: 'row' }, reviewBtn) : null,
+      exIds.length ? el('h2', { text: 'Practica' }) : null,
+      exIds.length ? exMenu(exIds) : null
+    ].filter(Boolean));
+  };
+
+  // --- Ejercicios ---
+  const pickOther = (list, last) => {
+    if (list.length < 2) return list[0];
+    let x; do { x = list[Math.floor(Math.random() * list.length)]; } while (x === last);
+    return x;
+  };
+  const numberRanges = () => BX.numberRanges || [{ id: '0-100', label: '0 a 100', min: 0, max: 100 }];
+  const currentRange = () => numberRanges().find(r => r.id === load('basesRange', '0-100')) || numberRanges()[0];
+  const randNumber = (r, last) => {
+    let n;
+    do { n = (r.min + Math.floor(Math.random() * (r.max - r.min + 1))) * (r.mult || 1); } while (n === last && r.max > r.min);
+    return n;
+  };
+  const words = n => BASES.numberWords ? BASES.numberWords(n) : String(n);
+  const fmtNum = n => n.toLocaleString('fr-FR').replace(/ | /g, ' ');
+  const scoreLine = () => el('p', { class: 'muted small', text: ex.total ? `Aciertos: ${ex.right} de ${ex.total}` : 'Sin respuestas todavía.' });
+
+  const rangeChips = () => el('div', { class: 'ranges' }, numberRanges().map(r =>
+    el('button', {
+      type: 'button', class: 'chip' + (r.id === currentRange().id ? ' active' : ''), text: r.label,
+      onclick: () => { save('basesRange', r.id); ex.n = null; nextNumber(); }
+    })));
+
+  const nextNumber = () => {
+    ex.n = randNumber(currentRange(), ex.n);
+    ex.checked = false; ex.ok = null; ex.input = ''; ex.revealed = false; ex.clip = null;
+    renderBases();
+    if (ex.type === 'escribir') sayB(words(ex.n));
+  };
+
+  const spellOut = w => {
+    const map = BX.spell || {};
+    const chars = [...w.toLowerCase()];
+    const parts = [];
+    for (let i = 0; i < chars.length; i++) {
+      const c = chars[i];
+      if (!map[c]) continue;
+      if (chars[i + 1] === c && /\p{L}/u.test(c)) { parts.push(`${BX.double || 'deux'} ${map[c]}`); i++; }
+      else parts.push(map[c]);
+    }
+    return parts.join(', ');
+  };
+  const noAccents = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+  const nextWord = () => {
+    ex.word = pickOther(BX.spellWords || [], ex.word);
+    ex.checked = false; ex.ok = null; ex.input = '';
+    renderBases();
+    sayB(spellOut(ex.word.w), true);
+  };
+
+  const nextPair = () => {
+    ex.pair = pickOther(BX.pairs || [], ex.pair);
+    ex.side = Math.random() < 0.5 ? 'a' : 'b';
+    ex.picked = null;
+    renderBases();
+    sayB(ex.pair[ex.side].fr);
+  };
+
+  const exScreen = (box, title, hint, ...body) => box.replaceChildren(...[
+    backBtn('‹ Bases', () => basesNav('index')),
+    el('h2', { text: title }),
+    el('p', { class: 'hint', text: hint }),
+    ...body
+  ].filter(Boolean));
+
+  const renderExEscribir = box => {
+    const input = el('input', { class: 'ex-input', type: 'text', inputmode: 'numeric', autocomplete: 'off', placeholder: 'En cifras', 'aria-label': 'Número en cifras' });
+    input.value = ex.input || '';
+    input.disabled = ex.checked;
+    input.addEventListener('input', () => { ex.input = input.value; });
+    const check = () => {
+      if (ex.checked) { nextNumber(); return; }
+      const v = Number((input.value || '').replace(/[\s.,]/g, ''));
+      if (!input.value.trim()) { input.focus(); return; }
+      ex.checked = true; ex.ok = v === ex.n; ex.total++; if (ex.ok) ex.right++;
+      renderBases();
+    };
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+    exScreen(box, 'Escribir el número', 'Escucha el número y escríbelo en cifras. Elige el rango que quieres practicar.',
+      rangeChips(),
+      el('div', { class: 'card ex-card' },
+        el('div', { class: 'row' },
+          el('button', { type: 'button', class: 'btn', text: '▶ Otra vez', onclick: () => sayB(words(ex.n)) }),
+          el('button', { type: 'button', class: 'btn', text: 'Lento', onclick: () => sayB(words(ex.n), true) })),
+        input,
+        ex.checked ? el('p', { class: 'feedback ' + (ex.ok ? 'ok' : 'bad'), text: ex.ok ? '✓ ¡Bien!' : `✗ Era ${fmtNum(ex.n)}` }) : null,
+        ex.checked ? el('p', { class: 'muted', lang: 'fr', text: words(ex.n) }) : null,
+        el('div', { class: 'row' }, el('button', { type: 'button', class: 'btn primary', text: ex.checked ? 'Siguiente' : 'Revisar', onclick: check }))),
+      scoreLine());
+    if (!ex.checked) setTimeout(() => input.focus({ preventScroll: true }), 0);
+  };
+
+  const renderExDecir = box => {
+    const rec = el('button', { type: 'button', class: 'btn primary', text: '● Grabar' });
+    rec.addEventListener('click', async () => {
+      if (ex.recording) { stopRecording(); return; }
+      try {
+        synth && synth.cancel();
+        rec.classList.add('recording'); rec.textContent = '■ Parar';
+        ex.recording = startRecording();
+        ex.clip = await ex.recording;
+      } catch (e) {
+        alert(e && e.message === 'empty'
+          ? 'La grabación quedó vacía. Toca Grabar otra vez y habla después de que el botón se ponga rojo.'
+          : 'No pude usar el micrófono. Revisa el permiso de micrófono para Safari o para la app.');
+      } finally {
+        ex.recording = null;
+        renderBases();
+      }
+    });
+    const mine = el('button', { type: 'button', class: 'btn', text: 'Mi voz', onclick: () => ex.clip && playBlob(ex.clip) });
+    mine.disabled = !ex.clip;
+    const grade = ok => { ex.total++; if (ok) ex.right++; nextNumber(); };
+    exScreen(box, 'Decir el número', 'Di el número en voz alta. Grábate si quieres, luego revisa la respuesta y compara.',
+      rangeChips(),
+      el('div', { class: 'card ex-card' },
+        el('p', { class: 'target', text: fmtNum(ex.n) }),
+        el('div', { class: 'row' }, rec, mine),
+        ex.revealed
+          ? el('div', {},
+            el('p', { class: 'fr', lang: 'fr', style: 'margin:.6rem 0', text: words(ex.n) }),
+            el('div', { class: 'row' },
+              el('button', { type: 'button', class: 'btn', text: '▶ Normal', onclick: () => sayB(words(ex.n)) }),
+              el('button', { type: 'button', class: 'btn', text: '▶ Lento', onclick: () => sayB(words(ex.n), true) }),
+              ex.clip ? el('button', { type: 'button', class: 'btn', text: 'Comparar', onclick: async () => { await sayB(words(ex.n)); await sleep(400); await playBlob(ex.clip); } }) : null),
+            el('div', { class: 'rate', style: 'grid-template-columns:1fr 1fr' },
+              el('button', { type: 'button', class: 'btn', text: 'Me equivoqué', onclick: () => grade(false) }),
+              el('button', { type: 'button', class: 'btn', text: 'Lo dije bien', onclick: () => grade(true) })))
+          : el('div', { class: 'row' }, el('button', {
+            type: 'button', class: 'btn primary', text: 'Mostrar respuesta',
+            onclick: () => { ex.revealed = true; renderBases(); sayB(words(ex.n)); }
+          }))),
+      scoreLine());
+  };
+
+  const renderExDeletreo = box => {
+    const input = el('input', { class: 'ex-input', type: 'text', autocomplete: 'off', autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false', placeholder: 'Escribe lo que oíste', 'aria-label': 'Palabra deletreada' });
+    input.value = ex.input || '';
+    input.disabled = ex.checked;
+    input.addEventListener('input', () => { ex.input = input.value; });
+    const target = ex.word.w;
+    const check = () => {
+      if (ex.checked) { nextWord(); return; }
+      if (!input.value.trim()) { input.focus(); return; }
+      const got = input.value.trim().toLowerCase();
+      ex.checked = true;
+      ex.ok = got === target.toLowerCase();
+      ex.almost = !ex.ok && noAccents(got) === noAccents(target.toLowerCase());
+      ex.total++; if (ex.ok) ex.right++;
+      renderBases();
+    };
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+    const msg = ex.ok ? '✓ ¡Bien!' : ex.almost ? `Casi: fíjate en los acentos. Era ${target}` : `✗ Era ${target}`;
+    exScreen(box, 'Deletreo', 'Escucha la palabra deletreada, letra por letra, y escríbela con sus acentos. Así te deletrean un nombre o un correo en una reserva.',
+      el('div', { class: 'card ex-card' },
+        el('p', { class: 'muted small', text: `Es un ${ex.word.es}.` }),
+        el('div', { class: 'row' },
+          el('button', { type: 'button', class: 'btn', text: '▶ Otra vez', onclick: () => sayB(spellOut(target), true) }),
+          el('button', { type: 'button', class: 'btn', text: 'Normal', onclick: () => sayB(spellOut(target)) })),
+        input,
+        ex.checked ? el('p', { class: 'feedback ' + (ex.ok ? 'ok' : 'bad'), text: msg }) : null,
+        ex.checked ? el('p', { class: 'muted small', lang: 'fr', text: spellOut(target) }) : null,
+        el('div', { class: 'row' }, el('button', { type: 'button', class: 'btn primary', text: ex.checked ? 'Siguiente' : 'Revisar', onclick: check }))),
+      scoreLine());
+    if (!ex.checked) setTimeout(() => input.focus({ preventScroll: true }), 0);
+  };
+
+  const renderExPares = box => {
+    const pr = ex.pair;
+    const choose = side => {
+      if (ex.picked) return;
+      ex.picked = side; ex.total++; if (side === ex.side) ex.right++;
+      renderBases();
+    };
+    const opt = side => {
+      let cls = 'btn';
+      if (ex.picked && side === ex.side) cls += ' right';
+      else if (ex.picked === side) cls += ' wrongpick';
+      return el('button', { type: 'button', class: cls, onclick: () => choose(side) },
+        el('span', { lang: 'fr', text: pr[side].fr }), el('small', { text: pr[side].es }));
+    };
+    const homos = BX.homophones || [];
+    exScreen(box, 'Pares parecidos', 'Escucha y elige la palabra que oíste. Después escucha las dos, una tras otra.',
+      el('div', { class: 'card ex-card' },
+        el('div', { class: 'row' },
+          el('button', { type: 'button', class: 'btn', text: '▶ Otra vez', onclick: () => sayB(pr[ex.side].fr) }),
+          el('button', { type: 'button', class: 'btn', text: 'Lento', onclick: () => sayB(pr[ex.side].fr, true) })),
+        el('div', { class: 'choice' }, opt('a'), opt('b')),
+        ex.picked ? el('p', { class: 'feedback ' + (ex.picked === ex.side ? 'ok' : 'bad'), text: (ex.picked === ex.side ? '✓ ¡Bien! ' : `✗ Era «${pr[ex.side].fr}». `) + `Diferencia: ${pr.tip}` }) : null,
+        ex.picked ? el('div', { class: 'row' },
+          el('button', { type: 'button', class: 'btn', text: `▶ ${pr.a.fr}`, onclick: () => sayB(pr.a.fr, true) }),
+          el('button', { type: 'button', class: 'btn', text: `▶ ${pr.b.fr}`, onclick: () => sayB(pr.b.fr, true) }),
+          el('button', { type: 'button', class: 'btn primary', text: 'Siguiente', onclick: nextPair })) : null),
+      scoreLine(),
+      homos.length ? el('h2', { text: 'Suenan igual' }) : null,
+      homos.length ? el('p', { class: 'hint', text: 'Estas palabras se pronuncian exactamente igual: solo el contexto dice cuál es.' }) : null,
+      homos.length ? el('div', { class: 'card' }, homos.map(h => el('div', { class: 'bitem nok' },
+        el('div', {}, el('p', { class: 'fr', lang: 'fr', text: h.words }), el('p', { class: 'es', text: h.es })),
+        playBtns(h.words.split('/')[0])))) : null);
+  };
+
+  function renderBases() {
+    const box = document.getElementById('bases');
+    if (basesPage.startsWith('part:')) {
+      const pt = BASES.parts.find(p => p.id === basesPage.slice(5));
+      if (pt) return renderBasesPart(box, pt);
+    }
+    if (basesPage.startsWith('ex:')) {
+      const type = basesPage.slice(3);
+      if (!ex) {
+        ex = { type, right: 0, total: 0 };
+        if (type === 'escribir' || type === 'decir') return nextNumber();
+        if (type === 'deletreo') return nextWord();
+        if (type === 'pares') return nextPair();
+      }
+      if (type === 'escribir') return renderExEscribir(box);
+      if (type === 'decir') return renderExDecir(box);
+      if (type === 'deletreo') return renderExDeletreo(box);
+      if (type === 'pares') return renderExPares(box);
+    }
+    basesPage = 'index';
+    renderBasesIndex(box);
+  }
+
   // ---------- Navegación ----------
   const showTab = name => {
     document.querySelectorAll('.view').forEach(v => { v.hidden = v.dataset.view !== name; });
-    const navName = ['voz', 'gramatica', 'ajustes', 'conversacion', 'podcast'].includes(name) ? 'mas' : name;
+    const navName = ['voz', 'gramatica', 'ajustes', 'conversacion', 'podcast', 'bases'].includes(name) ? 'mas' : name;
     document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === navName));
     dialogueToken++;
     loopToken++;
@@ -784,6 +1141,8 @@
     if (name === 'dialogo') renderDialogue();
     if (name === 'conversacion') renderConversation();
     if (name === 'podcast') renderPodcast();
+    if (name === 'bases') basesNav('index');
+    else { tilesToken++; stopRecording(); }
     window.scrollTo(0, 0);
   };
 

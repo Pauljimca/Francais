@@ -781,3 +781,510 @@ window.CURSO = {
     }
   ]
 };
+
+// ---------- Bases: fundamentos, aparte de los módulos ----------
+// Plantilla para cualquier idioma: las mismas cinco partes y los mismos ejercicios.
+// Cada parte: id, num, title, subtitle, sections y phrases (para el Repaso, ids "b-…").
+// Cada sección: title, html (explicación corta, opcional), grid (fichas compactas, opcional),
+// items: { k (etiqueta: letra, número…), fr, es, say (lo que se lee si no es fr) }
+// o, en errores, { wrong, right, es, say }.
+// Todo suena con la voz del dispositivo (no hay grabaciones).
+window.CURSO.bases = {
+  lang: 'fr-FR',
+  title: 'Bases',
+  intro: 'Los fundamentos: letras, números, fechas y pronunciación. Todo suena con una voz francesa de mujer del dispositivo (la de Claire en Ajustes), normal y lenta.',
+
+  parts: [
+    {
+      id: 'alfabeto', num: 1,
+      title: 'Alfabeto y deletreo',
+      subtitle: 'Las letras, los acentos y cómo deletrear un nombre o un correo',
+      sections: [
+        {
+          title: 'Las letras',
+          html: '<p>Toca una letra para oírla. <b>Ojo:</b> la <b>E</b> suena «eu» y la <b>I</b> suena «i»; la <b>G</b> suena «yé» y la <b>J</b> suena «yi» (con la <i>y</i> argentina, la de «yo»). Son las que más se confunden al deletrear.</p>',
+          grid: true,
+          items: [
+            { k: 'A', fr: 'a' }, { k: 'B', fr: 'bé' }, { k: 'C', fr: 'cé' }, { k: 'D', fr: 'dé' },
+            { k: 'E', fr: 'eu' }, { k: 'F', fr: 'effe' }, { k: 'G', fr: 'gé' }, { k: 'H', fr: 'ache' },
+            { k: 'I', fr: 'i' }, { k: 'J', fr: 'ji' }, { k: 'K', fr: 'ka' }, { k: 'L', fr: 'elle' },
+            { k: 'M', fr: 'emme' }, { k: 'N', fr: 'enne' }, { k: 'O', fr: 'o' }, { k: 'P', fr: 'pé' },
+            { k: 'Q', fr: 'ku' }, { k: 'R', fr: 'erre' }, { k: 'S', fr: 'esse' }, { k: 'T', fr: 'té' },
+            { k: 'U', fr: 'u' }, { k: 'V', fr: 'vé' }, { k: 'W', fr: 'double vé' }, { k: 'X', fr: 'ixe' },
+            { k: 'Y', fr: 'i grec' }, { k: 'Z', fr: 'zède' }
+          ]
+        },
+        {
+          title: 'Las que engañan',
+          items: [
+            { k: 'E', fr: 'eu', es: 'Como una «e» con los labios redondos, igual que en «le». No es «e» española.' },
+            { k: 'G', fr: 'gé', es: 'Suena «yé». G es «gé», J es «ji»: al revés de lo que parece.' },
+            { k: 'J', fr: 'ji', es: 'Suena «yi».' },
+            { k: 'R', fr: 'erre', es: 'La r va en la garganta, nunca vibrando con la lengua.' },
+            { k: 'U', fr: 'u', es: 'Di «i» con los labios en posición de «u».' },
+            { k: 'V', fr: 'vé', es: 'Con los dientes de arriba sobre el labio de abajo. No es «be».' },
+            { k: 'W', fr: 'double vé', es: '«Doble v»: una v doble, no una u doble como en inglés.' },
+            { k: 'Y', fr: 'i grec', es: '«I griega», igual que en español.' }
+          ]
+        },
+        {
+          title: 'Los acentos',
+          html: '<p>Al deletrear, el acento se dice después de la letra: <i>e accent aigu</i>.</p>',
+          items: [
+            { k: 'é', fr: 'e accent aigu', es: 'E cerrada, como la e española: café, été.', say: 'e accent aigu. café. été.' },
+            { k: 'è', fr: 'e accent grave', es: 'E abierta: mère, très.', say: 'e accent grave. mère. très.' },
+            { k: 'ê', fr: 'e accent circonflexe', es: 'E abierta, igual que è: fête, forêt.', say: 'e accent circonflexe. fête. forêt.' },
+            { k: 'à', fr: 'a accent grave', es: 'No cambia el sonido. Distingue «à» (a, en) de «a» (tiene).', say: 'a accent grave. voilà.' },
+            { k: 'ç', fr: 'c cédille', es: 'Suena «s» delante de a, o, u: français, ça, garçon.', say: 'c cédille. français. garçon.' },
+            { k: 'ë', fr: 'e tréma', es: 'La vocal se pronuncia aparte: Noël («no-el»).', say: 'e tréma. Noël.' },
+            { k: 'ô', fr: 'o accent circonflexe', es: 'O cerrada: hôtel, côte.', say: 'o accent circonflexe. hôtel.' },
+            { k: 'î û', fr: 'i accent circonflexe, u accent circonflexe', es: 'No cambian el sonido: île, sûr.', say: 'i accent circonflexe. île.' }
+          ]
+        },
+        {
+          title: 'Deletrear un nombre o un correo',
+          html: '<p>Para letras repetidas se dice <i>deux</i>: «Isabelle», <i>deux L</i>. Para las mayúsculas, <i>majuscule</i>.</p>',
+          items: [
+            { k: '@', fr: 'arobase', es: 'arroba' },
+            { k: '.', fr: 'point', es: 'punto' },
+            { k: '-', fr: 'tiret', es: 'guion' },
+            { k: '_', fr: 'tiret bas', es: 'guion bajo' },
+            { k: 'LL', fr: 'deux L', es: 'doble L', say: 'deux elle' },
+            { k: 'P', fr: 'P majuscule', es: 'P mayúscula', say: 'pé majuscule' },
+            { k: 'Paul', fr: 'P, A, U, L', es: 'Así se deletrea Paul.', say: 'pé, a, u, elle.' },
+            { k: '✉', fr: 'paul point musique arobase exemple point fr', es: 'paul.musique@exemple.fr' }
+          ]
+        }
+      ],
+      phrases: [
+        { id: 'b-alf-01', fr: 'Comment ça s\'écrit ?', es: '¿Cómo se escribe?' },
+        { id: 'b-alf-02', fr: 'Vous pouvez épeler, s\'il vous plaît ?', es: '¿Puede deletrearlo, por favor?' },
+        { id: 'b-alf-03', fr: 'Ça s\'écrit P, A, U, L.', es: 'Se escribe P, A, U, L.', say: 'Ça s\'écrit pé, a, u, elle.' },
+        { id: 'b-alf-04', fr: 'C\'est à quel nom ?', es: '¿A nombre de quién? (reserva)' },
+        { id: 'b-alf-05', fr: 'Avec deux L.', es: 'Con doble L.', say: 'Avec deux elle.' },
+        { id: 'b-alf-06', fr: 'Quelle est votre adresse e-mail ?', es: '¿Cuál es su correo electrónico?' }
+      ]
+    },
+
+    {
+      id: 'numeros', num: 2,
+      title: 'Números, precios y hora',
+      subtitle: '0 a 100, hasta 1000, precios en euros y pesos, la hora y el teléfono',
+      sections: [
+        {
+          title: '0 a 20',
+          grid: true,
+          items: [
+            { k: '0', fr: 'zéro' }, { k: '1', fr: 'un' }, { k: '2', fr: 'deux' }, { k: '3', fr: 'trois' },
+            { k: '4', fr: 'quatre' }, { k: '5', fr: 'cinq' }, { k: '6', fr: 'six' }, { k: '7', fr: 'sept' },
+            { k: '8', fr: 'huit' }, { k: '9', fr: 'neuf' }, { k: '10', fr: 'dix' }, { k: '11', fr: 'onze' },
+            { k: '12', fr: 'douze' }, { k: '13', fr: 'treize' }, { k: '14', fr: 'quatorze' }, { k: '15', fr: 'quinze' },
+            { k: '16', fr: 'seize' }, { k: '17', fr: 'dix-sept' }, { k: '18', fr: 'dix-huit' }, { k: '19', fr: 'dix-neuf' },
+            { k: '20', fr: 'vingt' }
+          ]
+        },
+        {
+          title: '20 a 69',
+          html: '<p>Igual que en español: decena + unidad con guion (<i>vingt-deux</i>). Con el 1 se dice <b>et</b>: <i>vingt et un, trente et un</i>… hasta <i>soixante et un</i>.</p>',
+          grid: true,
+          items: [
+            { k: '20', fr: 'vingt' }, { k: '21', fr: 'vingt et un' }, { k: '22', fr: 'vingt-deux' },
+            { k: '30', fr: 'trente' }, { k: '31', fr: 'trente et un' }, { k: '40', fr: 'quarante' },
+            { k: '50', fr: 'cinquante' }, { k: '60', fr: 'soixante' }, { k: '69', fr: 'soixante-neuf' }
+          ]
+        },
+        {
+          title: '70, 80 y 90: la lógica',
+          html: '<p>En Francia no hay palabra para 70, 80 ni 90: se suma y se multiplica.</p><ul><li><b>70</b> = 60 + 10: <i>soixante-dix</i>. Sigue contando: 71 = 60 + 11 (<i>soixante et onze</i>), 72 = 60 + 12…</li><li><b>80</b> = 4 × 20: <i>quatre-vingts</i>, con <b>s</b>. Si le sigue otro número, pierde la s: <i>quatre-vingt-un</i>.</li><li><b>90</b> = 4 × 20 + 10: <i>quatre-vingt-dix</i>. 91 = <i>quatre-vingt-onze</i>.</li></ul><p>En Bélgica y Suiza dicen <i>septante</i> y <i>nonante</i>, pero en Francia no.</p>',
+          items: [
+            { k: '70', fr: 'soixante-dix', es: '60 + 10' },
+            { k: '71', fr: 'soixante et onze', es: '60 + 11' },
+            { k: '75', fr: 'soixante-quinze', es: '60 + 15' },
+            { k: '79', fr: 'soixante-dix-neuf', es: '60 + 19' },
+            { k: '80', fr: 'quatre-vingts', es: '4 × 20, con s' },
+            { k: '81', fr: 'quatre-vingt-un', es: '4 × 20 + 1, sin s y sin et' },
+            { k: '88', fr: 'quatre-vingt-huit', es: '4 × 20 + 8' },
+            { k: '90', fr: 'quatre-vingt-dix', es: '4 × 20 + 10' },
+            { k: '91', fr: 'quatre-vingt-onze', es: '4 × 20 + 11' },
+            { k: '99', fr: 'quatre-vingt-dix-neuf', es: '4 × 20 + 19' }
+          ]
+        },
+        {
+          title: '100 a 1000',
+          html: '<p><i>cent</i> = cien (sin <i>un</i> delante). <i>Deux cents</i> lleva <b>s</b>, pero la pierde si le sigue otro número: <i>deux cent trois</i>. <i>Mille</i> nunca lleva s: <i>deux mille</i>.</p>',
+          items: [
+            { k: '100', fr: 'cent' },
+            { k: '101', fr: 'cent un' },
+            { k: '150', fr: 'cent cinquante' },
+            { k: '200', fr: 'deux cents', es: 'con s' },
+            { k: '250', fr: 'deux cent cinquante', es: 'sin s' },
+            { k: '580', fr: 'cinq cent quatre-vingts' },
+            { k: '999', fr: 'neuf cent quatre-vingt-dix-neuf' },
+            { k: '1000', fr: 'mille' },
+            { k: '2026', fr: 'deux mille vingt-six' }
+          ]
+        },
+        {
+          title: 'Precios',
+          html: '<p>Los decimales van con coma y se leen sin «con»: 2,50 € = <i>deux euros cinquante</i>. Para los pesos, <i>mille</i> sin s: <i>cinquante mille pesos</i>.</p>',
+          items: [
+            { k: '20 €', fr: 'vingt euros' },
+            { k: '2,50 €', fr: 'deux euros cinquante' },
+            { k: '15,90 €', fr: 'quinze euros quatre-vingt-dix' },
+            { k: '5 000', fr: 'cinq mille pesos' },
+            { k: '50 000', fr: 'cinquante mille pesos' },
+            { k: '120 000', fr: 'cent vingt mille pesos' },
+            { k: '?', fr: 'Ça coûte combien ?', es: '¿Cuánto cuesta?' },
+            { k: '=', fr: 'Ça fait trente euros.', es: 'Son treinta euros (al pagar).' }
+          ]
+        },
+        {
+          title: 'La hora',
+          html: '<p>Siempre <i>il est</i> (nunca <i>ils sont</i>) y siempre <i>heure(s)</i>: <i>il est une heure, il est deux heures</i>. Para horarios (buses, vuelos, tiendas) se usa mucho el reloj de 24 horas.</p>',
+          items: [
+            { k: '?', fr: 'Quelle heure est-il ?', es: '¿Qué hora es?' },
+            { k: '1:00', fr: 'Il est une heure.' },
+            { k: '8:00', fr: 'Il est huit heures.' },
+            { k: '8:15', fr: 'Il est huit heures et quart.' },
+            { k: '8:30', fr: 'Il est huit heures et demie.' },
+            { k: '8:45', fr: 'Il est neuf heures moins le quart.', es: 'Las nueve menos cuarto' },
+            { k: '12:00', fr: 'Il est midi.', es: 'Mediodía' },
+            { k: '0:00', fr: 'Il est minuit.', es: 'Medianoche' },
+            { k: '18:30', fr: 'Il est dix-huit heures trente.', es: 'Horario oficial' },
+            { k: '?', fr: 'À quelle heure ?', es: '¿A qué hora?' },
+            { k: '7:00', fr: 'À sept heures.', es: 'A las siete.' }
+          ]
+        },
+        {
+          title: 'Números de teléfono',
+          html: '<p>En Francia se dicen <b>de dos en dos</b>: 06 12 34 56 78. El 0 inicial se dice <i>zéro</i>.</p>',
+          items: [
+            { k: '06 12 34 56 78', fr: 'zéro six, douze, trente-quatre, cinquante-six, soixante-dix-huit' },
+            { k: '01 45 80 91 07', fr: 'zéro un, quarante-cinq, quatre-vingts, quatre-vingt-onze, zéro sept' },
+            { k: '+57', fr: 'plus cinquante-sept', es: 'El código de Colombia' },
+            { k: '?', fr: 'Quel est votre numéro de téléphone ?', es: '¿Cuál es su número de teléfono?' }
+          ]
+        }
+      ],
+      phrases: [
+        { id: 'b-num-01', fr: 'Ça coûte vingt euros.', es: 'Cuesta veinte euros.' },
+        { id: 'b-num-02', fr: 'Ça coûte combien ?', es: '¿Cuánto cuesta?' },
+        { id: 'b-num-03', fr: 'Ça fait cinquante mille pesos.', es: 'Son cincuenta mil pesos.' },
+        { id: 'b-num-04', fr: 'Quelle heure est-il ?', es: '¿Qué hora es?' },
+        { id: 'b-num-05', fr: 'Il est huit heures et demie.', es: 'Son las ocho y media.' },
+        { id: 'b-num-06', fr: 'Il est neuf heures moins le quart.', es: 'Son las nueve menos cuarto.' },
+        { id: 'b-num-07', fr: 'À quelle heure ?', es: '¿A qué hora?' },
+        { id: 'b-num-08', fr: 'Le concert commence à vingt heures.', es: 'El concierto empieza a las ocho de la noche.' },
+        { id: 'b-num-09', fr: 'Quel est votre numéro de téléphone ?', es: '¿Cuál es su número de teléfono?' }
+      ]
+    },
+
+    {
+      id: 'fechas', num: 3,
+      title: 'Días, meses y fechas',
+      subtitle: 'La semana, los meses, le 15 novembre, lundi prochain',
+      sections: [
+        {
+          title: 'Los días de la semana',
+          html: '<p>Van en minúscula. <i>Lundi</i> = el lunes (este lunes); <i>le lundi</i> = los lunes (cada lunes).</p>',
+          grid: true,
+          items: [
+            { k: 'lun.', fr: 'lundi' }, { k: 'mar.', fr: 'mardi' }, { k: 'mer.', fr: 'mercredi' }, { k: 'jeu.', fr: 'jeudi' },
+            { k: 'ven.', fr: 'vendredi' }, { k: 'sam.', fr: 'samedi' }, { k: 'dim.', fr: 'dimanche' }
+          ]
+        },
+        {
+          title: 'Los meses',
+          html: '<p>También en minúscula. «En noviembre» = <i>en novembre</i>.</p>',
+          grid: true,
+          items: [
+            { k: '1', fr: 'janvier' }, { k: '2', fr: 'février' }, { k: '3', fr: 'mars' }, { k: '4', fr: 'avril' },
+            { k: '5', fr: 'mai' }, { k: '6', fr: 'juin' }, { k: '7', fr: 'juillet' }, { k: '8', fr: 'août' },
+            { k: '9', fr: 'septembre' }, { k: '10', fr: 'octobre' }, { k: '11', fr: 'novembre' }, { k: '12', fr: 'décembre' }
+          ]
+        },
+        {
+          title: 'Las fechas',
+          html: '<p><i>le</i> + número + mes, sin «de»: <i>le 15 novembre</i>. El día 1 es <i>le premier</i>. El año se dice como un número: 2026 = <i>deux mille vingt-six</i>.</p>',
+          items: [
+            { k: '1/5', fr: 'le premier mai', es: 'el 1 de mayo' },
+            { k: '15/11', fr: 'le quinze novembre', es: 'el 15 de noviembre' },
+            { k: '14/7', fr: 'le quatorze juillet', es: 'fiesta nacional de Francia' },
+            { k: '25/12', fr: 'le vingt-cinq décembre', es: 'Navidad' },
+            { k: '2026', fr: 'en deux mille vingt-six', es: 'en 2026' },
+            { k: '?', fr: 'On est quel jour aujourd\'hui ?', es: '¿Qué día es hoy?' },
+            { k: '?', fr: 'On est le combien ?', es: '¿A qué fecha estamos?' }
+          ]
+        },
+        {
+          title: 'Antes, ahora, después',
+          items: [
+            { k: '↺', fr: 'hier', es: 'ayer' },
+            { k: '•', fr: 'aujourd\'hui', es: 'hoy' },
+            { k: '→', fr: 'demain', es: 'mañana' },
+            { k: '→', fr: 'lundi prochain', es: 'el próximo lunes' },
+            { k: '↺', fr: 'lundi dernier', es: 'el lunes pasado' },
+            { k: '→', fr: 'la semaine prochaine', es: 'la próxima semana' },
+            { k: '→', fr: 'le mois prochain', es: 'el próximo mes' },
+            { k: '⌂', fr: 'le week-end', es: 'el fin de semana' },
+            { k: '⌂', fr: 'ce week-end', es: 'este fin de semana' },
+            { k: '↔', fr: 'du lundi au vendredi', es: 'de lunes a viernes' }
+          ]
+        }
+      ],
+      phrases: [
+        { id: 'b-dat-01', fr: 'On est quel jour aujourd\'hui ?', es: '¿Qué día es hoy?' },
+        { id: 'b-dat-02', fr: 'Aujourd\'hui, c\'est vendredi.', es: 'Hoy es viernes.' },
+        { id: 'b-dat-03', fr: 'Je travaille du lundi au vendredi.', es: 'Trabajo de lunes a viernes.' },
+        { id: 'b-dat-04', fr: 'Le concert, c\'est samedi soir.', es: 'El concierto es el sábado por la noche.' },
+        { id: 'b-dat-05', fr: 'À lundi prochain !', es: '¡Hasta el próximo lunes!' },
+        { id: 'b-dat-06', fr: 'Bon week-end !', es: '¡Buen fin de semana!' },
+        { id: 'b-dat-07', fr: 'Mon anniversaire, c\'est le premier mai.', es: 'Mi cumpleaños es el 1 de mayo.' },
+        { id: 'b-dat-08', fr: 'Je suis en vacances en décembre.', es: 'Estoy de vacaciones en diciembre.' }
+      ]
+    },
+
+    {
+      id: 'pronunciacion', num: 4,
+      title: 'Reglas de pronunciación',
+      subtitle: 'Finales mudas, e muda, nasales, u y ou, la r, la liaison',
+      sections: [
+        {
+          title: 'Las finales que no suenan',
+          html: '<p>La consonante final casi nunca suena: <i>peti<s>t</s></i>, <i>beaucou<s>p</s></i>, <i>Pari<s>s</s></i>. La terminación <b>-ent</b> de los verbos tampoco: <i>ils parl<s>ent</s></i> suena igual que <i>il parle</i>.</p><p>Suelen sonar la <b>c, r, f, l</b> (truco: <i>CaReFuL</i>): <i>avec, bonjour, neuf, il</i>.</p>',
+          items: [
+            { fr: 'petit', es: '«pe-ti», sin t' },
+            { fr: 'beaucoup', es: '«bo-cu», sin p' },
+            { fr: 'ils parlent', es: 'Igual que «il parle»' },
+            { fr: 'trois', es: 'Sin s' },
+            { fr: 'avec', es: 'La c sí suena' },
+            { fr: 'bonjour', es: 'La r sí suena' }
+          ]
+        },
+        {
+          title: 'La e muda',
+          html: '<p>La <b>e</b> sin acento al final de palabra no suena: <i>madam<s>e</s></i>, <i>tabl<s>e</s></i>. Pero hace sonar la consonante de antes: <i>petit</i> («pe-ti») / <i>petite</i> («pe-tit»). Dentro de la palabra a veces desaparece: <i>samedi</i> suena «sam-di».</p>',
+          items: [
+            { fr: 'madame', es: '«ma-dam»' },
+            { fr: 'petit, petite', es: 'La e final hace sonar la t' },
+            { fr: 'samedi', es: '«sam-di»' },
+            { fr: 'Je ne sais pas.', es: 'Hablando rápido: «yen-se-pa»' }
+          ]
+        },
+        {
+          title: 'Las vocales nasales',
+          html: '<p>Cuando una vocal va seguida de <b>n</b> o <b>m</b> (y después no viene otra vocal), la n no se pronuncia: el aire sale también por la nariz. Hay tres sonidos:</p><ul><li><b>an, en, am, em</b>: <i>temps, enfant, chambre</i></li><li><b>on, om</b>: <i>bonjour, nom</i></li><li><b>in, im, ain, ein, un</b>: <i>vin, pain, plein, lundi</i></li></ul><p>Si después viene vocal o doble n, ya no es nasal: <i>bon</i> (nasal) / <i>bonne</i> («bon» con n).</p>',
+          items: [
+            { fr: 'enfant', es: 'an/en' },
+            { fr: 'bonjour', es: 'on' },
+            { fr: 'vin', es: 'in: no digas «vin» español' },
+            { fr: 'pain', es: 'ain = in' },
+            { fr: 'lundi', es: 'un = in' },
+            { fr: 'bon, bonne', es: 'Nasal / no nasal' }
+          ]
+        },
+        {
+          title: 'u frente a ou',
+          html: '<p><b>ou</b> es la <i>u</i> española: <i>vous, tout</i>. <b>u</b> es otro sonido: di «i» y, sin mover la lengua, redondea los labios como para silbar: <i>tu, vu, rue</i>.</p>',
+          items: [
+            { fr: 'vous', es: 'ou = u española' },
+            { fr: 'tu', es: 'u francesa' },
+            { fr: 'tout, tu', es: 'todo / tú' },
+            { fr: 'roue, rue', es: 'rueda / calle' }
+          ]
+        },
+        {
+          title: 'eu',
+          html: '<p><b>eu</b> y <b>œu</b>: di «e» con los labios redondos. Cerrado en <i>deux, bleu</i>; un poco más abierto en <i>peur, sœur</i>.</p>',
+          items: [
+            { fr: 'deux', es: 'dos' },
+            { fr: 'bleu', es: 'azul' },
+            { fr: 'sœur', es: 'hermana' },
+            { fr: 'heure', es: 'hora' }
+          ]
+        },
+        {
+          title: 'La r',
+          html: '<p>Se hace en la garganta, cerca de donde haces la <i>j</i> española pero más suave, casi sin ruido. Nunca vibra con la punta de la lengua. Practica con <i>merci, Paris, rouge</i>.</p>',
+          items: [
+            { fr: 'merci' },
+            { fr: 'Paris' },
+            { fr: 'rouge' },
+            { fr: 'très bien' }
+          ]
+        },
+        {
+          title: 'La liaison',
+          html: '<p>Una consonante final muda <b>sí suena</b> si la palabra siguiente empieza por vocal o <i>h</i> muda, y se pega a ella. La <b>s</b> y la <b>x</b> suenan <b>z</b>: <i>vous‿êtes</i> («vu-zet»), <i>les‿amis</i> («le-za-mi»).</p><p>Nunca hay liaison después de <i>et</i>: <i>et | un</i>.</p>',
+          items: [
+            { fr: 'vous‿êtes', es: '«vu-zet»', say: 'vous êtes' },
+            { fr: 'les‿amis', es: '«le-za-mi»', say: 'les amis' },
+            { fr: 'un‿ami', es: '«en-na-mi»', say: 'un ami' },
+            { fr: 'deux‿heures', es: '«de-zeur»', say: 'deux heures' },
+            { fr: 'petit‿enfant', es: 'La t suena', say: 'petit enfant' },
+            { fr: 'C\'est‿un‿hôtel.', es: '«se-ten-no-tel»', say: 'C\'est un hôtel.' }
+          ]
+        },
+        {
+          title: 'El enchaînement',
+          html: '<p>Una consonante final que ya suena se une a la vocal siguiente, como si fuera una sola palabra: <i>il‿est</i> («i-le»), <i>elle‿a</i> («e-la»).</p>',
+          items: [
+            { fr: 'il‿est', es: '«i-le»', say: 'il est' },
+            { fr: 'elle‿aime', es: '«e-lem»', say: 'elle aime' },
+            { fr: 'une‿amie', es: '«u-na-mi»', say: 'une amie' },
+            { fr: 'avec‿elle', es: '«a-ve-kel»', say: 'avec elle' }
+          ]
+        },
+        {
+          title: 'La h',
+          html: '<p>La <b>h</b> nunca suena. Casi siempre es <b>muda</b>: se comporta como una vocal, así que hay <i>l\'</i> y liaison: <i>l\'hôtel, les‿hôtels</i>. Unas pocas palabras tienen <b>h aspirada</b> (tampoco suena, pero bloquea la liaison): <i>le héros, les | haricots</i>.</p>',
+          items: [
+            { fr: 'l\'hôtel', es: 'h muda: l\'' },
+            { fr: 'les‿hôtels', es: '«le-zo-tel»', say: 'les hôtels' },
+            { fr: 'l\'homme', es: 'el hombre' },
+            { fr: 'les | haricots', es: 'h aspirada: sin liaison', say: 'les haricots' }
+          ]
+        },
+        {
+          title: 'Letras que se juntan',
+          items: [
+            { k: 'oi', fr: 'moi, trois', es: 'Suena «ua»' },
+            { k: 'au', fr: 'au, beau, eau', es: 'au y eau suenan «o»' },
+            { k: 'ai', fr: 'j\'aime, mais', es: 'Suena «e» abierta' },
+            { k: 'ch', fr: 'chanter, chocolat', es: 'Suena «sh»' },
+            { k: 'gn', fr: 'montagne, Espagne', es: 'Suena «ñ»' },
+            { k: 'j', fr: 'je, jouer', es: 'Como la «y» argentina de «yo»' },
+            { k: 's', fr: 'maison, rose', es: 'Entre vocales suena «z»' }
+          ]
+        }
+      ],
+      phrases: [
+        { id: 'b-pro-01', fr: 'Vous êtes très gentil.', es: 'Usted es muy amable.' },
+        { id: 'b-pro-02', fr: 'C\'est un petit hôtel.', es: 'Es un hotel pequeño.' },
+        { id: 'b-pro-03', fr: 'Il y a beaucoup de touristes.', es: 'Hay muchos turistas.' },
+        { id: 'b-pro-04', fr: 'Les amis arrivent à deux heures.', es: 'Los amigos llegan a las dos.' },
+        { id: 'b-pro-05', fr: 'Tu veux du pain ?', es: '¿Quieres pan?' }
+      ]
+    },
+
+    {
+      id: 'errores', num: 5,
+      title: 'Errores frecuentes',
+      subtitle: 'Lo que más se nos escapa a los hispanohablantes',
+      sections: [
+        {
+          title: 'En pronunciación',
+          items: [
+            { wrong: 'pe-TIT, BO-cup', right: 'petit, beaucoup', es: 'La consonante final casi nunca suena.' },
+            { wrong: 'ils PAR-lent', right: 'ils parlent', es: '-ent de los verbos es muda: suena igual que «il parle».' },
+            { wrong: '«tu» como la u española', right: 'tu', es: 'Con u española dices «tout» (todo). Di «i» con labios de «u».' },
+            { wrong: 'vu y vous iguales', right: 'vu, vous', es: 'vu (visto) y vous (usted) son distintos.' },
+            { wrong: '«vin» como en español', right: 'vin', es: 'Es nasal: la n no se pronuncia.' },
+            { wrong: 'lun-di con n', right: 'lundi', es: 'un es nasal, como in.' },
+            { wrong: 'ma-DA-me', right: 'madame', es: 'La e final no suena: «ma-dam».' },
+            { wrong: 'r vibrante, como «perro»', right: 'merci, Paris', es: 'La r francesa va en la garganta.' },
+            { wrong: 'poi-SON con s', right: 'poison, poisson', es: 'Una s entre vocales suena z: poison (veneno). Con ss suena s: poisson (pescado).' },
+            { wrong: '«b» y «v» iguales', right: 'bain, vin', es: 'En francés la v se hace con los dientes en el labio: bain (baño) / vin (vino).' }
+          ]
+        },
+        {
+          title: 'En números, hora y fechas',
+          items: [
+            { wrong: 'sept-dix, septante', right: 'soixante-dix', es: '70 = 60 + 10. Septante solo en Bélgica y Suiza.' },
+            { wrong: 'huit-dix, octante', right: 'quatre-vingts', es: '80 = 4 × 20.' },
+            { wrong: 'quatre-vingt (80) sin s', right: 'quatre-vingts euros', es: 'Lleva s cuando termina ahí. Con otro número detrás, no: quatre-vingt-trois.' },
+            { wrong: 'deux cents trois', right: 'deux cent trois', es: 'Cent pierde la s si le sigue otro número.' },
+            { wrong: 'un cent, un mille', right: 'cent, mille', es: 'Sin «un» delante, como «cien» y «mil».' },
+            { wrong: 'deux milles', right: 'deux mille', es: 'Mille nunca lleva s.' },
+            { wrong: 'vingt-un', right: 'vingt et un', es: 'Con 21, 31… 61 va et. Pero 81 = quatre-vingt-un, sin et.' },
+            { wrong: 'ils sont deux heures', right: 'Il est deux heures.', es: 'Para la hora siempre il est, en singular.' },
+            { wrong: 'il est une', right: 'Il est une heure.', es: 'La palabra heure no se omite.' },
+            { wrong: 'le un mai', right: 'le premier mai', es: 'El día 1 es premier. Los demás, con el número: le deux mai.' },
+            { wrong: 'le quinze de novembre', right: 'le quinze novembre', es: 'Sin «de» entre el día y el mes.' },
+            { wrong: 'Novembre, Lundi', right: 'novembre, lundi', es: 'Meses y días en minúscula (como en español).' }
+          ]
+        }
+      ],
+      phrases: []
+    }
+  ],
+
+  exercises: {
+    // Rangos para "Escribir el número" y "Decir el número".
+    numberRanges: [
+      { id: '0-20', label: '0 a 20', min: 0, max: 20 },
+      { id: '20-69', label: '20 a 69', min: 20, max: 69 },
+      { id: '70-99', label: '70 a 99', min: 70, max: 99 },
+      { id: '0-100', label: '0 a 100', min: 0, max: 100 },
+      { id: '100-1000', label: '100 a 1000', min: 100, max: 1000 },
+      { id: 'miles', label: 'Miles (pesos)', min: 1, max: 200, mult: 1000 }
+    ],
+    // Cómo se dice cada carácter al deletrear.
+    spell: {
+      a: 'a', b: 'bé', c: 'cé', d: 'dé', e: 'eu', f: 'effe', g: 'gé', h: 'ache', i: 'i', j: 'ji', k: 'ka', l: 'elle', m: 'emme',
+      n: 'enne', o: 'o', p: 'pé', q: 'ku', r: 'erre', s: 'esse', t: 'té', u: 'u', v: 'vé', w: 'double vé', x: 'ixe', y: 'i grec', z: 'zède',
+      'é': 'e accent aigu', 'è': 'e accent grave', 'ê': 'e accent circonflexe', 'ë': 'e tréma', 'à': 'a accent grave',
+      'â': 'a accent circonflexe', 'ç': 'c cédille', 'î': 'i accent circonflexe', 'ï': 'i tréma', 'ô': 'o accent circonflexe',
+      'ù': 'u accent grave', 'û': 'u accent circonflexe',
+      '@': 'arobase', '.': 'point', '-': 'tiret', '_': 'tiret bas', "'": 'apostrophe', ' ': 'espace',
+      '0': 'zéro', '1': 'un', '2': 'deux', '3': 'trois', '4': 'quatre', '5': 'cinq', '6': 'six', '7': 'sept', '8': 'huit', '9': 'neuf'
+    },
+    // Las letras repetidas se dicen "deux L".
+    double: 'deux',
+    spellWords: [
+      { w: 'Paul', es: 'nombre' }, { w: 'Claire', es: 'nombre' }, { w: 'Hélène', es: 'nombre' },
+      { w: 'François', es: 'nombre' }, { w: 'Isabelle', es: 'nombre' }, { w: 'Mathieu', es: 'nombre' },
+      { w: 'Joël', es: 'nombre' }, { w: 'Gérard', es: 'nombre' }, { w: 'Providencia', es: 'lugar' },
+      { w: 'Lyon', es: 'ciudad' }, { w: 'Bordeaux', es: 'ciudad' }, { w: 'Dubois', es: 'apellido' },
+      { w: 'Lefèvre', es: 'apellido' }, { w: 'Garnier', es: 'apellido' }, { w: 'Rousseau', es: 'apellido' },
+      { w: 'claire.dubois@exemple.fr', es: 'correo' }, { w: 'paul-musique@exemple.co', es: 'correo' },
+      { w: 'hotel_sirena@exemple.com', es: 'correo' }
+    ],
+    // Pares para distinguir de oído.
+    pairs: [
+      { a: { fr: 'dessus', es: 'encima' }, b: { fr: 'dessous', es: 'debajo' }, tip: 'u / ou' },
+      { a: { fr: 'vu', es: 'visto' }, b: { fr: 'vous', es: 'usted' }, tip: 'u / ou' },
+      { a: { fr: 'tu', es: 'tú' }, b: { fr: 'tout', es: 'todo' }, tip: 'u / ou' },
+      { a: { fr: 'rue', es: 'calle' }, b: { fr: 'roue', es: 'rueda' }, tip: 'u / ou' },
+      { a: { fr: 'le', es: 'el' }, b: { fr: 'les', es: 'los' }, tip: 'e / é' },
+      { a: { fr: 'deux', es: 'dos' }, b: { fr: 'des', es: 'unos' }, tip: 'eu / é' },
+      { a: { fr: 'poisson', es: 'pescado' }, b: { fr: 'poison', es: 'veneno' }, tip: 's / z' },
+      { a: { fr: 'vin', es: 'vino' }, b: { fr: 'vent', es: 'viento' }, tip: 'in / an' },
+      { a: { fr: 'bon', es: 'bueno' }, b: { fr: 'banc', es: 'banco (para sentarse)' }, tip: 'on / an' },
+      { a: { fr: 'beau', es: 'bonito' }, b: { fr: 'bon', es: 'bueno' }, tip: 'o / on' },
+      { a: { fr: 'bain', es: 'baño' }, b: { fr: 'vin', es: 'vino' }, tip: 'b / v' },
+      { a: { fr: 'jeune', es: 'joven' }, b: { fr: 'jaune', es: 'amarillo' }, tip: 'eu / o' }
+    ],
+    // Suenan igual: se distinguen por el contexto (no entran al ejercicio de oído).
+    homophones: [
+      { words: 'cent / sans / sang', es: 'cien / sin / sangre' },
+      { words: 'vin / vingt', es: 'vino / veinte' },
+      { words: 'vert / verre / vers', es: 'verde / vaso / hacia' },
+      { words: 'mer / mère / maire', es: 'mar / madre / alcalde' },
+      { words: 'parle / parles / parlent', es: 'hablo, habla / hablas / hablan' }
+    ]
+  },
+
+  // Número escrito en letras (francés de Francia, ortografía tradicional).
+  numberWords: n => {
+    const u = ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix', 'onze', 'douze',
+      'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf'];
+    const tens = { 2: 'vingt', 3: 'trente', 4: 'quarante', 5: 'cinquante', 6: 'soixante' };
+    const below100 = x => {
+      if (x < 20) return u[x];
+      if (x < 70) { const t = Math.floor(x / 10), r = x % 10; return tens[t] + (r === 0 ? '' : r === 1 ? ' et un' : '-' + u[r]); }
+      if (x < 80) return x === 71 ? 'soixante et onze' : 'soixante-' + u[x - 60];
+      return x === 80 ? 'quatre-vingts' : 'quatre-vingt-' + u[x - 80];
+    };
+    const below1000 = x => {
+      if (x < 100) return below100(x);
+      const h = Math.floor(x / 100), r = x % 100;
+      const head = h === 1 ? 'cent' : u[h] + ' cent' + (r === 0 ? 's' : '');
+      return r ? head + ' ' + below100(r) : head;
+    };
+    if (n < 1000) return below1000(n);
+    const th = Math.floor(n / 1000), r = n % 1000;
+    const head = th === 1 ? 'mille' : below1000(th).replace(/(cent|vingt)s$/, '$1') + ' mille';
+    return r ? head + ' ' + below1000(r) : head;
+  }
+};

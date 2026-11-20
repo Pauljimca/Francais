@@ -16,8 +16,8 @@ Este archivo explica cómo está hecha la app y cómo publicar cambios. Léelo a
 
 | Archivo | Qué contiene |
 | --- | --- |
-| `index.html` | Las pantallas. La gramática de cada módulo viene de `data.js`. |
-| `data.js` | Todo el contenido del curso en `window.CURSO`: módulos y lista del podcast. |
+| `index.html` | Las pantallas. La gramática de cada módulo y la sección Bases vienen de `data.js`. |
+| `data.js` | Todo el contenido del curso en `window.CURSO`: módulos, lista del podcast y `bases`. |
 | `app.js` | El funcionamiento: audio, grabación, repaso espaciado, plan semanal, check-in. La constante `VERSION` está arriba. |
 | `sw.js` | Modo sin conexión. `CACHE` (nombre de la versión) y `FILES` (lista de todo lo que se guarda en el dispositivo, **incluido cada mp3**). |
 | `styles.css` | Apariencia, con modo oscuro. |
@@ -54,30 +54,18 @@ Cada módulo de `CURSO.modules` tiene:
 - La **gramática** está en `data.js` como HTML en `grammar` de cada módulo.
 - Lo guardado no se mezcla entre módulos: las tareas marcadas del Módulo 1 usan las claves de antes y las de los demás llevan el id del módulo; los resultados del diálogo y las grabaciones del texto ancla guardan `module` (los antiguos, sin `module`, cuentan como `m1`).
 
-## Próxima tarea: sección «Bases» (pedida por Paul el 20 de noviembre de 2026)
+## Sección «Bases» (desde la versión 1.6.0)
 
-Una sección de fundamentos, **aparte de los 8 módulos** (que siguen la historia de Paul y Claire). Se abre siempre desde **Más › Bases**, sin depender del módulo actual.
+Fundamentos **aparte de los 8 módulos**: se abre desde **Más › Bases**, sin depender del módulo actual. Pedida por Paul el 20 de noviembre de 2026 y aprobada con capturas antes de subirla.
 
-**Debe servir de plantilla para los otros idiomas** (italiano, portugués de Brasil, catalán): las mismas cinco partes, con el contenido de cada idioma. Guardar el contenido en `data.js` como `CURSO.bases` (separado de `modules`), con la misma estructura para cualquier idioma.
-
-Las cinco partes:
-
-1. **Alfabeto y deletreo**: las letras y cómo suenan, los acentos (é, è, ê, à, ç, ë…), deletrear un nombre o un correo (*arobase*, *point*, *tiret*). Útil para reservas.
-2. **Números, precios y hora**: 0 a 100 primero (con la lógica de 70 = *soixante-dix*, 80 = *quatre-vingts*, 90 = *quatre-vingt-dix*), luego 100 a 1000, precios en euros y pesos, la hora (*il est huit heures et demie*) y números de teléfono por pares (*06 12 34 56 78*).
-3. **Días, meses y fechas**: días de la semana, meses, *le 15 novembre*, *lundi prochain*, *le week-end*.
-4. **Reglas de pronunciación**: finales que no suenan (*petit*, *ils parlent*, *beaucoup*), la *e* muda, las vocales nasales (*an/en, on, in/un*), *u* frente a *ou*, *eu*, la *r*, la *liaison* (*vous‿êtes*, *les‿amis*) y el *enchaînement*, *h* muda.
-5. **Errores frecuentes de hispanohablantes**: en pronunciación (pronunciar las finales, *u* como *u* española, *in* como "in") y en números (decir *setenta* calcado, olvidar la *s* de *quatre-vingts*, *cent* sin *s* cuando le sigue otro número). Cada error con la forma correcta y su audio.
-
-**Ejercicios** (que funcionen sin conexión):
-- Escuchar un número al azar y escribirlo; ver un número y decirlo en voz alta (con grabación y comparación, como en Frases).
-- Escuchar una palabra deletreada y escribirla.
-- Pares de palabras parecidas para distinguir (*dessus / dessous*, *vu / vous*, *cent / sans / sang*).
-
-**Audio**: no hay ElevenLabs. Usar la voz francesa del dispositivo (la de Ajustes), con velocidad normal y lenta, como hace la app cuando no hay grabación.
-
-**Repaso**: las frases útiles de Bases (por ejemplo *Ça coûte vingt euros.*, *Il est huit heures et demie.*) pueden entrar al Repaso con ids propios (`b-…`), sin tocar los ids de los módulos.
-
-**Antes de subir**: mostrarle a Paul capturas de cada pantalla nueva (tamaño iPhone) y **esperar su aprobación**. No subir a GitHub hasta que diga que sí. Instrucciones en español, como el resto de la app.
+- **Contenido** en `data.js` como `CURSO.bases` (separado de `modules`). Sirve de **plantilla para otros idiomas** (italiano, portugués de Brasil, catalán): misma estructura, otro contenido.
+  - `parts`: las cinco partes (`alfabeto`, `numeros`, `fechas`, `pronunciacion`, `errores`). Cada una con `id`, `num`, `title`, `subtitle`, `sections` y `phrases`.
+  - Cada sección: `title`, `html` (explicación corta, opcional), `grid: true` (fichas compactas, para letras, números, días y meses) e `items`: `{k, fr, es, say}` (`k` = etiqueta; `say` = lo que se lee si no es `fr`). En la parte de errores, los items son `{wrong, right, es}`.
+  - `exercises`: `numberRanges` (rangos de los ejercicios de números; `mult: 1000` para miles de pesos), `spell` (cómo se dice cada carácter al deletrear) y `double` («deux L»), `spellWords`, `pairs` (pares para distinguir de oído, con `tip`) y `homophones` (suenan igual, como *cent / sans / sang*: se muestran aparte y **no** entran al ejercicio de oído).
+  - `numberWords(n)`: número en letras (francés de Francia, ortografía tradicional). Es lo único que hay que reescribir en código para otro idioma.
+- **Ejercicios** (en `app.js`, sin conexión): escribir el número que oyes, decir el número que ves (con grabación y comparación), deletreo y pares parecidos. `EX_FOR_PART` dice qué ejercicios se ofrecen al final de cada parte.
+- **Audio**: no hay grabaciones. Todo suena con la voz del dispositivo, **voz de mujer**: la de «Claire» en Ajustes o, si está en Automática, la primera voz francesa femenina (prefiere fr-FR). Si no hay ninguna, la voz francesa normal sin cambiar el tono. Normal y lento.
+- **Repaso**: las `phrases` de cada parte tienen ids `b-…` (nunca cambiarlos). Entran al Repaso solo si Paul toca «Añadir estas frases al Repaso» en esa parte (se guarda en `fr.basesReview`). Ocupan como máximo 5 lugares por sesión.
 
 ## Cómo publicar un módulo nuevo
 
