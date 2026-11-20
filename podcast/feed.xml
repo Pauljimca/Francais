@@ -12,6 +12,15 @@
     <itunes:category text="Education"><itunes:category text="Language Learning"/></itunes:category>
     <itunes:block>Yes</itunes:block>
     <item>
+      <title>Episodio 2: Bienvenue sur l'île</title>
+      <itunes:episode>2</itunes:episode>
+      <description>Claire quiere conocer Providencia y le pide consejos a Paul: qué visitar, cómo llegar a la playa y dónde bucear. Recomendar lugares y dar direcciones. Voces generadas con ElevenLabs.</description>
+      <enclosure url="https://pauljimca.github.io/Francais/podcast/ep02-bienvenue.mp3" length="3125787" type="audio/mpeg"/>
+      <guid isPermaLink="false">francais-ep02</guid>
+      <pubDate>Fri, 20 Nov 2026 12:00:00 -0500</pubDate>
+      <itunes:duration>260</itunes:duration>
+    </item>
+    <item>
       <title>Episodio 1: Bonjour !</title>
       <itunes:episode>1</itunes:episode>
       <description>Paul conoce a Claire, una turista francesa, después de un concierto en Providencia. Saludar, presentarte y hablar de tu trabajo y tu música. Voces generadas con ElevenLabs.</description>

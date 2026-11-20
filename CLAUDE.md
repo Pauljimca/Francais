@@ -16,7 +16,7 @@ Este archivo explica cómo está hecha la app y cómo publicar cambios. Léelo a
 
 | Archivo | Qué contiene |
 | --- | --- |
-| `index.html` | Las pantallas. La página de **Gramática** está escrita aquí directamente (ver "Limitación actual"). |
+| `index.html` | Las pantallas. La gramática de cada módulo viene de `data.js`. |
 | `data.js` | Todo el contenido del curso en `window.CURSO`: módulos y lista del podcast. |
 | `app.js` | El funcionamiento: audio, grabación, repaso espaciado, plan semanal, check-in. La constante `VERSION` está arriba. |
 | `sw.js` | Modo sin conexión. `CACHE` (nombre de la versión) y `FILES` (lista de todo lo que se guarda en el dispositivo, **incluido cada mp3**). |
@@ -36,6 +36,7 @@ Cada módulo de `CURSO.modules` tiene:
 
 - `id` (`'m1'`), `num`, `title`, `subtitle`, `anchor` (texto ancla para la grabación de "Mi voz").
 - `phraseAudio`: carpeta de las frases grabadas (`'audio/m1-frases/'`). Si falta, la app usa la voz francesa del dispositivo.
+- `voices`, `noAudio` y `grammar` (ver "Varios módulos").
 - `dialogue`: `title`, `scene`, `audioDir` (`'audio/mN-dialogo/'`), `lines` (`{who: 'Paul'|'Claire', fr, es}`) y `questions` (opción múltiple en español: `{q, options, answer}` con `answer` = índice de la opción correcta).
 - `week`: el plan del lunes al viernes y el fin de semana. Cada tarea es `{text}` más `go` (pantalla a la que lleva: `dialogo`, `frases`, `repaso`, `gramatica`, `voz`, `conversacion`) o `copy` (`roleplay`, `writing` o `checkin`).
 - `conversation`: guía para hablar con su amigo, con *tu*: `questions`, `aboutMe`, `rescue` (cada una `{fr, es}`).
@@ -44,23 +45,18 @@ Cada módulo de `CURSO.modules` tiene:
 
 `CURSO.podcast` es la lista de episodios publicados: `{num, title, file, minutes, desc}`.
 
-## Limitación actual (primera tarea al publicar el Módulo 2)
+## Varios módulos (desde la versión 1.5.0)
 
-La app hoy solo maneja un módulo:
-
-- `app.js` usa `const MOD = window.CURSO.modules[0]`.
-- La gramática del Módulo 1 está escrita a mano dentro de `index.html`.
-
-Antes de publicar el Módulo 2 hay que:
-
-1. Hacer que la app muestre el **módulo actual** (por ejemplo, el último de la lista, o uno elegido en Ajustes) y permita volver a los anteriores.
-2. Que el **Repaso** incluya las frases de todos los módulos publicados, no solo del actual.
-3. Pasar la gramática a `data.js` (por módulo) y que `index.html` la muestre desde ahí.
-4. No perder nada guardado en el iPhone de Paul: progreso, estrellas, grabaciones y tareas marcadas usan `localStorage` (claves que empiezan con `fr.`) e IndexedDB (`francais`).
+- El módulo actual se elige en **Ajustes › Módulo**; por defecto es el **último** de `CURSO.modules`. Se guarda en `localStorage` (`fr.module`) y al cambiarlo la app se recarga.
+- `MOD` es el módulo actual (Hoy, Diálogo, Frases, Gramática, Conversación, texto ancla). El **Repaso** usa `ALL_PHRASES`: las frases de todos los módulos publicados, cada una con `_mod` (su módulo) para saber qué audio usar.
+- `voices` del módulo dice qué voces de frases existen (`['amelie', 'paul']` en el Módulo 1, `['amelie']` en los demás). Si Paul eligió "Tu voz" y el módulo no la tiene, suena Amélie.
+- `noAudio`: lista de ids (por ejemplo `m5-24-tu`) que deben sonar con la voz del dispositivo. `sayPhrase` ya la respeta.
+- La **gramática** está en `data.js` como HTML en `grammar` de cada módulo.
+- Lo guardado no se mezcla entre módulos: las tareas marcadas del Módulo 1 usan las claves de antes y las de los demás llevan el id del módulo; los resultados del diálogo y las grabaciones del texto ancla guardan `module` (los antiguos, sin `module`, cuentan como `m1`).
 
 ## Cómo publicar un módulo nuevo
 
-1. **Contenido** en `data.js`: el diálogo sale de `contenido/episodios-02-08.json` (mismo texto y mismo orden que el audio, porque `audio/mN-dialogo/NN.mp3` sigue ese orden). Las frases y el texto ancla salen de `contenido/frases-02-08.json` **sin cambiar ni el texto ni los `id`**, porque cada grabación tiene el nombre del `id` (y `phraseAudio: 'audio/mN-frases/'`; en Ajustes la voz "Tu voz (Paul)" no existe para estos módulos: usar Amélie). Las frases de `noAudio` deben sonar con la voz del dispositivo (hay que agregar esa excepción en `sayPhrase`). Faltan por escribir, para cada módulo: traducción al español de cada línea del diálogo, preguntas de comprensión, gramática corta en español, plan semanal y guía de conversación. Seguir el estilo del Módulo 1.
+1. **Contenido** en `data.js`: el diálogo sale de `contenido/episodios-02-08.json` (mismo texto y mismo orden que el audio, porque `audio/mN-dialogo/NN.mp3` sigue ese orden). Las frases y el texto ancla salen de `contenido/frases-02-08.json` **sin cambiar ni el texto ni los `id`**, porque cada grabación tiene el nombre del `id` (y `phraseAudio: 'audio/mN-frases/'`; en Ajustes la voz "Tu voz (Paul)" no existe para estos módulos: usar Amélie). Copiar también `noAudio` si el módulo lo tiene, y poner `voices: ['amelie']`. Faltan por escribir, para cada módulo: traducción al español de cada línea del diálogo, preguntas de comprensión, gramática corta en español, plan semanal y guía de conversación. Seguir el estilo del Módulo 1.
 2. **Podcast**: agregar el episodio a `CURSO.podcast` y un `<item>` a `podcast/feed.xml` (con `length` = tamaño exacto del mp3 en bytes y `itunes:duration` en segundos).
 3. **Sin conexión**: listar en `FILES` de `sw.js` todos los mp3 nuevos (diálogo y episodio).
 4. **Versión**: subir `VERSION` en `app.js` y `CACHE` en `sw.js` al mismo número. Si no se cambia `CACHE`, el iPhone no se actualiza.

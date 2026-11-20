@@ -1,9 +1,15 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.4.0';
-  const MOD = window.CURSO.modules[0];
+  const VERSION = '1.5.0';
+  // Módulos: el actual se elige en Ajustes (por defecto, el más reciente).
+  const MODULES = window.CURSO.modules;
+  const savedModule = (() => { try { return JSON.parse(localStorage.getItem('fr.module')); } catch (e) { return null; } })();
+  const MOD = MODULES.find(m => m.id === savedModule) || MODULES[MODULES.length - 1];
   const PHRASES = MOD.blocks.flatMap(b => b.phrases);
+  // Todas las frases publicadas, cada una sabe de qué módulo es (para el repaso y su audio).
+  const ALL_PHRASES = MODULES.flatMap(m => m.blocks.flatMap(b => b.phrases.map(p => { p._mod = m; return p; })));
+  const ofModule = rec => (rec.module || 'm1') === MOD.id;
   const DAY = 864e5;
   const INTERVALS = [0, 1, 2, 4, 8, 16]; // días por caja de repaso
 
@@ -180,9 +186,12 @@
   });
 
   // Frases grabadas (ElevenLabs) o voz del dispositivo, según Ajustes.
-  const sayPhrase = (p, rate = 1) => (MOD.phraseAudio && state.phraseVoice !== 'device')
-    ? playClip(`${MOD.phraseAudio}${state.phraseVoice}/${clipKey(p)}.mp3`, rate)
-    : speak(variant(p).fr, rate);
+  const voiceFor = m => (m.voices || ['amelie']).includes(state.phraseVoice) ? state.phraseVoice : 'amelie';
+  const sayPhrase = (p, rate = 1) => {
+    const m = p._mod || MOD;
+    if (!m.phraseAudio || state.phraseVoice === 'device' || (m.noAudio || []).includes(clipKey(p))) return speak(variant(p).fr, rate);
+    return playClip(`${m.phraseAudio}${voiceFor(m)}/${clipKey(p)}.mp3`, rate);
+  };
 
   // ---------- Vista: Frases ----------
   let loopToken = 0;
@@ -283,7 +292,7 @@
   let queue = [];
   const buildQueue = () => {
     const t = today();
-    const due = PHRASES.filter(p => { const s = state.srs[p.id]; return !s || s.due <= t; });
+    const due = ALL_PHRASES.filter(p => { const s = state.srs[p.id]; return !s || s.due <= t; });
     const starred = due.filter(p => state.stars[p.id]);
     const rest = due.filter(p => !state.stars[p.id]);
     // Las difíciles primero; luego las vencidas, las nuevas al final. Máximo 20 por sesión.
@@ -349,7 +358,7 @@
   const renderAnchorList = async () => {
     const ul = document.getElementById('anchor-list');
     let items = [];
-    try { items = await idb('anchor', 'readonly', s => s.getAll()); } catch (e) { /* sin IndexedDB */ }
+    try { items = (await idb('anchor', 'readonly', s => s.getAll())).filter(ofModule); } catch (e) { /* sin IndexedDB */ }
     items.sort((a, b) => b.date - a.date);
     document.getElementById('anchor-compare').disabled = items.length < 2;
     if (!items.length) { ul.replaceChildren(el('li', { class: 'muted', text: 'Todavía no hay grabaciones.' })); return; }
@@ -375,7 +384,7 @@
   const setupAnchor = () => {
     document.getElementById('anchor-text').textContent = MOD.anchor;
     document.getElementById('anchor-listen').addEventListener('click', () => (MOD.phraseAudio && state.phraseVoice !== 'device')
-      ? playClip(`${MOD.phraseAudio}${state.phraseVoice}/anchor.mp3`, 1) : speak(MOD.anchor, 1));
+      ? playClip(`${MOD.phraseAudio}${voiceFor(MOD)}/anchor.mp3`, 1) : speak(MOD.anchor, 1));
     const btn = document.getElementById('anchor-rec');
     const status = document.getElementById('anchor-status');
     let rec = null;
@@ -387,7 +396,7 @@
         status.textContent = 'Grabando… lee el texto con calma.';
         rec = startRecording();
         const blob = await rec;
-        await idb('anchor', 'readwrite', s => s.add({ date: Date.now(), blob }));
+        await idb('anchor', 'readwrite', s => s.add({ date: Date.now(), blob, module: MOD.id }));
         status.textContent = 'Grabación guardada.';
         renderAnchorList();
       } catch (e) {
@@ -400,7 +409,7 @@
       }
     });
     document.getElementById('anchor-compare').addEventListener('click', async () => {
-      const items = (await idb('anchor', 'readonly', s => s.getAll())).sort((a, b) => a.date - b.date);
+      const items = (await idb('anchor', 'readonly', s => s.getAll())).filter(ofModule).sort((a, b) => a.date - b.date);
       if (items.length < 2) return;
       await playBlob(items[0].blob);
       await sleep(800);
@@ -444,12 +453,18 @@
     const seen = PHRASES.filter(p => state.srs[p.id]).length;
     const strong = PHRASES.filter(p => (state.srs[p.id] || {}).box >= 3).length;
     const stars = PHRASES.filter(p => state.stars[p.id]).length;
+    const allStrong = ALL_PHRASES.filter(p => (state.srs[p.id] || {}).box >= 3).length;
     document.getElementById('progress-summary').textContent =
-      `Módulo ${MOD.num}: ${seen} de ${PHRASES.length} frases repasadas, ${strong} bien afianzadas, ${stars} marcadas como difíciles.`;
+      `Módulo ${MOD.num}: ${seen} de ${PHRASES.length} frases repasadas, ${strong} bien afianzadas, ${stars} marcadas como difíciles. ` +
+      `En todo el curso: ${allStrong} de ${ALL_PHRASES.length} afianzadas.`;
   };
 
   const setupSettings = () => {
     document.getElementById('app-version').textContent = VERSION;
+    const ms = document.getElementById('module-select');
+    ms.replaceChildren(...MODULES.map(m => el('option', { value: m.id, text: `Módulo ${m.num}: ${m.title}` })));
+    ms.value = MOD.id;
+    ms.addEventListener('change', () => { save('module', ms.value); location.reload(); });
     const pv = document.getElementById('phrase-voice');
     pv.value = state.phraseVoice;
     pv.addEventListener('change', () => { state.phraseVoice = pv.value; save('phraseVoice', pv.value); sayPhrase(PHRASES[7], 1); });
@@ -561,13 +576,13 @@
         if (Object.keys(dlgView.answers).length < DLG.questions.length) { alert('Responde todas las preguntas primero.'); return; }
         dlgView.checked = true;
         const s = DLG.questions.filter((q, i) => dlgView.answers[i] === q.answer).length;
-        dlgResults.push({ date: Date.now(), score: s, total: DLG.questions.length, withText: dlgView.text });
+        dlgResults.push({ date: Date.now(), score: s, total: DLG.questions.length, withText: dlgView.text, module: MOD.id });
         save('dlgResults', dlgResults);
         renderDialogue();
       }
     });
 
-    const history = dlgResults.slice(-5).reverse().map(r =>
+    const history = dlgResults.filter(ofModule).slice(-5).reverse().map(r =>
       el('li', { text: `${fmtDate(r.date)}: ${r.score} de ${r.total}${r.withText ? ' (con texto)' : ''}` }));
 
     box.replaceChildren(...[
@@ -600,13 +615,14 @@
   let checks = load('checks', {});
   let anchorThisWeek = false;
 
-  const taskKey = (di, ti) => `${isoDate(mondayOf(new Date()))}:${di}:${ti}`;
+  // El Módulo 1 conserva sus claves de antes; los demás llevan su id para no mezclarse en la misma semana.
+  const taskKey = (di, ti) => `${MOD.id === 'm1' ? '' : MOD.id + ':'}${isoDate(mondayOf(new Date()))}:${di}:${ti}`;
 
   const checkinText = () => {
     const monday = mondayOf(new Date());
     let total = 0, doneN = 0;
     DAYS.slice(0, 5).forEach((d, di) => d.tasks.forEach((t, ti) => { total++; if (checks[taskKey(di, ti)]) doneN++; }));
-    const weekResults = dlgResults.filter(r => r.date >= monday.getTime());
+    const weekResults = dlgResults.filter(r => ofModule(r) && r.date >= monday.getTime());
     const best = weekResults.reduce((m, r) => Math.max(m, r.score), -1);
     const seen = PHRASES.filter(p => state.srs[p.id]).length;
     const strong = PHRASES.filter(p => (state.srs[p.id] || {}).box >= 3).length;
@@ -780,6 +796,7 @@
 
   // ---------- Inicio ----------
   document.getElementById('module-subtitle').textContent = `Módulo ${MOD.num} · ${MOD.title}`;
+  document.getElementById('grammar').innerHTML = MOD.grammar || '<p class="muted">La gramática de este módulo llega pronto.</p>';
   document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
   document.querySelectorAll('.seg').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
   setMode(state.mode);

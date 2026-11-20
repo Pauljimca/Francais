@@ -1,10 +1,11 @@
 # Contenido preparado, aún sin publicar
 
+Publicados: Módulo 1 (v1.0) y Módulo 2 (v1.5.0, 20 de noviembre de 2026).
+
 Los episodios 2 a 8 del podcast, el audio de sus diálogos y las frases de cada módulo (voz de Amélie) ya están grabados, pero se publican **uno por módulo**:
 
 | Módulo | Episodio | Audio del episodio | Audio del diálogo, línea por línea | Frases (Amélie) |
 | --- | --- | --- | --- | --- |
-| 2 | Bienvenue sur l'île | `podcast/ep02-bienvenue.mp3` | `audio/m2-dialogo/` | `audio/m2-frases/amelie/` |
 | 3 | En cuisine | `podcast/ep03-en-cuisine.mp3` | `audio/m3-dialogo/` | `audio/m3-frases/amelie/` |
 | 4 | J'adore cette chanson | `podcast/ep04-chanson.mp3` | `audio/m4-dialogo/` | `audio/m4-frases/amelie/` |
 | 5 | En voyage | `podcast/ep05-en-voyage.mp3` | `audio/m5-dialogo/` | `audio/m5-frases/amelie/` |
