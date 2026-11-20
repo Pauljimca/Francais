@@ -54,6 +54,31 @@ Cada módulo de `CURSO.modules` tiene:
 - La **gramática** está en `data.js` como HTML en `grammar` de cada módulo.
 - Lo guardado no se mezcla entre módulos: las tareas marcadas del Módulo 1 usan las claves de antes y las de los demás llevan el id del módulo; los resultados del diálogo y las grabaciones del texto ancla guardan `module` (los antiguos, sin `module`, cuentan como `m1`).
 
+## Próxima tarea: sección «Bases» (pedida por Paul el 20 de noviembre de 2026)
+
+Una sección de fundamentos, **aparte de los 8 módulos** (que siguen la historia de Paul y Claire). Se abre siempre desde **Más › Bases**, sin depender del módulo actual.
+
+**Debe servir de plantilla para los otros idiomas** (italiano, portugués de Brasil, catalán): las mismas cinco partes, con el contenido de cada idioma. Guardar el contenido en `data.js` como `CURSO.bases` (separado de `modules`), con la misma estructura para cualquier idioma.
+
+Las cinco partes:
+
+1. **Alfabeto y deletreo**: las letras y cómo suenan, los acentos (é, è, ê, à, ç, ë…), deletrear un nombre o un correo (*arobase*, *point*, *tiret*). Útil para reservas.
+2. **Números, precios y hora**: 0 a 100 primero (con la lógica de 70 = *soixante-dix*, 80 = *quatre-vingts*, 90 = *quatre-vingt-dix*), luego 100 a 1000, precios en euros y pesos, la hora (*il est huit heures et demie*) y números de teléfono por pares (*06 12 34 56 78*).
+3. **Días, meses y fechas**: días de la semana, meses, *le 15 novembre*, *lundi prochain*, *le week-end*.
+4. **Reglas de pronunciación**: finales que no suenan (*petit*, *ils parlent*, *beaucoup*), la *e* muda, las vocales nasales (*an/en, on, in/un*), *u* frente a *ou*, *eu*, la *r*, la *liaison* (*vous‿êtes*, *les‿amis*) y el *enchaînement*, *h* muda.
+5. **Errores frecuentes de hispanohablantes**: en pronunciación (pronunciar las finales, *u* como *u* española, *in* como "in") y en números (decir *setenta* calcado, olvidar la *s* de *quatre-vingts*, *cent* sin *s* cuando le sigue otro número). Cada error con la forma correcta y su audio.
+
+**Ejercicios** (que funcionen sin conexión):
+- Escuchar un número al azar y escribirlo; ver un número y decirlo en voz alta (con grabación y comparación, como en Frases).
+- Escuchar una palabra deletreada y escribirla.
+- Pares de palabras parecidas para distinguir (*dessus / dessous*, *vu / vous*, *cent / sans / sang*).
+
+**Audio**: no hay ElevenLabs. Usar la voz francesa del dispositivo (la de Ajustes), con velocidad normal y lenta, como hace la app cuando no hay grabación.
+
+**Repaso**: las frases útiles de Bases (por ejemplo *Ça coûte vingt euros.*, *Il est huit heures et demie.*) pueden entrar al Repaso con ids propios (`b-…`), sin tocar los ids de los módulos.
+
+**Antes de subir**: mostrarle a Paul capturas de cada pantalla nueva (tamaño iPhone) y **esperar su aprobación**. No subir a GitHub hasta que diga que sí. Instrucciones en español, como el resto de la app.
+
 ## Cómo publicar un módulo nuevo
 
 1. **Contenido** en `data.js`: el diálogo sale de `contenido/episodios-02-08.json` (mismo texto y mismo orden que el audio, porque `audio/mN-dialogo/NN.mp3` sigue ese orden). Las frases y el texto ancla salen de `contenido/frases-02-08.json` **sin cambiar ni el texto ni los `id`**, porque cada grabación tiene el nombre del `id` (y `phraseAudio: 'audio/mN-frases/'`; en Ajustes la voz "Tu voz (Paul)" no existe para estos módulos: usar Amélie). Copiar también `noAudio` si el módulo lo tiene, y poner `voices: ['amelie']`. Faltan por escribir, para cada módulo: traducción al español de cada línea del diálogo, preguntas de comprensión, gramática corta en español, plan semanal y guía de conversación. Seguir el estilo del Módulo 1.
