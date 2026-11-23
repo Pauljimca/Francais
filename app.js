@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.6.0';
+  const VERSION = '1.6.1';
   // Módulos: el actual se elige en Ajustes (por defecto, el más reciente).
   const MODULES = window.CURSO.modules;
   const savedModule = (() => { try { return JSON.parse(localStorage.getItem('fr.module')); } catch (e) { return null; } })();

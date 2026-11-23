@@ -82,6 +82,7 @@ Fundamentos **aparte de los 8 módulos**: se abre desde **Más › Bases**, sin 
 - Voces: **Claire** = Amélie (voz francesa de ElevenLabs), **Paul** = clon de la voz de Paul, **narradora** = Lina (acento colombiano).
 - Paul canceló la suscripción de ElevenLabs el 13 de noviembre de 2026, después de grabar todo (quedaron 217 créditos). **No hay forma de grabar audio nuevo**: no contar con ElevenLabs. Todo el audio del curso ya está grabado: podcast, diálogos y frases de los 8 módulos. Si algún texto nuevo no tiene grabación, la app usa la voz francesa del dispositivo. No proponer servicios pagos.
 - Grabación dudosa: `m5-24-tu` ("Excuse-moi, je suis perdu.") dura medio segundo; parece que la voz se saltó "Excuse-moi". Está en `noAudio`. Al publicar cada módulo, pedirle a Paul que escuche sus frases y avise si alguna suena cortada.
+- Corregido en 1.6.1: en el Módulo 2, las frases con *tu* del bloque E y F estaban corridas una posición (el corte automático pegó "Va tout droit" al final de `m2-15-tu` y separó "Bienvenue à Providencia !" del texto ancla). Se recortaron de nuevo `m2-15-tu`, `m2-23-tu`, `m2-24-tu`, `m2-25-tu`, `m2-32-tu` y `anchor` desde la grabación original. Las versiones *tu* de cada módulo se grabaron al final, en un solo bloque: al publicar un módulo, revisar esas en especial.
 - Velocidad lenta: el audio grabado se reproduce a menor velocidad sin cambiar el tono (`playbackRate` con `preservesPitch`).
 
 ## Probar antes de subir
