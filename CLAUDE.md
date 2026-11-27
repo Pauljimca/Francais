@@ -4,6 +4,8 @@ App personal de Paul para aprender francés, con su podcast *Le petit café de P
 
 Este archivo explica cómo está hecha la app y cómo publicar cambios. Léelo antes de tocar cualquier cosa.
 
+**Al empezar cada sesión, antes de tocar nada: traer los últimos cambios de GitHub (`git pull`).** Paul también hace cambios desde el chat de Claude en el iPhone, que van directo a GitHub, así que la copia de esta carpeta puede estar atrasada. Si `git pull` encuentra un conflicto o un error, no lo resuelvas por tu cuenta: explícaselo a Paul en palabras sencillas y espera.
+
 ## Quién es el estudiante
 
 - Paul vive en Providencia (Colombia). Es profesor de inglés y músico; estudia francés de lunes a viernes, unos 30 minutos al día, sobre todo en el **iPhone**.
