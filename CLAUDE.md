@@ -49,6 +49,7 @@ Cada módulo de `CURSO.modules` tiene:
 
 - El módulo actual se elige en **Ajustes › Módulo**; por defecto es el **último** de `CURSO.modules`. Se guarda en `localStorage` (`fr.module`) y al cambiarlo la app se recarga.
 - `MOD` es el módulo actual (Hoy, Diálogo, Frases, Gramática, Conversación, texto ancla). El **Repaso** usa `ALL_PHRASES`: las frases de todos los módulos publicados, cada una con `_mod` (su módulo) para saber qué audio usar.
+- Cola del Repaso (máximo 20 por sesión): primero las difíciles y las vencidas; las **nuevas del módulo actual tienen hasta 8 lugares** reservados (desde 1.6.2), porque antes las vencidas de módulos anteriores llenaban la sesión y las nuevas casi nunca entraban. Bases tiene hasta 5.
 - `voices` del módulo dice qué voces de frases existen (`['amelie', 'paul']` en el Módulo 1, `['amelie']` en los demás). Si Paul eligió "Tu voz" y el módulo no la tiene, suena Amélie.
 - `noAudio`: lista de ids (por ejemplo `m5-24-tu`) que deben sonar con la voz del dispositivo. `sayPhrase` ya la respeta.
 - La **gramática** está en `data.js` como HTML en `grammar` de cada módulo.

@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '1.6.1';
+  const VERSION = '1.6.2';
   // Módulos: el actual se elige en Ajustes (por defecto, el más reciente).
   const MODULES = window.CURSO.modules;
   const savedModule = (() => { try { return JSON.parse(localStorage.getItem('fr.module')); } catch (e) { return null; } })();
@@ -300,8 +300,12 @@
     const ordered = starred.concat(rest);
     // Las frases de Bases (si Paul las añadió) tienen hasta 5 lugares, para que no queden siempre detrás de las nuevas de los módulos.
     const fromBases = ordered.filter(p => p._mod === BASES_MOD);
-    const main = ordered.filter(p => p._mod !== BASES_MOD).slice(0, 20 - Math.min(fromBases.length, 5));
-    queue = main.concat(fromBases.slice(0, 20 - main.length));
+    // Las nuevas del módulo actual tienen hasta 8 lugares, para que no queden detrás de las vencidas de módulos anteriores.
+    const NEW_SLOTS = 8;
+    const newCur = ordered.filter(p => p._mod === MOD && !state.srs[p.id] && !state.stars[p.id]).slice(0, NEW_SLOTS);
+    const others = ordered.filter(p => p._mod !== BASES_MOD && !newCur.includes(p));
+    const main = others.slice(0, 20 - newCur.length - Math.min(fromBases.length, 5));
+    queue = main.concat(newCur, fromBases.slice(0, 20 - main.length - newCur.length));
   };
 
   const rate = (p, grade) => {
